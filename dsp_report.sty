@@ -1,0 +1,189 @@
+\typeout{EMT DSP Report Style File, January 2004}
+\typeout{(c) Markus Brandner, brandner@emt.tugraz.at}
+\typeout{$Id: dmslab.sty,v 1.5 2004/01/21 08:55:41 brandner Exp $}
+%
+% Teile der hier verwendeten Makros basieren auf dem
+% Buch `Der LaTeX Begleiter' von M. Goossens, F. Mittelbach
+% und A. Samarin.
+%
+
+%
+% other packages needed
+%
+\usepackage{amssymb}            % Mathematical symbols
+\usepackage{amsfonts}           % Mathematical symbols
+\usepackage{mathrsfs}  % Symbols for Fourier nad Laplace Transform
+\usepackage{eufrak}    %Fraktur
+
+%
+% pdflatex specific stuff
+%
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+    \pdffalse           % we are not running PDFLaTeX
+    \typeout{******************************************************************}
+    \typeout{WARNING: You don't seem to run pdflatex!}
+    \typeout{******************************************************************}
+\else
+    \pdfoutput=1        % we are running PDFLaTeX
+    \pdftrue
+\fi
+%----------------------------------------------------------------------
+\ifpdf
+    \usepackage[pdftex,
+        colorlinks=true,
+        urlcolor=rltblue,               % \href{...}{...}
+        anchorcolor=rltbrightblue,
+        filecolor=rltgreen,             % \href*{...}
+        linkcolor=rltred,               % \ref{...} and \pageref{...}
+        menucolor=webdarkblue,
+        citecolor=webgreen,
+        pdftitle={Technical Report},
+        pdfauthor={EMT DSP GROUP, TU GRAZ},
+        pdfsubject={Technical Report},
+        pdfkeywords={digital measurement systems},
+        pagebackref,
+        pdfpagemode=None,
+        bookmarksopen=true]{hyperref}
+    \pdfcompresslevel=9
+    \usepackage[pdftex]{graphicx}
+%    \usepackage{thumbpdf}
+\else
+    \usepackage[
+        colorlinks=true,
+        urlcolor=rltblue,               % \href{...}{...}
+        anchorcolor=rltbrightblue,
+        filecolor=rltgreen,             % \href*{...}
+        linkcolor=rltred,               % \ref{...} and \pageref{...}
+        menucolor=webdarkblue,
+        citecolor=webgreen]{hyperref}
+    \usepackage{graphicx}
+\fi
+
+%
+% colors to be used
+%
+\usepackage{color}
+\definecolor{rltbrightred}{rgb}{1,0,0}
+\definecolor{rltred}{rgb}{0.75,0,0}
+\definecolor{rltdarkred}{rgb}{0.5,0,0}
+%
+\definecolor{rltbrightgreen}{rgb}{0,0.75,0}
+\definecolor{rltgreen}{rgb}{0,0.5,0}
+\definecolor{rltdarkgreen}{rgb}{0,0,0.25}
+%
+\definecolor{rltbrightblue}{rgb}{0,0,1}
+\definecolor{rltblue}{rgb}{0,0,0.75}
+\definecolor{rltdarkblue}{rgb}{0,0,0.5}
+
+\definecolor{webred}{rgb}{0.5,.25,0}
+\definecolor{webblue}{rgb}{0,0,0.75}
+\definecolor{webgreen}{rgb}{0,0.5,0}
+
+\usepackage{multirow}                   % tall tables
+\usepackage{amssymb}                    % Mathematical symbols
+\usepackage{amsfonts}                   % Mathematical symbols
+\usepackage{amsmath}                    % Mathematical symbols
+%
+% layout
+%
+%\setlength{\topmargin}{14pt}
+%\setlength{\headheight}{0.3cm}
+%\setlength{\textwidth}{15.75cm}
+%\setlength{\textheight}{21cm}
+%\setlength{\oddsidemargin}{1cm}
+%\setlength{\evensidemargin}{1cm}
+%\setlength{\headsep}{2pt}
+%\setlength{\parindent}{0pt}
+%\pagestyle{plain}
+%
+% layout
+%
+\setlength{\voffset}{0cm}
+\setlength{\headheight}{12pt}
+\setlength{\textwidth}{15.75cm}
+\setlength{\oddsidemargin}{-9pt}
+\setlength{\evensidemargin}{-6pt}
+\setlength{\marginparwidth}{54pt}
+\setlength{\headsep}{18pt}
+\setlength{\parindent}{0pt}
+\setlength{\textheight}{220mm}
+\pagestyle{headings}%
+% Enumerations
+%
+\renewcommand{\theenumi}{\arabic{enumi}}    % erste Ebene 
+\renewcommand{\labelenumi}{\theenumi.}
+\renewcommand{\theenumii}{\alph{enumii}}    % zweite Ebene
+\renewcommand{\labelenumii}{\theenumii.}
+\renewcommand{\theenumiii}{\roman{enumiii}} % dritte Ebene
+\renewcommand{\labelenumiii}{\theenumiii.}
+%
+% Marginailen
+%
+\newcommand{\marginlabel}[1]%
+ {\mbox{}\marginpar{\raggedleft\hspace{0pt}#1}}
+%
+% new commands
+%
+\newcommand{\DocumentChapter}[1]{\chapter{#1} \ \minitoc \ \clearpage}
+\newcommand{\Kapitel}[1]{\chapter{#1} \ }
+%
+\newcommand{\todo}{%
+\marginpar{\vspace{-2mm}\includegraphics[width=7mm]{../Figures/todo}}}
+%
+\newcommand{\DSPTitle}[2]{%
+\pagestyle{empty}
+\vspace{-7mm}
+\begin{center}
+\includegraphics[width=\columnwidth]{Figures/DSP-TR}
+\vspace{5mm}
+
+\vfill
+\Huge #1\\
+\vspace{1cm}
+
+\Large #2
+\vspace{1cm}
+
+\today
+\end{center}%
+
+\vfill
+\clearpage
+}
+%
+% Some new symbols
+%
+\renewcommand{\j}{\ensuremath{\mathrm{j}}} % Imaginary Unit
+\newcommand{\conj}[1]{\ensuremath{{#1}^\ast}} %Complex Conjugate
+\renewcommand{\c}[1]{\ensuremath{\boldsymbol{#1}}} % Complex Boldface
+%
+\newcommand{\E}[1]{\ensuremath{\mathrm{E}\{ {#1} \}}} % Expectation E{*}
+%
+\newcommand{\F}[1]{\ensuremath{\mathcal{F}\{ {#1} \}}} % Fourier F{*}
+\newcommand{\Fi}[1]{\ensuremath{\mathcal{F}^{-1}\{ {#1} \}}} % Fourier F{*}
+%
+\renewcommand{\L}[1]{\ensuremath{\mathcal{L}\{ {#1} \}}} % Laplace F{*}
+\newcommand{\Li}[1]{\ensuremath{\mathcal{L}^{-1}\{ {#1} \}}} % Laplace F{*}
+%
+\newcommand{\e}[1]{\ensuremath{\mathrm{e}^{#1}}} % Exponential e^*
+%\newcommand{\e}[1]{\ensuremath{\exp{ \left[ {#1} \right] }}} % Exponential exp{*}
+%
+\renewcommand{\o}[1]{\ensuremath{\overline{#1}}} % Overline
+%
+\newcommand{\abs}[1]{\ensuremath{ | {#1} | }} % Absolut |a|
+\newcommand{\norm}[1]{\ensuremath{ \| {#1} \| }} % Norm ||a||
+\newcommand{\avg}[1]{\ensuremath{ < {#1} > }} % Time Average <a>
+\newcommand{\sign}{\ensuremath{\mathrm{sign}\,}} % Signum function: sign
+%
+\newcommand{\N}[1]{\ensuremath{\mathbb{N}}} % Natural
+\newcommand{\R}[1]{\ensuremath{\mathbb{R}}} % Real
+\newcommand{\C}[1]{\ensuremath{\mathbb{C}}} % Complex
+\newcommand{\Z}[1]{\ensuremath{\mathbb{Z}}} % Whole numbers
+\newcommand{\Q}[1]{\ensuremath{\mathbb{Q}}} % Irrational
+%
+\newcommand{\inti}{\ensuremath{\int_{0}^{\,\infty}}} % int 0 to infty
+\newcommand{\intii}{\ensuremath{\int_{-\infty}^{\,\infty}}} % int -infty to infty
+\newcommand{\iintii}{\ensuremath{\iint_{-\infty}^{\quad\infty}}} % int -infty to infty
+%
+
