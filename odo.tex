@@ -10,46 +10,274 @@
 
 %
 \begin{document}
-%\DSPTitle{DSP Report using \LaTeX}
-%{Max Muster}
-%
-%\tableofcontents
-%\clearpage
+\DSPTitle{Odometry for Wheeled Mobile Robots}
+{Michael Maier}
+
+\tableofcontents
+\clearpage
 \pagestyle{plain}
 
 
-\begin{center}
+% seitenanzahl dazuschreiben
 
-\vspace{-15mm}
+Abstract
 
-\huge ``Odometry for Wheeled Mobile Robots"
-
-\vspace{1cm}
-
-\large Michael Maier
-
-\end{center}
-
-%
 \section{Introduction}
 
+The RoboCup...
+
+1/2 page
+
+\subsection{Middle Size League}
+1/2 p
+
+\subsection{``Mostly Harmless'' RoboCup Team}
+1/4 p
+
+\subsection{Current Platform: Krikkit}
+
+1-2 Images
+  
+  Specs
+
+    Module
+      
+    Sensoren
+    
+    Fahrwerksdynamik
+
+2p
+
+\subsection{In Development: Krikkit3G}
+
+    modular concept
+    ARM architecture for every electronics
+
+Image: New rendering
+
+1p
+
+\subsection{Motivation for this Work}
+    
+Motivation and Goal
+
+1/2p
+
+ssum 5p
+
+\section{Odometry}
+  Definition
+  Verwendungsmoeglichkeit
+    Lokalisierung
+      higher framerate than cam
+      backup-system for cam
+    Motion control
+      anti-slip regulation
+
+1p
+
+\subsection{Odometry Measurement}
+
+\subsubsection{Current Implementations used}
+
+      wheel encoder
+        probleme
+      2. satz raeder
+        probleme
+
+1p
+
+\subsubsection{Possible Implementations}
+
+      radar
+1/4
+      accelerometer
+        2G spitzenvibration -> no
+1/4
+      Ultrasonic Doppler Velocimetry
+1/4
+      Microwave Doppler Velocimetry
+1/4
+      Laser interferometry
+1/2
+      Optical Spatial Frequency Filtration
+1/4
+        Daniel's approach
+1/4
+        laser speckle applications
+        optical mice
+1/2
+
+3p
+
+sum 4p
+
+\subsection{Requirements for a new type of Odometry Sensor on the Krikkit/3G platform}
+
+1p
 
 
-\section{Structure of the Work}
+\subsection{Decision for a Typo of Sensor}
+  entscheidung fuer einen Sensortyp
+    - why/why not...
+    - ...
+    - ...
+
+1p
 
 
-\subsection{Defining Requirements for a new type of Odometry Sensor}
+ssum 8p
+
+\section{Designing the Sensor for Evaluation}
+
+block diagram
+  ADNS + optic
+  XC
+  PC
+
+1p
+
+\subsection{The ADNS 6010}
+
+specs
+
+workflow diagram (from datasheet)
+
+1p
+
+\subsubsection{Custom PCB}
+ADNS-testplatine
+  requirements
+
+  circuit diagram
+
+  PCB drawing
+
+2p
+
+sum 4p
+  
+\subsection{The XC164 Microcontroller}
+
+Specs etc
+
+XC-164 eval board 
+  Image from datasheet
+
+1/2p
+
+\subsubsection{Wiring of the Evaluation Board}
+
+  block diagram
+
+  circuit
+
+1p
+
+\subsubsection{uC - Software}
+
+  XC-Code
+    requirements
+    firmware catch
+
+    image streaming
+
+    motion data streaming
+      + reference sensor
+
+4p
+
+sum 6p
+
+\subsection{Optical System}
+  requirements
+
+1/2p
+
+\subsubsection{Original Mouse Setup}
+
+1p
+
+\subsubsection{2-Lens Setup}
+
+1p
+
+\subsubsection{Telecentric Setup}
+
+1p
+
+sum 4p
+
+\subsection{Data Aquisition Software}
+
+\subsubsection{PyQT GUI}
+1p
+
+\subsubsection{Octave Analysis Scripts}
+1/2p
 
 
-\subsection{Search for different types of sensors}
+sum 2p
+
+ssum 17p
+
+\section{Experimental Setup}
+
+- requirements
+
+1p
+
+\subsection{Mechanical Design of the Testbed}
 
 
-\subsection{Implementation and validation of a prototype}
+
+  Calibrating the sensor
+
+  Real Testbed
+    Motor & Disk
+    Sensor + Optical elements
+    Illumination
+    Reference speed sensor
+      Picture of sensor from Datasheet
+      electrical setup used
+    XC
+
+  Illumination
+    Why here?
+    types of LEDs and Lasers used
+
+\section{Experimental results}
+
+  plots
+  ergebnisse
+
+\section{Next Steps}
+
+  evaluation of a combination of IR-LED illumination and Laser illumination
+
+  newer sensor ADNS-90xx
+
+  mechanical limitations
+    size constraints
+    dirt cleaning...
+  electrical requirements
+    new architecture: ARM
+    also include illumination control in uC
+      use of the shuttered illumination for higher power 
+      use of both LEDs and Lasers for white lines
+  software algorithms: compute 3 dimension out of 2/4/6
+
+
+
+%\section{Structure of the Work}
+%\subsection{Defining Requirements for a new type of Odometry Sensor}
+%\subsection{Search for different types of sensors}
+%\subsection{Implementation and validation of a prototype}
 
 %--------------------------------------------------------%
 % Bibliography
 %--------------------------------------------------------%
-%\addcontentsline{toc}{section}{Bibliography}
+\addcontentsline{toc}{section}{Bibliography}
 \label{Bibliography}
 \bibliographystyle{plain}
 \bibliography{literature}
