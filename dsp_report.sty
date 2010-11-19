@@ -18,7 +18,7 @@
 %
 % pdflatex specific stuff
 %
-\newif\ifpdf
+\newif\ifpdfd
 \ifx\pdfoutput\undefined
     \pdffalse           % we are not running PDFLaTeX
     \typeout{******************************************************************}
@@ -26,10 +26,10 @@
     \typeout{******************************************************************}
 \else
     \pdfoutput=1        % we are running PDFLaTeX
-    \pdftrue
+    %\pdftrue
 \fi
 %----------------------------------------------------------------------
-\ifpdf
+\ifpdfd
     \usepackage[pdftex,
         colorlinks=true,
         urlcolor=rltblue,               % \href{...}{...}
@@ -135,7 +135,7 @@
 \pagestyle{empty}
 \vspace{-7mm}
 \begin{center}
-\includegraphics[width=\columnwidth]{Figures/DSP-TR}
+%\includegraphics[width=\columnwidth]{Figures/DSP-TR}
 \vspace{5mm}
 
 \vfill
