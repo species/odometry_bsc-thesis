@@ -4,14 +4,29 @@
 % (c) 2005 EMT DSP Group
 %
 \documentclass[12pt,a4paper]{article}
-\usepackage{dsp_report}
+%\usepackage{dsp_report}
 
 \usepackage{parskip}
 
 %
+%\DSPTitle{Odometry for Wheeled Mobile Robots}
+%{Michael Maier}
+
+\usepackage{graphicx}
+
+\usepackage{subfigure}
+\usepackage{xspace}                   % space nach makro
+\usepackage[left]{eurosym}            % Euro symbol
+\usepackage{hyperref}
+
+\newcommand{\mmnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Maier NOTE: #1}}}
+\newcommand{\mbnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Brandner NOTE: #1}}}
+\newcommand{\MH}{\emph{Mostly Harmless RoboCup Team}\xspace}
+\newcommand{\robocup}{\emph{RoboCup}\xspace}
+
 \begin{document}
-\DSPTitle{Odometry for Wheeled Mobile Robots}
-{Michael Maier}
+
+\input{titlepage}
 
 \tableofcontents
 \clearpage
@@ -20,11 +35,18 @@
 
 % seitenanzahl dazuschreiben
 
+\begin{abstract}
 Abstract
+
+1p
+\end{abstract}
+
+\clearpage
 
 \section{Introduction}
 
-The RoboCup...
+
+\subsection{RoboCup}
 
 1/2 page
 
@@ -63,7 +85,7 @@ Motivation and Goal
 
 1/2p
 
-ssum 5p
+chaptersum 5p
 
 \section{Odometry}
   Definition
@@ -117,7 +139,7 @@ sum 4p
 1p
 
 
-\subsection{Decision for a Typo of Sensor}
+\subsection{Decision for a Type of Sensor}
   entscheidung fuer einen Sensortyp
     - why/why not...
     - ...
@@ -126,7 +148,7 @@ sum 4p
 1p
 
 
-ssum 8p
+chaptersum 8p
 
 \section{Designing the Sensor for Evaluation}
 
@@ -157,6 +179,24 @@ ADNS-testplatine
 
 sum 4p
   
+\subsection{Optical System}
+  requirements
+
+1/2p
+
+\subsubsection{Original Mouse Setup}
+
+1p
+
+\subsubsection{2-Lens Setup}
+
+1p
+
+\subsubsection{Telecentric Setup}
+
+1p
+
+sum 4p
 \subsection{The XC164 Microcontroller}
 
 Specs etc
@@ -189,24 +229,6 @@ XC-164 eval board
 
 sum 6p
 
-\subsection{Optical System}
-  requirements
-
-1/2p
-
-\subsubsection{Original Mouse Setup}
-
-1p
-
-\subsubsection{2-Lens Setup}
-
-1p
-
-\subsubsection{Telecentric Setup}
-
-1p
-
-sum 4p
 
 \subsection{Data Aquisition Software}
 
@@ -219,7 +241,7 @@ sum 4p
 
 sum 2p
 
-ssum 17p
+chaptersum 17p
 
 \section{Experimental Setup}
 
@@ -241,7 +263,7 @@ Sketch
 
 1/2p
 
-\subsubsection{Sensor mounting & Calibration}
+\subsubsection{Sensor mounting \& Calibration}
 
 Sketch with adjusting screws in all dimensions
 
@@ -252,7 +274,7 @@ calibration process
 
 1p
 
-\subsubsection{Lens 2 & Aperture Mounting}
+\subsubsection{Lens 2 \& Aperture Mounting}
 
 manufacturing drawing
 
@@ -271,7 +293,7 @@ manufacturing drawing
 
 2p
 
-\subsection{Motor & Disk}
+\subsection{Motor \& Disk}
 
 1/2p
 
@@ -281,21 +303,44 @@ manufacturing drawing
 
 1p
 
-\subsection{Microcontroller & Host PC}      
+\subsection{Microcontroller \& Host PC}      
 
 1/2p
 
 
-ssum 9p
+chaptersum 9p
 
 \section{Experimental results}
+
+\subsection{Illumination tests}
+
+\begin{itemize}
+  \item Laser
+  \item Studio Spotlight
+  \item ultrabright white LEDs
+  \item IR-LEDs
+\end{itemize}
+
+\subsection{Non-telecentric tests}
+
+\subsection{Telecentric tests}
+
+\subsubsection{Carpet 1}
+
+\subsubsection{Carpet 2}
+
+\subsubsection{Carpet 3}
+
+\subsubsection{Game Field Lines}
+
+\subsection{Interpretation}
 
   plots
   ergebnisse
 
->5p
+groesser 5p
 
-\section{Next Steps}
+\section{Outlook - Next Steps}
 
   evaluation of a combination of IR-LED illumination and Laser illumination
 
@@ -311,7 +356,10 @@ ssum 9p
       use of both LEDs and Lasers for white lines
   software algorithms: compute 3 dimension out of 2/4/6
 
-~3-5p
+ca 3-5p
+
+
+summe gesamt 49 Seiten (ohne abstract, inhaltsv, bibl.)
 
 
 %--------------------------------------------------------%
