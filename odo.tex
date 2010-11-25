@@ -100,27 +100,93 @@ Also, the third place in the technical challenge was won.
 
 \subsection{Current Robot Platform: Krikkit}
 
-The ``Krikkit'' robot platform was built in 2006 and is now on the end of its life cycle.
+The ``Krikkit'' robot platform was built in 2006~\cite{}. 
+It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
+Nearly all components, from electronics to mechanical parts are develeped in-house.
+Four robots were built and made their debut at the World Championship 2006 in Bremen.
+
+Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/krikkit}
+\caption{\label{fig:krikkit}
+Krikkit robot. Omnivision with camera and mirror~(1); Industrial PC~(2); Pneumatic kicker~(3); Omnidrive is below the black bumper.
+}
+\end{center}
+\end{figure}
+
+It has a $360^\circ$ omnidirectonal vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
+Its brain is a standard mini-ITX industrial PC.\\
+A powerful pneumatic kicker with a~200\,bar pressurised air bottle as supply enables the robot to kick the ball approx. 10\,m forward.\\
+Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
+The $45^\circ$-Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
+The three wheels are arranged in $120^\circ$-steps and are driven by a 200\,W brushless DC motor for each axis. 
+Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
+The motors and all other electric components are supplied by a smart battery system~\cite{krammer06}.
+All electronic components are connected via CAN-Bus.
+
+\begin{figure}[ht]
+\begin{center}  
+\includegraphics[width=0.5\columnwidth]{figures/krikkit}
+\caption{\label{fig:mec-wheel}
+Mecanum wheel. 
+}   
+\end{center}
+\end{figure}
 
 
-1-2 Images
-  
-  Specs
-
-    Module
-      
-    Sensoren
+The Krikkit robots served well for four years, much was learned.
+Before RoboCup~2009 in Graz, a major mechanics overhaul was done.
+In the meantime, all major electronic components also reached the end of their life cycle.
+With the knowledge gained, lost and aquired again the successor of the Krikkit generation is in development now.
     
-    Fahrwerksdynamik
-
-2p
 
 \subsection{In Development: Krikkit3G}
 
-    modular concept
-    ARM architecture for every electronics
+The next generation of robots is in development since mid-2010.
+It will be a direct successor of the Krikkit generation, therefor the name \emph{Krikkit3G}.
+The successful concepts are are adopted nearly unchanged:
 
-Image: New rendering
+\begin{itemize}
+  \item omnidrive with the three Mecanum Wheels
+  \item the omni-vision system
+  \item pneumatic kicking concept
+  \item the use of a standard mini-ITX industrial PC
+  \item modularity of all components
+\end{itemize}
+
+The new robot design focuses on the strict modularity of all components.
+It has been shown that fast disassembling and replacing of critical components is crucial in the fast-paced tournament environment.
+Especially the power train has been modularized, the wheel, gearing, motor and motor electronics can be swapped as a whole group.
+
+
+
+  bumpers 
+  drive system with  independent wheel suspension 
+
+For the kicking system, the pneumatic principle was kept.
+But it is now much more versatile. 
+It can switch between high and flat kicks at full power, and side-kicks are also possible now.
+It features a new ball guidance system, which allows grabbing the ball for a short moment.
+This becomes especially useful when decelerating.
+
+Big changes were made in the electronics sector.
+A new microcontroller core (An ARM Cortex M3) is used on every component, replacing the different types used before.
+The smart battery system also got a major upgrade, featuring even smarter batteries.
+
+In the mechanical design, space is now also provied for an improved odometry system, which will be develeped based on this work.
+
+
+\begin{figure}[ht]
+\begin{center}  
+\includegraphics[width=0.5\columnwidth]{figures/Krikkit3G.jpg}
+\caption{\label{fig:krikkit3g}
+Rendering of the Krikkit3G robot.
+}   
+\end{center}
+\end{figure}
+
 
 1p
 
