@@ -75,7 +75,7 @@ The game field surface is usually carpet.
 The \MSL is the only league, where an official FIFA ball is used.
 Objects are distinguished by colour, the game field is green with white lines, robots and referees are black and the ball is red.
 
-The rules are official FIFA rules~\cite{msl-rules} with slight adaptions for robotic players.
+The rules are official FIFA rules~\cite{msl-rules} with slight adaptations for robotic players.
 The game rules are tightened every year to keep up with the technological progress. 
 E.g. the field size has grown from $6\times8$\,m$^2$ to $12\times18$\,m$^2$ since introduction of the \MSL.
 
@@ -104,7 +104,7 @@ Also, the third place in the technical challenge was won.
 The ``Krikkit'' robot platform was built in 2006~\cite{}. 
 It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
 Nearly all components, from electronics to mechanical parts are developed in-house.
-Four robots were built and made their debut at the World Championship 2006 in Bremen.
+Four robots were built and made their début at the World Championship 2006 in Bremen.
 
 Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
 
@@ -112,7 +112,7 @@ Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:kri
 \begin{center}
 \includegraphics[width=0.5\columnwidth]{figures/krikkit.pdf}
 \caption{\label{fig:krikkit}
-Krikkit robot. Omnivision with camera and mirror~(1); Industrial PC~(2); Pneumatic kicker~(3); Omnidrive is below the black bumper.
+Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneumatic kicker~(3); Omni-drive is below the black bumper.
 }
 \end{center}
 \end{figure}
@@ -130,8 +130,9 @@ All electronic components are connected via CAN-Bus.
 \begin{figure}[hb]
   \begin{minipage}{0.45\textwidth}
    \centering
-    \includegraphics[width=1\textwidth]{figures/krikkit_drive}
-    \caption{\label{fig:omnidrive}Omnidrive \cite{mecanum2007}}
+    \includegraphics[width=1\textwidth]{figures/krikkit_drive_angles}
+    \caption{\label{fig:omnidrive}Omni-drive schema of the Krikkit robot. Three $45^\circ$ Mecanum wheels have their small wheels arranged in a circle around the centre.
+    \cite{mecanum2007}}
   \end{minipage}\hfill
   \begin{minipage}{0.45\textwidth}
    \centering
@@ -150,11 +151,11 @@ With the knowledge gained, lost and acquired again the successor of the Krikkit 
 \subsection{In Development: Krikkit3G}
 
 The next generation of robots is in development since mid-2010.
-It will be a direct successor of the Krikkit generation, therefor the name \emph{Krikkit3G}.
+It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
 The successful concepts are are adopted nearly unchanged:
 
 \begin{itemize}
-  \item omnidrive with the three Mecanum Wheels
+  \item omnidirectional drive with the three Mecanum Wheels
   \item the omni-vision system
   \item pneumatic kicking concept
   \item the use of a standard mini-ITX industrial PC
@@ -187,7 +188,7 @@ In the mechanical design, space is now also provided for an improved odometry sy
 \begin{center}  
 \includegraphics[width=0.5\columnwidth]{figures/Krikkit3G.jpg}
 \caption{\label{fig:krikkit3g}
-Rendering of the Krikkit3G robot.
+Rendering of the Krikkit3G robot (Without outer hull).
 }   
 \end{center}
 \end{figure}
@@ -195,33 +196,8 @@ Rendering of the Krikkit3G robot.
 
 % 1p
 
-\subsection{Motivation for this Work}
-  
-Current odometry systems of the Krikkit generation is based on the rotational speed of the wheels.
-This has the major disadvantage of the accurancy bound to the slip of the wheels.
-The problem is the nonuniform structure of the game field carpet, which has different slip factors in each direction.
-Due to the different speeds and angles of the Mecanum wheels, this leads to deviations even when driving a straight line.
-The errors accumulate over time, resulting in $90^\circ$~deviation on 10\,m straight distance driven.
+\subsection{Odometry}
 
-Therefor, an wheel-independent odometry system has to be developed.
-The goal of this work was:
-
-\begin{itemize}
-  \item Gathering requirements for a sensor
-  \item Search for different types of sensors
-  \item Implementation and validation of a prototype
-\end{itemize}
-
-
-
-%Motivation and Goal
-
-%1/2p
-
-%chaptersum 5p
-
-\clearpage
-\section{Odometry}
 %  Definition
 %  Verwendungsmoeglichkeit
 %    Lokalisierung
@@ -231,9 +207,81 @@ The goal of this work was:
 %      anti-slip regulation
 
 Odometry, better known as path measurement is important for every moving vehicle, especially robots which need to know where they currently are. 
+The best known odometry measuring is used in cars as kilometre reading on the tachometer.
+
+For autonomous mobile robots, odometry plays an even more important role.
+Together with the vision system and the compass, it is a part in the sensor fusion for building the world model.
+In the current Krikkit software, is is used for the following purposes:
+At first, it acts as an initialisation vector for the vision system, when comparing two camera frames for calculating the offset between them.
+The second important role comes from the high frequency odometry data is available.
+Odometry data is provided with a frequency of 50\,Hz. 
+This is much faster than the currently used vision system (15 - 25\,Hz). 
+Therefore its values are added to the last known position in the world model for the time between two camera frames.
+At last, it acts as a backup system for the mainly vision based localisation system in case of camera blackouts, e.g. blurred images due to the vibrations from a kick or a collision.
+
+There are more possible use cases for odometry not implemented yet, e.g. anti-slip regulation for every single wheel.
 
 
-1p
+
+\subsection{Motivation for this Work}
+  
+Current odometry systems of the Krikkit generation is based on the rotational speed of the wheels.
+This has the major disadvantage of the accuracy bound to the slip of the wheels.
+The problem is the non-uniform structure of the game field carpet, which has different slip factors in each direction.
+Due to the different speeds and angles of the Mecanum wheels, this leads to deviations even when driving a straight line.
+The errors accumulate over time, resulting in $90^\circ$~deviation on 10\,m straight distance driven.
+
+Therefore, an wheel-independent odometry system has to be developed.
+The goal of this work was:
+
+\begin{itemize}
+  \item Gathering requirements for a sensor
+  \item Search for different types of sensors
+  \item Implementation and validation of a prototype
+\end{itemize}
+
+
+\subsection{Requirements for a new type of Odometry Sensor on the Krikkit/3G platform}
+
+The \MSL provides an ideal testbed for mobile robotics.
+The main demands in robotics are miniaturisation, low cost and energy usage, and robustness to the environment.
+
+The range of application in the \MSL demands the following design parameters:
+\begin{itemize}
+  \item must deliver linear and rotational accurate data in three degrees of freedom
+  \item must work on green carpet, other surfaces are bonus.
+  \item must not emit radiation or other disturbing effects irritating other robots or humans
+  \item resistance against dust from the carpet abrasion
+  \item shock resistant
+\end{itemize}
+
+The carpet is a particularly hairy concern, as its choice is up to the event organizer.
+The only restriction in the \MSL rules and regulations~\cite{msl-rules} is: green.
+Therefore, the game field surfaces differ in colour and surface roughness on every event.
+Colours from bright green over dark teal to nearly grey have been seen over the past years.
+The roughness is another chapter, it ranged from a very even felt with a roughness with a maximum of 2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
+Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.
+
+The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
+From the software side, it would be highly appreciated if the sensor would deliver data quality information.
+Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
+The \MH had bad memories about a malfunctioning compass ruining the world model.
+At last, the \MH has very tight budgetary limitations, due to being a students-only team depending on external sponsors.
+The sensors have to be cheap enough to be affordable for series for up to six robots.
+
+
+On the Krikkit3G robots, the available space is limited to $50\times50\times110$\,mm for each of the three proposed sensor mount points.
+The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
+Due to the new independent wheel suspension, the operating range of the sensor must be greater than $\pm 5$\,mm to the reference plane.
+Data must be output on the robot's CAN-Bus.
+As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
+
+
+
+
+
+\clearpage
+\section{State of the Art}
 
 \subsection{Odometry Measurement}
 
@@ -243,8 +291,6 @@ Odometry, better known as path measurement is important for every moving vehicle
         probleme
       2. satz raeder
         probleme
-
-1p
 
 \subsubsection{Possible Implementations}
 
@@ -267,14 +313,6 @@ Odometry, better known as path measurement is important for every moving vehicle
         optical mice
 1/2
 
-3p
-
-sum 4p
-
-\subsection{Requirements for a new type of Odometry Sensor on the Krikkit/3G platform}
-
-1p
-
 
 \subsection{Decision for a Type of Sensor}
   entscheidung fuer einen Sensortyp
@@ -282,140 +320,38 @@ sum 4p
     - ...
     - ...
 
-1p
 
-
-chaptersum 8p
-
-\section{Designing the Sensor for Evaluation}
+\section{Sensor Design}
 
 block diagram
   ADNS + optic
   XC
   PC
 
-1p
-
-\subsection{The ADNS 6010}
-
-specs
-
-workflow diagram (from datasheet)
-
-1p
-
-\subsubsection{Custom PCB}
-ADNS-testplatine
-  requirements
-
-  circuit diagram
-
-  PCB drawing
-
-2p
-
-sum 4p
-  
 \subsection{Optical System}
   requirements
-
-1/2p
-
-\subsubsection{Original Mouse Setup}
-
-1p
-
-\subsubsection{2-Lens Setup}
-
-1p
-
-\subsubsection{Telecentric Setup}
-
-1p
-
-sum 4p
-\subsection{The XC164 Microcontroller}
-
-Specs etc
-
-XC-164 eval board 
-  Image from datasheet
-
-1/2p
-
-\subsubsection{Wiring of the Evaluation Board}
-
-  block diagram
-
-  circuit
-
-1p
-
-\subsubsection{uC - Software}
-
-  XC-Code
-    requirements
-    firmware catch
-
-    image streaming
-
-    motion data streaming
-      + reference sensor
-
-4p
-
-sum 6p
-
-
-\subsection{Data Acquisition Software}
-
-\subsubsection{PyQT GUI}
-1p
-
-\subsubsection{Octave Analysis Scripts}
-1/2p
-
-
-sum 2p
-
-chaptersum 17p
-
-\section{Experimental Setup}
-
-- requirements
-
-1p
-
-\subsection{Mechanical Design of the Testbed}
-
-block diagram
-
-1p
-
-\subsection{Optical System}
 
 micro-bench system
 
 Sketch
 
-1/2p
+\subsubsection{Optical Path calculations: Original Mouse Setup}
+
+\subsubsection{Optical Path calculations: 2-Lens Setup}
+
+\subsubsection{Optical Path calculations: Telecentric Setup}
+
 
 \subsubsection{Sensor mounting \& Calibration}
 
 Sketch with adjusting screws in all dimensions
 
-1/2p
-
 calibration process
   laser
-
-1p
 
 \subsubsection{Lens 2 \& Aperture Mounting}
 
 manufacturing drawing
-
-1p
 
 \subsubsection{Illumination}
 
@@ -428,24 +364,67 @@ manufacturing drawing
 
   PCB print
 
-2p
+
+\subsection{Electrical Design}
+
+\subsubsection{The ADNS 6010}
+
+specs
+
+workflow diagram (from datasheet)
+
+ADNS-testplatine
+  requirements
+
+  circuit diagram
+
+  PCB drawing
+
+\subsubsection{The XC164CM Microcontroller}
+
+Specs etc
+
+XC-164 eval board 
+  Image from datasheet
+
+Wiring of the Evaluation Board
+
+  block diagram
+
+  circuit
+
+\subsection{Software}
+
+\subsubsection{uC - Software}
+
+  XC-Code
+    requirements
+    firmware catch
+
+    image streaming
+
+    motion data streaming
+      + reference sensor
+
+\subsubsection{PyQT GUI}
+
+\subsubsection{Octave Analysis Scripts}
+
+\section{Experimental Setup}
+
+- requirements
+
+\subsection{Mechanical Design of the Testbed}
+
+block diagram
 
 \subsection{Motor \& Disk}
-
-1/2p
 
 \subsection{Reference Speed Sensor}
       Picture of sensor from Datasheet
       electrical setup used
 
-1p
-
 \subsection{Microcontroller \& Host PC}      
-
-1/2p
-
-
-chaptersum 9p
 
 \section{Experimental results}
 
@@ -475,9 +454,7 @@ chaptersum 9p
   plots
   ergebnisse
 
-groesser 5p
-
-\section{Outlook - Next Steps}
+\section{Conclusions \& Outlook}
 
   evaluation of a combination of IR-LED illumination and Laser illumination
 
