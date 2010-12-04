@@ -8,6 +8,11 @@
 
 \usepackage{parskip}
 
+% randausgleich bei kleinen zeichen mit wenig deckung rechts
+% % http://latex.tugraz.at/latex/fortgeschrittene#optischer_randausgleich
+\usepackage[activate=normal]{pdfcprot}
+
+
 %
 %\DSPTitle{Odometry for Wheeled Mobile Robots}
 %{Michael Maier}
@@ -34,8 +39,6 @@
 \pagestyle{plain}
 
 
-% seitenanzahl dazuschreiben
-
 \begin{abstract}
 Abstract
 
@@ -51,7 +54,7 @@ Abstract
 
 The RoboCup is an international research and education initiative. 
 It's goal is ``By the year 2050, develop a team of fully autonomous robots that can win against the current human soccer world champion team"~\cite{robocup.org}.
-It encourages research in the field of robotics, e.g. machine vision, machine learning, autonomous systems.
+It encourages research in the field of robotics, e.g.\ machine vision, machine learning, autonomous systems.
 
 %|| to Apollo Program.
 
@@ -119,12 +122,14 @@ Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneuma
 
 It has a $360^\circ$ omnidirectional vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
 Its brain is a standard mini-ITX industrial PC.\\
-A powerful pneumatic kicker with a~200\,bar pressurised air bottle as supply enables the robot to kick the ball approx. 10\,m forward.\\
+A powerful pneumatic kicker with a~200\,bar pressurised air bottle as supply enables the robot to kick the ball approx. 10\,m forward.
+The kicks are such powerful, that the vibrations destroyed the former-used hard disks, now replaced with SSD~storage.
+Also, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
 Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
 The $45^\circ$-Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
 The three wheels are arranged in $120^\circ$-steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless DC motor for each axis.
 Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
-The motors and all other electric components are supplied by a smart battery system~\cite{krammer06}.
+The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
 All electronic components are connected via CAN-Bus.
 
 \begin{figure}[hb]
@@ -176,6 +181,8 @@ But it is now much more versatile.
 It can switch between high and flat kicks at full power, and side-kicks are also possible now.
 It features a new ball guidance system, which allows grabbing the ball for a short moment.
 This becomes especially useful when decelerating.
+Also, the vibrations from the kicker disturbing the camera should be reduced by an active final position dampening system.
+Nevertheless, short disturbances in the vision system due to the vibrations will remain during the kicks.
 
 Big changes were made in the electronics sector.
 A new microcontroller core (An ARM Cortex~M3) is used on every component, replacing the different microcontroller architectures used before.
@@ -215,11 +222,11 @@ In the current Krikkit software, is is used for the following purposes:
 At first, it acts as an initialisation vector for the vision system, when comparing two camera frames for calculating the offset between them.
 The second important role comes from the high frequency odometry data is available.
 Odometry data is provided with a frequency of 50\,Hz. 
-This is much faster than the currently used vision system (15 - 25\,Hz). 
+This is much faster than the currently used vision system (15~-~25\,Hz). 
 Therefore its values are added to the last known position in the world model for the time between two camera frames.
-At last, it acts as a backup system for the mainly vision based localisation system in case of camera blackouts, e.g. blurred images due to the vibrations from a kick or a collision.
+At last, it acts as a backup system for the mainly vision based localisation system in case of camera blackouts, e.g.\ blurred images due to the vibrations from a kick or a collision.
 
-There are more possible use cases for odometry not implemented yet, e.g. anti-slip regulation for every single wheel.
+There are more possible use cases for odometry not implemented yet, e.g.\ anti-slip regulation for every single wheel.
 
 
 
@@ -246,7 +253,7 @@ The goal of this work was:
 The \MSL provides an ideal testbed for mobile robotics.
 The main demands in robotics are miniaturisation, low cost and energy usage, and robustness to the environment.
 
-The range of application in the \MSL demands the following design parameters:
+The range of application in the \MSL demands the following design parametersa for an odometry sensor:
 \begin{itemize}
   \item must deliver linear and rotational accurate data in three degrees of freedom
   \item must work on green carpet, other surfaces are bonus.
@@ -281,37 +288,106 @@ As power supply only two DC lines with 24\,V and 7\,V are available at reasonabl
 
 
 \clearpage
-\section{State of the Art}
+\section{State of the Art in Odometry Measurement}
 
-\subsection{Odometry Measurement}
+When determining the position or movement of a vehicle, one has the following choices: 
+Relying on global or relative position measurement.
 
-\subsubsection{Current Implementations used}
+The best known global position measurement is the Global Positioning System GPS.
+This is widely used in robotics in outdoor applications, where a GPS signal is available.
+Indoors, other known landmarks can be used.
+In RoboCup, the well-known shape of the soccer field is used for global reference.
+Without exception, every soccer robot uses the features of the game field, e.g.\ the goals, lines and corner posts for orientation.\\
+Other global approaches for gathering position data are compasses and gyroscopes.
+They also deliver global data, but orientation and not positioning. 
+This approach delivers only one of the three degrees of freedom needed, but it can complete the missing dimension.
 
-      wheel encoder
-        probleme
-      2. satz raeder
-        probleme
+% - global positioning
+%   GPS
+%   Compass
+%   gyroscopes
+%   relative position to known landmarks
+%   - poles from 2006
+%   - lines on the game field
 
-\subsubsection{Possible Implementations}
+For relative position measurement, one has the choice to measure distance, velocity or acceleration.
+Every approach has its advantages, depending on the use case.
+When aiming for the distance travelled, it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the twice integration.\\
+When measuring acceleration, one has the choice between industrial grade accelerometers as used e.g.\ in aeroplanes, and consumer grade accelerometers based on the piezoelectric effect.\\
+Speedometers exist in various implementations based on the Doppler effect, e.g.\ radar.\\
+Distance meters can be mechanical or optical.
+The simplest mechanical distance meter is a measuring tape.
+Or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
+In the last decade, another electronic approach was developed: optical distance meters based on comparing images for translational displacement, as used in optical computer mice.
 
-      radar
-1/4
+% - relative positioning
+%   - acceleration
+%   - velocity
+%   - distance
+%   accelerometers
+%   speedometers relying on the Doppler-effect
+%   mechanical distance meters (like in cars or early computer mice)
+%   optical distance meters based on comparing images for translational displacement, as used in optical computer mice
+
+
+Every approach has properties to evaluate:
+\begin{itemize}
+  \item maximum and minimum speed capability
+  \item maximum and minimum acceleration
+  \item number of dimensions of movement data one sensor delivers
+  \item linearity and deviation of data
+  \item length of time of a single measurement
+  \item lag between measurement and data availability
+  \item highest possible frequency of measurements
+  \item resilience against reference surface distance changes
+  \item maximum and minimum distance to reference surface
+  \item surface state requirements
+  \item resilience against environmental changes
+  \item influence of the sensor to the environment 
+  \item size and power requirements of the sensor
+  \item cost of the sensors for three dimensions
+\end{itemize}
+
+In preparation for this work, a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
+
+
+\subsection{Possible Odometry Sensors}
+
+\subsubsection{accelerometers}
+
+
       accelerometer
         2G spitzenvibration -> no
 1/4
+\subsubsection{Ultrasonic Doppler Velocimetry}
       Ultrasonic Doppler Velocimetry
 1/4
-      Microwave Doppler Velocimetry
-1/4
-      Laser interferometry
+\subsubsection{Microwave Doppler Velocimetry (Radar)}
+
+Radar is an umbrella term for object detection systems utilizing electromagnetic waves from 300\,MHz up to 3\,THz~\cite{nrt}.
+It can be used to measure the distance of objects and also their speed through the Doppler effect.
+Depending on the object distance, different wavelength are used.
+For short-range measurements, e.g.\ radar guns, and also for speed measurements on moving vehicles itself, short-range microwave sensors with 24\,GHz are used.~\cite{s_r_radar}
+
+\subsubsection{Laser interferometry}
 1/2
-      Optical Spatial Frequency Filtration
+\subsubsection{One-dimensional Optical Spatial Frequency Filtration}
 1/4
-        Daniel's approach
+\subsubsection{Industrial/Custom-build Optical Speed Sensor}
+        Daniel's approach~\cite{Hrach2006}
+        laser speckle applications (Dehnungsmessung) 
 1/4
-        laser speckle applications
-        optical mice
+\subsubsection{Optical Mice}
 1/2
+
+\subsection{Current Implementations used in RoboCup}
+
+\subsubsection{\MH}
+      wheel encoder
+        probleme
+\subsubsection{Other Teams}
+      2. satz raeder
+        probleme
 
 
 \subsection{Decision for a Type of Sensor}
@@ -485,3 +561,5 @@ summe gesamt 49 Seiten (ohne abstract, inhaltsv, bibl.)
 \bibliography{literature}
 %
 \end{document}
+
+% vim: spell spelllang=en_gb:
