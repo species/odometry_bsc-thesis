@@ -351,17 +351,38 @@ Every approach has properties to evaluate:
 In preparation for this work, a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
 
 
-\subsection{Possible Odometry Sensors}
-
-\subsubsection{accelerometers}
+\subsection{Possible Odometry Sensors Types}
 
 
-      accelerometer
-        2G spitzenvibration -> no
-1/4
+
+\subsubsection{Accelerometers}
+
+An accelerometer consists mainly of flexible mounted mass that is under the influence of a force.
+If the mounting consists of springs, the displacement is linear to the applied force.
+This displacement is then measured.
+Under normal circumstances on earth, every object is under the influence of the gravitational force.
+Therefore, 1\,g must be subtracted from the result.
+
+In commercial sensors, piezoelectric elements are used to convert the force into a signal.
+In the last years, the use of micro electro-mechanical systems (MEMS) has been increased significantly.
+Sensors for three dimensions are available now in tiny package formats at low cost for consumer applications.
+
+\subsubsection{Gyroscopes}
+
+A gyroscope is an inertial sensor, that detects the change of position.
+Historically, they were flywheels mounted in a Cardan suspension. 
+Based on the principles of conservation of angular momentum, when spin up they remain at their orientation.
+
+Today they are implemented as MEMS similar to accelerometers mentioned.
+Often they are even combined with accelerometers in a single chip package to 6-dimensional sensors.
+
+
 \subsubsection{Ultrasonic Doppler Velocimetry}
-      Ultrasonic Doppler Velocimetry
-1/4
+
+Ultrasonic Doppler velocimeters  work similar to ultrasonic distance sensors.
+The main use today is in liquid flow  measurements.
+
+
 \subsubsection{Microwave Doppler Velocimetry (Radar)}
 
 Radar is an umbrella term for object detection systems utilizing electromagnetic waves from 300\,MHz up to 3\,THz~\cite{nrt}.
@@ -370,7 +391,21 @@ Depending on the object distance, different wavelength are used.
 For short-range measurements, e.g.\ radar guns, and also for speed measurements on moving vehicles itself, short-range microwave sensors with 24\,GHz are used.~\cite{s_r_radar}
 
 \subsubsection{Laser interferometry}
-1/2
+
+Speed measurement with laser interferometry is divided into two approaches, one called Laser Doppler Velocimetry and the other is referred as Laser Doppler Vibrometry.\\
+Two coherent laser sources are intersected on the moving target surface at different angles.
+The interference of the two beams creates a set of straight fringes. 
+Particles of the surface moving thorough the fringes reflect light on the constructive interference.
+The resulting frequency is then captured by a photo diode.
+
+% source: WP
+
+- vibrometer
+  beam is split into two coherent, one is reflected and interfered with the original beam, which is collected in a photo diode. 
+  the frequency shift between the two results in a beat at the detector.
+
+% source: WP
+
 \subsubsection{One-dimensional Optical Spatial Frequency Filtration}
 1/4
 \subsubsection{Industrial/Custom-build Optical Speed Sensor}
@@ -389,12 +424,17 @@ For short-range measurements, e.g.\ radar guns, and also for speed measurements 
       2. satz raeder
         probleme
 
+  accelerometers -> only nao for inertial informations, not for navigation
 
 \subsection{Decision for a Type of Sensor}
+
+The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
+
   entscheidung fuer einen Sensortyp
     - why/why not...
     - ...
     - ...
+        2G spitzenvibration -> no
 
 
 \section{Sensor Design}
