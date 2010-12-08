@@ -53,13 +53,13 @@ Abstract
 \subsection{RoboCup}
 
 The RoboCup is an international research and education initiative. 
-It's goal is ``By the year 2050, develop a team of fully autonomous robots that can win against the current human soccer world champion team"~\cite{robocup.org}.
-It encourages research in the field of robotics, e.g.\ machine vision, machine learning, autonomous systems.
+Its goal is ``By the year 2050, develop a team of fully autonomous robots that can win against the current human soccer world champion team"~\cite{robocup.org}.
+It encourages research in the field of robotics, e.g.\ machine vision, machine learning and autonomous systems.
 
 %|| to Apollo Program.
 
-Every year, a world championship is held accomplished by a conference in a different city around the globe.
-Also, various local competitions and conferences are held by local groups.
+Every year a world championship is accomplished by a conference in a different city around the globe.
+In addition, various local competitions and conferences are held by local groups.
 
 The RoboCup is divided into three parts: RoboCup Soccer, Rescue and @Home.
 Every division is divided into several leagues targeted at different challenges.
@@ -68,19 +68,19 @@ Every division is divided into several leagues targeted at different challenges.
 
 \subsection{\MSL}
 
-In RoboCup Soccer, the \MSL is the most challenging.
+In RoboCup Soccer the \MSL is most challenging.
 The robots have to be fully autonomous.
-All sensors, actuators and computation are on board, no external input is allowed.
-A Team consists of at most 6~robots with a size of max. $50\times50\times80$\,cm$^3$.
+All sensors, actuators and computation are on board and no external input is allowed.
+A Team consists of maximal 6~robots with a size of max. $50\times50\times80$\,cm$^3$.
 
 The game is played on a field of $12\times18$\,m$^2$ and lasts $2\times15$~minutes.
 The game field surface is usually carpet.
-The \MSL is the only league, where an official FIFA ball is used.
+The \MSL is the only league where an official FIFA ball is used.
 Objects are distinguished by colour, the game field is green with white lines, robots and referees are black and the ball is red.
 
-The rules are official FIFA rules~\cite{msl-rules} with slight adaptations for robotic players.
-The game rules are tightened every year to keep up with the technological progress. 
-E.g. the field size has grown from $6\times8$\,m$^2$ to $12\times18$\,m$^2$ since introduction of the \MSL.
+The rules are the official FIFA rules~\cite{msl-rules} with slight adaptations for robotic players.
+The rules are tightened every year to keep up with the technological progress. 
+For instance the field size has grown from $6\times8$\,m$^2$ to $12\times18$\,m$^2$ since the introduction of the \MSL.
 
 More than 20 teams from all over the world participate in the \MSL, almost all with academical background.
 
@@ -89,25 +89,25 @@ More than 20 teams from all over the world participate in the \MSL, almost all w
 \subsection{\MH}
 
 The \MH participates in the \MSL. 
-It's name is a reference to the ``Hitchhiker's Guide to the Galaxy'' by Douglas Adams~\cite{h2g2}.
-It was founded 2003 at Graz University of Technology at the Institute for Software Technology. 
-It consists solely of students and acts as a platform for master's, bachelor's thesis and seminar projects.
-Currently, more than 30~students are working on the robots in their free time.
+Its name is a reference to the ``Hitchhiker's Guide to the Galaxy'' by Douglas Adams~\cite{h2g2}.
+It was founded at Graz University of Technology at the Institute for Software Technology in 2003. 
+This RoboCup team consists solely of students and acts as a platform for master's, bachelor's thesis and seminar projects.
+Currently more than 30~students are working on the robots in their free time.
 
 It regularly participates at European championships as well as World Championships.
-RoboCup 2009 in Graz was the first time the team advanced a round in a World Championship. 
-Also, the third place in the technical challenge was won.
+At RoboCup~2009, which took place in Graz, the team advanced a round in the World Championship for the first time.
+The third place in the technical challenge was won too.
 
 
 
 % 1/4 p
 
-\subsection{Current Robot Platform: Krikkit}
+\subsection{Current robot platform: Krikkit}
 
-The ``Krikkit'' robot platform was built in 2006~\cite{}. 
+The ``Krikkit'' robot platform was built in 2006.%~\cite{}. 
 It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
-Nearly all components, from electronics to mechanical parts are developed in-house.
-Four robots were built and made their début at the World Championship 2006 in Bremen.
+Nearly all components from electronics to mechanical parts are developed in-house.
+Four robots were built and made their d\'ebut at the World Championship 2006 in Bremen.
 
 Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
 
@@ -122,12 +122,12 @@ Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneuma
 
 It has a $360^\circ$ omnidirectional vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
 Its brain is a standard mini-ITX industrial PC.\\
-A powerful pneumatic kicker with a~200\,bar pressurised air bottle as supply enables the robot to kick the ball approx. 10\,m forward.
-The kicks are such powerful, that the vibrations destroyed the former-used hard disks, now replaced with SSD~storage.
-Also, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
+A powerful pneumatic kicker, with a~200\,bar pressurised air bottle as supply, enables the robot to kick the ball approx. 10\,m forward.
+The kicks were such powerful that the vibrations destroyed the former--used hard disks now replaced by SSD~storage.
+Additionally, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
 Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
-The $45^\circ$-Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
-The three wheels are arranged in $120^\circ$-steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless DC motor for each axis.
+The $45^\circ$\mbox{-}Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
+The three wheels are arranged in $120^\circ$\mbox{-}steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless~DC motor for each axis.
 Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
 The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
 All electronic components are connected via CAN-Bus.
@@ -147,18 +147,18 @@ All electronic components are connected via CAN-Bus.
 \end{figure}
 
 
-The Krikkit robots served well for four years, much was learned.
-Before RoboCup~2009 in Graz, a major mechanics overhaul was done.
-In the meantime, all major electronic components also reached the end of their life cycle.
+The Krikkit robots served well for four years and much was learned.
+Before RoboCup~2009 in Graz a major mechanics overhaul was done.
+In the meantime all major electronic components reached the end of their life cycle also.
 With the knowledge gained, lost and acquired again the successor of the Krikkit generation is in development now.
     
 
-\subsection{In Development: Krikkit3G}
+\subsection{In development: Krikkit3G}
 
 The next generation of robots is in development since mid-2010.
 It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
-The successful concepts are are adopted nearly unchanged:
 
+The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME only works inside sentences, want not to break up before the listing
 \begin{itemize}
   \item omnidirectional drive with the three Mecanum Wheels
   \item the omni-vision system
@@ -169,26 +169,25 @@ The successful concepts are are adopted nearly unchanged:
 
 The new robot design focuses on the strict modularity of all components.
 It has been shown that fast disassembling and replacing of critical components is crucial in the fast-paced tournament environment.
-Especially the power train has been modularised, the wheel, gearing, motor and motor electronics can be swapped as a whole group.
+The power train has especially been modularised, the wheel, gearing, motor and motor electronics can be swapped as a whole group.
 
-Tests showed that the smoothness of the Mecanum wheels was insufficient due to manufacturing imprecision.
+Tests showed that the smoothness of the Mecanum wheels had been insufficient due to manufacturing imprecision.
 The resulting vibrations should be filtered out by an independent wheel suspension.
 
 %  bumpers ?
 
-For the kicking system, the pneumatic principle was kept.
-But it is now much more versatile. 
-It can switch between high and flat kicks at full power, and side-kicks are also possible now.
-It features a new ball guidance system, which allows grabbing the ball for a short moment.
-This becomes especially useful when decelerating.
-Also, the vibrations from the kicker disturbing the camera should be reduced by an active final position dampening system.
-Nevertheless, short disturbances in the vision system due to the vibrations will remain during the kicks.
+For the kicking system the pneumatic principle was kept, but it is now much more versatile. 
+It can switch between high and flat kicks at full power and side-kicks are also possible now.
+Featuring a new ball guidance system allows grabbing the ball for a short moment.
+This feature becomes especially useful when decelerating with the ball.
+The vibrations from the kicker, disturbing the camera, should also be reduced by an active final position dampening system.
+Nevertheless short disturbances in the vision system, due to the vibrations, will remain during the kicks.
 
-Big changes were made in the electronics sector.
-A new microcontroller core (An ARM Cortex~M3) is used on every component, replacing the different microcontroller architectures used before.
+Big changes have been made in the electronic sector.
+A new microcontroller core (An ARM Cortex~M3) is used on every component, which replaces the different microcontroller architectures used before.
 The smart battery system also got a major upgrade, featuring even smarter batteries.
 
-In the mechanical design, space is now also provided for an improved odometry system, which will be developed based on this work.
+In the mechanical design space is now also provided for an improved odometry system, which will be developed based on this work.
 
 
 \begin{figure}[b]
@@ -213,33 +212,33 @@ Rendering of the Krikkit3G robot (Without outer hull).
 %    Motion control
 %      anti-slip regulation
 
-Odometry, better known as path measurement is important for every moving vehicle, especially robots which need to know where they currently are. 
+Odometry, better known as path measurement is important for every moving vehicle, especially robots, which need to know where they currently are. 
 The best known odometry measuring is used in cars as kilometre reading on the tachometer.
 
-For autonomous mobile robots, odometry plays an even more important role.
-Together with the vision system and the compass, it is a part in the sensor fusion for building the world model.
-In the current Krikkit software, is is used for the following purposes:
-At first, it acts as an initialisation vector for the vision system, when comparing two camera frames for calculating the offset between them.
-The second important role comes from the high frequency odometry data is available.
+For autonomous mobile robots odometry plays an even more important role.
+Together with the vision system and the compass it is a part in the sensor fusion for building the world model.
+In the current Krikkit software, it fulfils the following purposes:
+At first it acts as an initialisation vector for the vision system when comparing two camera frames for calculating the offset between them.
+The second important role comes from the high frequency of odometry data.
 Odometry data is provided with a frequency of 50\,Hz. 
 This is much faster than the currently used vision system (15~-~25\,Hz). 
 Therefore its values are added to the last known position in the world model for the time between two camera frames.
-At last, it acts as a backup system for the mainly vision based localisation system in case of camera blackouts, e.g.\ blurred images due to the vibrations from a kick or a collision.
+At last it acts as a backup system for the mainly vision based localisation system in case of camera blackouts e.g.\ blurred images due to the vibrations from a kick or a collision.
 
-There are more possible use cases for odometry not implemented yet, e.g.\ anti-slip regulation for every single wheel.
+There are more possible use cases for odometry not implemented yet e.g.\ anti-slip regulation for every single wheel.
 
 
 
-\subsection{Motivation for this Work}
+\subsection{Motivation for this work}
   
-Current odometry systems of the Krikkit generation is based on the rotational speed of the wheels.
-This has the major disadvantage of the accuracy bound to the slip of the wheels.
+Current odometry systems of the Krikkit generation are based on the rotational speed of the wheels.
+This has the major disadvantage of the accuracy being bound to the slip of the wheels. %FIXXME English being okay?
 The problem is the non-uniform structure of the game field carpet, which has different slip factors in each direction.
-Due to the different speeds and angles of the Mecanum wheels, this leads to deviations even when driving a straight line.
+Due to the different speeds and angles of the Mecanum wheels it leads to deviations even when driving a straight line.
 The errors accumulate over time, resulting in $90^\circ$~deviation on 10\,m straight distance driven.
 
-Therefore, an wheel-independent odometry system has to be developed.
-The goal of this work was:
+Therefore an wheel-independent odometry system has to be developed.
+The goals of this work were:
 
 \begin{itemize}
   \item Gathering requirements for a sensor
@@ -248,15 +247,15 @@ The goal of this work was:
 \end{itemize}
 
 
-\subsection{Requirements for a new type of Odometry Sensor on the Krikkit/3G platform}
+\subsection{Requirements for a new type of odometry sensor on the Krikkit/3G platform}
 
 The \MSL provides an ideal testbed for mobile robotics.
-The main demands in robotics are miniaturisation, low cost and energy usage, and robustness to the environment.
+The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
 
-The range of application in the \MSL demands the following design parametersa for an odometry sensor:
+The range of application in the \MSL demands the following design parameters for an odometry sensor:\\ %% FIXXME no page break here!
 \begin{itemize}
   \item must deliver linear and rotational accurate data in three degrees of freedom
-  \item must work on green carpet, other surfaces are bonus.
+  \item must work on green carpet, other surfaces are bonus
   \item must not emit radiation or other disturbing effects irritating other robots or humans
   \item resistance against dust from the carpet abrasion
   \item shock resistant
@@ -264,22 +263,23 @@ The range of application in the \MSL demands the following design parametersa fo
 
 The carpet is a particularly hairy concern, as its choice is up to the event organizer.
 The only restriction in the \MSL rules and regulations~\cite{msl-rules} is: green.
-Therefore, the game field surfaces differ in colour and surface roughness on every event.
+Therefore the game field surfaces differ in colour and surface roughness on every event.
 Colours from bright green over dark teal to nearly grey have been seen over the past years.
-The roughness is another chapter, it ranged from a very even felt with a roughness with a maximum of 2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
+The roughness is another chapter.
+It ranged from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
 Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.
 
 The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
-From the software side, it would be highly appreciated if the sensor would deliver data quality information.
+From the software side it would be highly appreciated if the sensor delivered data quality information.
 Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
 The \MH had bad memories about a malfunctioning compass ruining the world model.
-At last, the \MH has very tight budgetary limitations, due to being a students-only team depending on external sponsors.
+At last the \MH has very tight budgetary limitations depending on external sponsors and due to being a student team.
 The sensors have to be cheap enough to be affordable for series for up to six robots.
 
 
-On the Krikkit3G robots, the available space is limited to $50\times50\times110$\,mm for each of the three proposed sensor mount points.
+On the Krikkit3G robots the available space is limited to $50\times50\times110$\,mm$^3$ for each of the three proposed sensor mount points.
 The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
-Due to the new independent wheel suspension, the operating range of the sensor must be greater than $\pm 5$\,mm to the reference plane.
+Due to the new independent wheel suspension the operating range of the sensor must be greater than $\pm 5$\,mm of the reference plane.
 Data must be output on the robot's CAN-Bus.
 As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
 
@@ -288,19 +288,19 @@ As power supply only two DC lines with 24\,V and 7\,V are available at reasonabl
 
 
 \clearpage
-\section{State of the Art in Odometry Measurement}
+\section{State of the art in odometry measurement}
 
-When determining the position or movement of a vehicle, one has the following choices: 
+When determining the position or movement of a vehicle, there are the following options: 
 Relying on global or relative position measurement.
 
 The best known global position measurement is the Global Positioning System GPS.
-This is widely used in robotics in outdoor applications, where a GPS signal is available.
-Indoors, other known landmarks can be used.
-In RoboCup, the well-known shape of the soccer field is used for global reference.
-Without exception, every soccer robot uses the features of the game field, e.g.\ the goals, lines and corner posts for orientation.\\
+This is widely used for robotics in outdoor applications where a GPS signal is available.
+Indoors other known landmarks can be used.
+In RoboCup the well-known shape of the soccer field is used for global reference.
+Without exception every soccer robot uses the features of the game field e.g.\ the goals, lines and corner posts for orientation.\\
 Other global approaches for gathering position data are compasses and gyroscopes.
-They also deliver global data, but orientation and not positioning. 
-This approach delivers only one of the three degrees of freedom needed, but it can complete the missing dimension.
+They also deliver global data, but orientation and not position. 
+This approach delivers only one of the three needed degrees of freedom, but it can complete the missing dimension.
 
 % - global positioning
 %   GPS
@@ -310,15 +310,14 @@ This approach delivers only one of the three degrees of freedom needed, but it c
 %   - poles from 2006
 %   - lines on the game field
 
-For relative position measurement, one has the choice to measure distance, velocity or acceleration.
-Every approach has its advantages, depending on the use case.
-When aiming for the distance travelled, it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the twice integration.\\
-When measuring acceleration, one has the choice between industrial grade accelerometers as used e.g.\ in aeroplanes, and consumer grade accelerometers based on the piezoelectric effect.\\
-Speedometers exist in various implementations based on the Doppler effect, e.g.\ radar.\\
-Distance meters can be mechanical or optical.
-The simplest mechanical distance meter is a measuring tape.
-Or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
-In the last decade, another electronic approach was developed: optical distance meters based on comparing images for translational displacement, as used in optical computer mice.
+For relative position measurement there is the choice to measure distance, velocity or acceleration.
+Every approach has its advantages depending on the use case.
+When aiming for the travelled distance it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the twice integration.\\
+When measuring acceleration there is the choice between industrial grade accelerometers as used e.g.\ in aeroplanes and consumer grade accelerometers based on the piezoelectric effect.\\
+Speedometers exist in various implementations based on the Doppler effect e.g.\ radar.\\
+Distance metres can be mechanical or optical.
+The simplest mechanical distance metre is a measuring tape, or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
+In the last decade another electronic approach was developed: optical distance metres based on comparing images for translational displacement, as used in optical computer mice.
 
 % - relative positioning
 %   - acceleration
@@ -337,98 +336,160 @@ Every approach has properties to evaluate:
   \item number of dimensions of movement data one sensor delivers
   \item linearity and deviation of data
   \item length of time of a single measurement
-  \item lag between measurement and data availability
+  \item time lag between measurement and data availability
   \item highest possible frequency of measurements
   \item resilience against reference surface distance changes
   \item maximum and minimum distance to reference surface
   \item surface state requirements
   \item resilience against environmental changes
-  \item influence of the sensor to the environment 
+  \item influence of the sensor on the environment 
   \item size and power requirements of the sensor
   \item cost of the sensors for three dimensions
 \end{itemize}
 
-In preparation for this work, a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
+In preparation for this work a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
 
 
-\subsection{Possible Odometry Sensors Types}
+\subsection{Possible odometry sensors types}
 
 
 
 \subsubsection{Accelerometers}
 
-An accelerometer consists mainly of flexible mounted mass that is under the influence of a force.
+An accelerometer consists mainly of flexible mounted mass, which is under the influence of a force.
 If the mounting consists of springs, the displacement is linear to the applied force.
 This displacement is then measured.
-Under normal circumstances on earth, every object is under the influence of the gravitational force.
-Therefore, 1\,g must be subtracted from the result.
+Under normal circumstances on earth every object is under the influence of the gravitational force.
+Therefore~1\,g must be subtracted from the result.
 
-In commercial sensors, piezoelectric elements are used to convert the force into a signal.
-In the last years, the use of micro electro-mechanical systems (MEMS) has been increased significantly.
-Sensors for three dimensions are available now in tiny package formats at low cost for consumer applications.
+In commercial sensors piezoelectric elements are used to convert the force into a signal.
+In the last years the use of micro electro-mechanical systems (MEMS) has been increased significantly.
+Sensors for three dimensions are now available in tiny package formats at low cost for consumer applications.
 
 \subsubsection{Gyroscopes}
 
-A gyroscope is an inertial sensor, that detects the change of position.
-Historically, they were flywheels mounted in a Cardan suspension. 
-Based on the principles of conservation of angular momentum, when spin up they remain at their orientation.
+Gyroscopes are an inertial sensor, which detect the change of position.
+Historically they were flywheels mounted in a Cardan suspension, based on the principles of conservation of angular momentum.
+Once spinned up they remain at their orientation.
 
-Today they are implemented as MEMS similar to accelerometers mentioned.
+Today they are implemented as MEMS similar to  the before mentioned accelerometers.
 Often they are even combined with accelerometers in a single chip package to 6-dimensional sensors.
 
 
-\subsubsection{Ultrasonic Doppler Velocimetry}
+\subsubsection{Ultrasonic Doppler velocimeters}
 
-Ultrasonic Doppler velocimeters  work similar to ultrasonic distance sensors.
+Ultrasonic Doppler velocimeters work similar as ultrasonic distance sensors.
+Ultrasonic distance sensors were used in the first robot generation of the \MH for collision detection.
+
+As on every Doppler measurement, its accuracy is directly dependent on the used wavelengths.
+At ultrasonic sensors wavelengths around~100\,kHz are used. 
+This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.
+
 The main use today is in liquid flow  measurements.
 
 
-\subsubsection{Microwave Doppler Velocimetry (Radar)}
+
+\subsubsection{Microwave Doppler velocimeters (Radar)}
 
 Radar is an umbrella term for object detection systems utilizing electromagnetic waves from 300\,MHz up to 3\,THz~\cite{nrt}.
 It can be used to measure the distance of objects and also their speed through the Doppler effect.
 Depending on the object distance, different wavelength are used.
-For short-range measurements, e.g.\ radar guns, and also for speed measurements on moving vehicles itself, short-range microwave sensors with 24\,GHz are used.~\cite{s_r_radar}
+For short-range measurements short-range microwave sensors with~24\,GHz are used e.g.\ radar guns and also for speed measurements on moving vehicles itself~\cite{s_r_radar}.
 
-\subsubsection{Laser interferometry}
+\subsubsection{Laser interferometers}
 
-Speed measurement with laser interferometry is divided into two approaches, one called Laser Doppler Velocimetry and the other is referred as Laser Doppler Vibrometry.
-In Laser Doppler Velocimetry two coherent laser sources are intersected on the moving target surface at different angles.
+Speed measurement with laser interferometry is divided into two approaches.
+One called Laser Doppler velocimetry and the other is referred as Laser Doppler vibrometry.
+
+In Laser Doppler velocimetry two coherent laser sources are intersected on the moving target surface at different angles.
 The interference of the two beams creates a set of straight fringes. 
-Particles of the surface moving thorough the fringes reflect light on the constructive interferences.
-The resulting frequency is then captured by a photo diode.
+Particles of the surface, moving through the fringes, reflect light on the constructive interferences.
+The resulting frequency is then captured by a photo diode~\cite{laser_vel}.
 
 % source: WP
 
-In a Laser Doppler Vibrometer the beam is split into two coherent beams, one is reflected and interfered with the original beam, which is collected in a photo diode. 
-The frequency shift between the two results in an overtone at the detector.
+In a Laser Doppler vibrometer the beam is split into two coherent beams.
+One beam is reflected and then interfered with the second beam and afterwards collected in a photo diode. 
+The frequency shift between the two beams results in an overtone at the detector.
 
 % source: WP
 
-\subsubsection{One-dimensional Optical Spatial Frequency Filtration}
-1/4
+%\subsubsection{One-dimensional Optical Spatial Frequency Filtration}
+%1/4
 
 
 
-\subsubsection{Industrial/Custom-build Optical Speed Sensor}
-        Daniel's approach~\cite{Hrach2006}
-        laser speckle applications (Dehnungsmessung) 
-1/4
-\subsubsection{Optical Mice}
-1/2
+\subsubsection{Industrial/Custom-build optical speed sensors}
 
-\subsection{Current Implementations used in RoboCup}
+The operation of an optical speed sensor is based on comparison of sequentially acquired images from a surface.
+From the images, features are extracted, and their position is compared with similar features on the next frame. 
+
+Such optical systems are common in industrial and consumer sensors.
+Examplary uses are speed sensors for conveyor belts.
+
+The components of an optical speed sensor are usually a high-speed camera, acquiring the images from the surface, and a Digital Signal Processor (DSP) for analysing the images.
+In industrial systems the cameras are usually fixedly mounted and are connected to an external processing device~\cite{opt_vel}.
+
+When the surface contrast is not sufficient to extract enough features for tracking, a little trick helps.
+Every sufficiently rough surface creates a so-called \emph{speckle} when illuminated with a coherent light source.
+This comes from the interference of reflected light waves with different phases due to the roughness of the surface.
+Therefore illumination with a laser light source increases the contrast a lot on otherwise low contrast surfaces.
+This is used e.g. in laser speckle strain measurement~\cite{strain}.
+
+When developing such a system from scratch, a lot of time and effort is needed.
+This has been shown by the development of an optical slip-angle sensor~\cite{Hrach2006} for the TUG~Racing~Team.
+
+% 1/4
+\subsubsection{Optical mice}
+
+The most common optical speed sensor is used in newer computer mice.
+Historically computer mice featured a rolling ball with two attached axles (one for each axis), whose rotations are turned into coordinates.
+In the last 10~years this mechanical principle has been superseded by a strictly electronic approach.
+
+A standard optical mouse consists in a tiny camera taking images of the surface illuminated by an LED.
+The processing of the images is done by an integrated DSP.
+The sensor outputs movement data to an external microcontroller, which also handles the mouse buttons and translates all data to the~USB or PS/2 protocol.
+
+At the time of the search~(2008), the fastest gaming mice had a maximum speed of 1\,m/s.\\
+They operate at speeds up to 7\,000\,Hz.
+Another advantage is their small size and minimal power requirement.\\
+Being constructed as an exact gaming device also has disadvantages for RoboCup use:
+To allow relocating the mouse very fast while lifting off, the best mice used for gaming are designed with a very short working range of only 2\,mm.
+
+% - max. 1mps
+% - due to constructed as an exact gaming device, they have a very short working range of only 2\,mm to allow lifting off and relocating the mouse very fast.
+
+Laser mice use the same principle as the before mentioned laser speckle sensor.
+The only difference to normal mice is the use of a coherent laser source as illumination instead of a LED.
+The sensor itself remains the same, but due to the higher contrast achieved through the speckle, they work on more surfaces than common optical mice.
+
+ 
+% 1/2
+
+\subsection{Current implementations used in RoboCup}
 
 \subsubsection{\MH}
+
+
       wheel encoder
         probleme
-\subsubsection{Other Teams}
+
+Another common construction error of the Krikkit robot was a loose connection between the gearing box and the motor.
+The rotary encoders were mounted on the motors and not on the wheel.
+When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance travelled. 
+This resulted in complete disorientation of the localization software.\\
+But faulty mechanics is not always responsible for this type of error.
+It is sufficient if a wheel looses contact with the ground for a moment.
+This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
+
+
+\subsubsection{Other teams}
       2. satz raeder
         probleme
 
   accelerometers -> only nao for inertial informations, not for navigation
 
-\subsection{Decision for a Type of Sensor}
+\subsection{Decision for a type of sensor}
 
 The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
 
@@ -439,35 +500,35 @@ The focus lies on cheap consumer-grade sensor based solutions, due to the hefty 
         2G spitzenvibration -> no
 
 
-\section{Sensor Design}
+\section{Sensor design}
 
 block diagram
   ADNS + optic
   XC
   PC
 
-\subsection{Optical System}
+\subsection{Optical system}
   requirements
 
 micro-bench system
 
 Sketch
 
-\subsubsection{Optical Path calculations: Original Mouse Setup}
+\subsubsection{Optical path calculations: Original mouse setup}
 
-\subsubsection{Optical Path calculations: 2-Lens Setup}
+\subsubsection{Optical path calculations: 2-Lens setup}
 
-\subsubsection{Optical Path calculations: Telecentric Setup}
+\subsubsection{Optical path calculations: Telecentric setup}
 
 
-\subsubsection{Sensor mounting \& Calibration}
+\subsubsection{Sensor mounting and calibration}
 
 Sketch with adjusting screws in all dimensions
 
 calibration process
   laser
 
-\subsubsection{Lens 2 \& Aperture Mounting}
+\subsubsection{Lens 2 and aperture mounting}
 
 manufacturing drawing
 
@@ -483,7 +544,7 @@ manufacturing drawing
   PCB print
 
 
-\subsection{Electrical Design}
+\subsection{Electrical design}
 
 \subsubsection{The ADNS 6010}
 
@@ -498,7 +559,7 @@ ADNS-testplatine
 
   PCB drawing
 
-\subsubsection{The XC164CM Microcontroller}
+\subsubsection{The XC164CM microcontroller}
 
 Specs etc
 
@@ -513,7 +574,7 @@ Wiring of the Evaluation Board
 
 \subsection{Software}
 
-\subsubsection{uC - Software}
+\subsubsection{Microcontroller-software}
 
   XC-Code
     requirements
@@ -526,23 +587,23 @@ Wiring of the Evaluation Board
 
 \subsubsection{PyQT GUI}
 
-\subsubsection{Octave Analysis Scripts}
+\subsubsection{Octave analysis scripts}
 
-\section{Experimental Setup}
+\section{Experimental setup}
 
 - requirements
 
-\subsection{Mechanical Design of the Testbed}
+\subsection{Mechanical design of the testbed}
 
 block diagram
 
-\subsection{Motor \& Disk}
+\subsection{Motor and disk}
 
-\subsection{Reference Speed Sensor}
+\subsection{Reference speed sensor}
       Picture of sensor from Datasheet
       electrical setup used
 
-\subsection{Microcontroller \& Host PC}      
+\subsection{Microcontroller and host PC}      
 
 \section{Experimental results}
 
@@ -565,14 +626,14 @@ block diagram
 
 \subsubsection{Carpet 3}
 
-\subsubsection{Game Field Lines}
+\subsubsection{Game field lines}
 
 \subsection{Interpretation}
 
   plots
   ergebnisse
 
-\section{Conclusions \& Outlook}
+\section{Conclusions and outlook}
 
   evaluation of a combination of IR-LED illumination and Laser illumination
 

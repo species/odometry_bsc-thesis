@@ -4,6 +4,8 @@
 
 %% Created for Markus Brandner at 2010-11-11 17:08:35 +0100 
 
+%% bibliography englischer stil
+% nachname, vorname (year of pub). \em{titel}. ort: verlag.
 
 %% Saved with string encoding Unicode (UTF-8) 
 
@@ -45,7 +47,27 @@
 	Organization = {Avago Technologies},
 	Title = {ADNB-6011 and ADNB-6012 High Performance Laser Mouse Bundles},
 	Type = {Data Sheet},
-	Year = {2008}}
+	Year = {2008}
+}
+
+% Principle Laser Doppler velocity
+@manual{laser_vel,
+	Organization = {Canon},
+	Title = {LV-20Z, LV-50Z LASER DOPPLER VELOCITY SENSOR},
+	Type = {Data Sheet},
+	Year = {2005}
+}
+
+% trennung sensor/verarbeitung, 32W verbrauch, 500+1100g gewicht
+@manual{opt_vel,
+	Organization = {CORRSYS-DATRON Sensorsysteme GmbH},
+	Title = {CORREVIT\textregistered L-350 Aqua},
+	Type = {Data Sheet},
+	Year = {2008},
+  Month = oct
+}
+
+
 
 @manual{microbench,
 	Howpublished = {\url{http://www.linos.com/pages/mediabase/original/Brochure_Microbench_lower-res_9102.pdf}},
@@ -107,7 +129,33 @@
 	Title = {Comprehensive Omni-Directional Soccer player Robots},
 	Url = {\url{http://iranadro.com/2.pdf}},
 	Year = 2007,
-	Bdsk-Url-1 = {http://iranadro.com/2.pdf}}
+	Bdsk-Url-1 = {http://iranadro.com/2.pdf}
+}
+
+% ultrasonic durch kleinere wellenlaenge genauer.
+% allerdings nur bis 30 kmh durch wind und wirbel (bedingung traegermedium v << c nicht mehr erfuellt) 
+% Janus-Prinzip erklaert (kompensation nickwinkel)
+% Mikrowellen erst ab hoeheren geschwindikeiten genau
+% mikrowellen eher ungenau durch hohe wellenlaenge
+@inproceedings{ultrasonic,
+	Author = {P. Heide and M. Joppich and R. Schubert},
+	Title = {Ber{\"u}hrungslose {G}eschwindigkeitsmessung nach dem {D}opplerprinzip mit {U}ltraschall und {M}ikrowellen},
+  Booktitle = {Fachtagung ``SENSOREN -- Technologie und Anwendung"},
+	Year = 1992,
+  Publisher = {Bad Nauheim},
+  Organization = {Zentrale Forschung und Entwicklung, Siemens AG},
+  Month = Mar
+
+}
+
+@article{strain,
+	Author = {Thomas Thurner and Sebastian. C. Schneider and Bernhard. G. Zagar},
+	Journal = {Technisches Messen},
+	Number = {2},
+	Pages = {71-78},
+	Title = {Laser Speckle Strain Measurement and its Application in Material Science},
+	Volume = {70},
+	Year = 2003}
 
 @article{telec,
 	Author = {Rainer Schuhmann and Thomas Th{\"o}ni\ss},
