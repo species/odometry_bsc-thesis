@@ -230,6 +230,7 @@ There are more possible use cases for odometry not implemented yet e.g.\ anti-sl
 
 
 \subsection{Motivation for this work}
+\label{motivation}
   
 Current odometry systems of the Krikkit generation are based on the rotational speed of the wheels.
 This has the major disadvantage of the accuracy being bound to the slip of the wheels. %FIXXME English being okay?
@@ -385,6 +386,10 @@ As on every Doppler measurement, its accuracy is directly dependent on the used 
 At ultrasonic sensors wavelengths around~100\,kHz are used. 
 This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.
 
+The carrier medium for the waves is air, 
+
+When mounted on mobile systems, 
+
 The main use today is in liquid flow  measurements.
 
 
@@ -470,28 +475,58 @@ The sensor itself remains the same, but due to the higher contrast achieved thro
 
 \subsubsection{\MH}
 
+The current odometry system of the Krikkit robots is based on rotary encoders attached to each of the axles. 
+The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
+The data from all three rotary encoders is collected by the motion controller, converted into $dr$, $ds$, $d\phi$ coordinate values and send out on the CAN-bus.
 
-      wheel encoder
-        probleme
+Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
+An effect known from all wheels is the slip on accelerating and braking.
+The use of Mecanum wheels complicates the relationship between robot and the floor.
+Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
+Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
+The direction of the fibre results in globally different friction factors in every dimension.
 
-Another common construction error of the Krikkit robot was a loose connection between the gearing box and the motor.
-The rotary encoders were mounted on the motors and not on the wheel.
+Another common construction error of the power train used in the Krikkit robots was a loose connection between the gearing box and the motor.
+The rotary encoders are mounted on the motors and not on the wheel.
 When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance travelled. 
-This resulted in complete disorientation of the localization software.\\
-But faulty mechanics is not always responsible for this type of error.
-It is sufficient if a wheel looses contact with the ground for a moment.
+This resulted in complete disorientation of the localisation software on an overrunning motor.\\
+But faulty mechanics is not always responsible for this type of error, it is sufficient if a wheel looses contact with the ground for a moment.
 This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
 
+For global positioning, in addition to the vision system, a compass is used.
+Most of the time this works well, but once in a while we had problems with massive steel girders below the game field.
+Due to the over-weighting of compass data, the localisation software went amok.
+Therefore data quality information would be highly appreciated on every sensor used.
 
 \subsubsection{Other teams}
-      2. satz raeder
-        probleme
 
-  accelerometers -> only nao for inertial informations, not for navigation
+Rotary encoders on wheels are widely used, e.g. in the team ISocRob~\cite{isocrob}.
+Other teams like IsePorto~\cite{iseporto} also accomplish the rotary encoders with a compass.
+
+To counter at least the problem with the overrunning wheels when accelerating, e.g. the Iranian Team ADRO~\cite{adro} uses a second set of wheels for measuring odometry data.
+
+The use of consumer computer mice in the \MSL has been tested by the Milan~Robocup~Team.
+They used two optical mice mounted on the bottom of the robot.
+The main advantages of this approach are the independence of the wheels and the low cost.
+The availability of more dimensions than needed allowed for the corrections of non-systematic errors~\cite{two_mice}.
+
+Accelerometers are used in other leagues, e.g. the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
+They are used only for inertial informations, not yet for navigation~\cite{zadeat}.
+
 
 \subsection{Decision for a type of sensor}
 
 The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
+Advantages of industrial solutions would be their robustness and in most cases their native CAN-Bus interface.
+But the big disadvantages of industrial sensors are the their size, weight and power requirement.
+Finished industrial radars, laser interferometers and optical speeds sensors mostly use 230\,V~AC, require an external processing unit and are simply too big and heavy for middle size robots~\cite{laser_vel, opt_vel, s_r_radar}
+
+The approach of developing an optical sensor from scratch was shown to be successful for the automotive environment~\cite{Hrach2006}.
+But it would need a lot of time and effort to shrink the gadget enough to fit inside a middle size robot.
+At last, the components involving the camera and the FPGA processor would be unaffordable for even one robot.
+
+
+
 
   entscheidung fuer einen Sensortyp
     - why/why not...
