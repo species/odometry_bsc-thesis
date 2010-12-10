@@ -351,14 +351,16 @@ Every approach has properties to evaluate:
 In preparation for this work a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
 
 
-\subsection{Possible odometry sensors types}
+\subsection{Possible new odometry sensors types}
 
+In this section technologies to be considered as improved odometry sensor are described in general.
+The reasons for selecting a particular sensor type for evaluation in this work are explained in~\autoref{decision}.
 
 
 \subsubsection{Accelerometers}
 
-An accelerometer consists mainly of flexible mounted mass, which is under the influence of a force.
-If the mounting consists of springs, the displacement is linear to the applied force.
+Accelerometers consists mainly of flexible mounted masses, which are under the influence of a force.
+If the mounting consists of springs, the displacement is linear to an applied force.
 This displacement is then measured.
 Under normal circumstances on earth every object is under the influence of the gravitational force.
 Therefore~1\,g must be subtracted from the result.
@@ -369,9 +371,9 @@ Sensors for three dimensions are now available in tiny package formats at low co
 
 \subsubsection{Gyroscopes}
 
-Gyroscopes are an inertial sensor, which detect the change of position.
-Historically they were flywheels mounted in a Cardan suspension, based on the principles of conservation of angular momentum.
-Once spinned up they remain at their orientation.
+Gyroscopes are inertial sensors, which detect the change of position.
+Historically they consisted in a flywheel mounted in a Cardan suspension.
+Once spinned up they remain at their orientation, based on the principles of conservation of angular momentum.
 
 Today they are implemented as MEMS similar to  the before mentioned accelerometers.
 Often they are even combined with accelerometers in a single chip package to 6-dimensional sensors.
@@ -386,11 +388,13 @@ As on every Doppler measurement, its accuracy is directly dependent on the used 
 At ultrasonic sensors wavelengths around~100\,kHz are used. 
 This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.
 
-The carrier medium for the waves is air, 
+When working with ultrasonic sensors on mobile systems, one thing has to be taken into consideration: 
+As on every wave-based system, the relative speed of the medium~(air) has to be considerably smaller than the wave speed ($v \ll c$).
+Through the relatively low velocity of sound, only speeds up to~30\,km/h are feasible because of the head wind and turbulences~\cite{ultrasonic}.
 
-When mounted on mobile systems, 
+Also, ultrasonic Doppler velocimeters subtle to vibrations due to low frequencies~\cite{agri}.
 
-The main use today is in liquid flow  measurements.
+The main use today is in liquid flow measurements.
 
 
 
@@ -455,14 +459,11 @@ A standard optical mouse consists in a tiny camera taking images of the surface 
 The processing of the images is done by an integrated DSP.
 The sensor outputs movement data to an external microcontroller, which also handles the mouse buttons and translates all data to the~USB or PS/2 protocol.
 
-At the time of the search~(2008), the fastest gaming mice had a maximum speed of 1\,m/s.\\
+At the time of the search~(2008), the fastest gaming mice had a maximum speed of 1.1\,m/s.\\
 They operate at speeds up to 7\,000\,Hz.
 Another advantage is their small size and minimal power requirement.\\
 Being constructed as an exact gaming device also has disadvantages for RoboCup use:
 To allow relocating the mouse very fast while lifting off, the best mice used for gaming are designed with a very short working range of only 2\,mm.
-
-% - max. 1mps
-% - due to constructed as an exact gaming device, they have a very short working range of only 2\,mm to allow lifting off and relocating the mouse very fast.
 
 Laser mice use the same principle as the before mentioned laser speckle sensor.
 The only difference to normal mice is the use of a coherent laser source as illumination instead of a LED.
@@ -477,7 +478,7 @@ The sensor itself remains the same, but due to the higher contrast achieved thro
 
 The current odometry system of the Krikkit robots is based on rotary encoders attached to each of the axles. 
 The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
-The data from all three rotary encoders is collected by the motion controller, converted into $dr$, $ds$, $d\phi$ coordinate values and send out on the CAN-bus.
+The data from all three rotary encoders is collected by the motion controller, converted into $dr$,~$ds$,~$d\phi$ coordinate values and send out on the CAN-bus.
 
 Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
 An effect known from all wheels is the slip on accelerating and braking.
@@ -490,7 +491,7 @@ Another common construction error of the power train used in the Krikkit robots 
 The rotary encoders are mounted on the motors and not on the wheel.
 When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance travelled. 
 This resulted in complete disorientation of the localisation software on an overrunning motor.\\
-But faulty mechanics is not always responsible for this type of error, it is sufficient if a wheel looses contact with the ground for a moment.
+But faulty mechanics are not always responsible for this type of error, it is sufficient if a wheel looses contact with the ground for a moment.
 This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
 
 For global positioning, in addition to the vision system, a compass is used.
@@ -515,6 +516,7 @@ They are used only for inertial informations, not yet for navigation~\cite{zadea
 
 
 \subsection{Decision for a type of sensor}
+\label{decision}
 
 The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
 Advantages of industrial solutions would be their robustness and in most cases their native CAN-Bus interface.
@@ -523,18 +525,44 @@ Finished industrial radars, laser interferometers and optical speeds sensors mos
 
 The approach of developing an optical sensor from scratch was shown to be successful for the automotive environment~\cite{Hrach2006}.
 But it would need a lot of time and effort to shrink the gadget enough to fit inside a middle size robot.
-At last, the components involving the camera and the FPGA processor would be unaffordable for even one robot.
+At last, the components involving the camera and the FPGA-processor would be unaffordable for even one robot.
+
+On ultrasonic sensors, most commercial sensors have $> $30\,cm surface distance, we have 20\,mm.
+Reflections are another problem in ultrasonic measurement, we must use at least~3 sensors in close proximity to each other.
+And due to the expected air turbulences close to the wheels as well as the reflection problem, the ultrasonic approach was rejected.
+
+The main criterion against radar sensors are the very different reflection rates on different undergrounds (carpet, wood, concrete, steel, \dots).
+The underground below the carpet is not known prior to a tournament, therefore the sensor is not guaranteed to work.
+Other disadvantages are low accuracy at low speeds, and that radar is disturbed by nearby moving objects.
+
+At time of search, consumer grade accelerometers/gyroscopes were not accurate enough to counter the summation errors.
+An industrial Xsens~\cite{xsens} sensor would have better accuracy, but with a price tag of~\euro\,1.000 it was out of our budget.
+
+
+The use of custom-build laser interferometers, especially vibrometers was considered.
+The Institute of Electrical Measurement and Measurement Signal Processing does some work in this field.
+The approach looked promising, but was not followed due to lack of time.
+
+Mouse sensors were considered promising from the start of this project.
+They are cheap, and fit into the size and power requirements of a middle size robot.
+The disadvantages of missing range and maximum speed could be negated by replacing their optics.
+By adding more magnification and setting the focus plane farther away from the sensor, maximum speed and range could be extended.
+
+With the use of two sensors, the needed three degrees of freedom can be reached with extra redundancy. 
+The \MH requires odometry data delivered on the CAN-bus, not the mice's native USB.
+To convert four dimensions of data from two sensors into the needed $dr$,~$ds$,~$d\phi$ values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.
+The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
+And last, but not least we had a sample sensor sponsored from a German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
 
 
 
+%  entscheidung fuer einen Sensortyp
+%    - why/why not...
+%    - ...
+%    - ...
+%        2G spitzenvibration -> no
 
-  entscheidung fuer einen Sensortyp
-    - why/why not...
-    - ...
-    - ...
-        2G spitzenvibration -> no
-
-
+\clearpage
 \section{Sensor design}
 
 block diagram
