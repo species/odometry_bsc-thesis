@@ -24,6 +24,8 @@
 \usepackage[left]{eurosym}            % Euro symbol
 \usepackage{hyperref}
 
+\usepackage{needspace} %preserve some space before page break, e.g. at a listings heading
+
 \newcommand{\mbnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Brandner NOTE: #1}}}
 \newcommand{\mmnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Maier NOTE: #1}}}
 \newcommand{\MH}{\emph{``Mostly Harmless''} RoboCup Team\xspace}
@@ -130,7 +132,7 @@ The $45^\circ$\mbox{-}Arrangement of the wheels (see~\autoref{fig:mec-wheel}) pr
 The three wheels are arranged in $120^\circ$\mbox{-}steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless~DC motor for each axis.
 Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
 The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
-All electronic components are connected via CAN-Bus.
+All electronic components are connected via CAN-bus.
 
 \begin{figure}[hb]
   \begin{minipage}{0.45\textwidth}
@@ -158,6 +160,7 @@ With the knowledge gained, lost and acquired again the successor of the Krikkit 
 The next generation of robots is in development since mid-2010.
 It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
 
+\Needspace*{4\baselineskip}
 The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME only works inside sentences, want not to break up before the listing
 \begin{itemize}
   \item omnidirectional drive with the three Mecanum Wheels
@@ -238,9 +241,9 @@ The problem is the non-uniform structure of the game field carpet, which has dif
 Due to the different speeds and angles of the Mecanum wheels it leads to deviations even when driving a straight line.
 The errors accumulate over time, resulting in $90^\circ$~deviation on 10\,m straight distance driven.
 
+\Needspace*{4\baselineskip}
 Therefore an wheel-independent odometry system has to be developed.
 The goals of this work were:
-
 \begin{itemize}
   \item Gathering requirements for a sensor
   \item Search for different types of sensors
@@ -253,7 +256,8 @@ The goals of this work were:
 The \MSL provides an ideal testbed for mobile robotics.
 The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
 
-The range of application in the \MSL demands the following design parameters for an odometry sensor:\\ %% FIXXME no page break here!
+\Needspace*{4\baselineskip}
+The range of application in the \MSL demands the following design parameters for an odometry sensor: %% FIXXME no page break here!
 \begin{itemize}
   \item must deliver linear and rotational accurate data in three degrees of freedom
   \item must work on green carpet, other surfaces are bonus
@@ -281,7 +285,7 @@ The sensors have to be cheap enough to be affordable for series for up to six ro
 On the Krikkit3G robots the available space is limited to $50\times50\times110$\,mm$^3$ for each of the three proposed sensor mount points.
 The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
 Due to the new independent wheel suspension the operating range of the sensor must be greater than $\pm 5$\,mm of the reference plane.
-Data must be output on the robot's CAN-Bus.
+Data must be output on the robot's CAN-bus.
 As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
 
 
@@ -330,6 +334,7 @@ In the last decade another electronic approach was developed: optical distance m
 %   optical distance meters based on comparing images for translational displacement, as used in optical computer mice
 
 
+\Needspace*{4\baselineskip}
 Every approach has properties to evaluate:
 \begin{itemize}
   \item maximum and minimum speed capability
@@ -443,7 +448,7 @@ When the surface contrast is not sufficient to extract enough features for track
 Every sufficiently rough surface creates a so-called \emph{speckle} when illuminated with a coherent light source.
 This comes from the interference of reflected light waves with different phases due to the roughness of the surface.
 Therefore illumination with a laser light source increases the contrast a lot on otherwise low contrast surfaces.
-This is used e.g. in laser speckle strain measurement~\cite{strain}.
+This is used e.g.\ in laser speckle strain measurement~\cite{strain}.
 
 When developing such a system from scratch, a lot of time and effort is needed.
 This has been shown by the development of an optical slip-angle sensor~\cite{Hrach2006} for the TUG~Racing~Team.
@@ -466,7 +471,7 @@ Being constructed as an exact gaming device also has disadvantages for RoboCup u
 To allow relocating the mouse very fast while lifting off, the best mice used for gaming are designed with a very short working range of only 2\,mm.
 
 Laser mice use the same principle as the before mentioned laser speckle sensor.
-The only difference to normal mice is the use of a coherent laser source as illumination instead of a LED.
+The only difference to normal mice is the use of a coherent laser source as illumination instead of an LED.
 The sensor itself remains the same, but due to the higher contrast achieved through the speckle, they work on more surfaces than common optical mice.
 
  
@@ -478,60 +483,60 @@ The sensor itself remains the same, but due to the higher contrast achieved thro
 
 The current odometry system of the Krikkit robots is based on rotary encoders attached to each of the axles. 
 The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
-The data from all three rotary encoders is collected by the motion controller, converted into $dr$,~$ds$,~$d\phi$ coordinate values and send out on the CAN-bus.
+The data from all three rotary encoders is collected by the motion controller, converted into $dr$,~$ds$,~$d\phi$ - coordinate values and send out on the CAN-bus.
 
 Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
 An effect known from all wheels is the slip on accelerating and braking.
 The use of Mecanum wheels complicates the relationship between robot and the floor.
 Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
 Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
-The direction of the fibre results in globally different friction factors in every dimension.
+The direction of the fibre results in globally different friction factors in every direction.
 
 Another common construction error of the power train used in the Krikkit robots was a loose connection between the gearing box and the motor.
-The rotary encoders are mounted on the motors and not on the wheel.
-When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance travelled. 
-This resulted in complete disorientation of the localisation software on an overrunning motor.\\
-But faulty mechanics are not always responsible for this type of error, it is sufficient if a wheel looses contact with the ground for a moment.
+The rotary encoders are mounted on the motors and not on the wheels.
+When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
+This resulted in complete disorientation of the localisation software during an overrunning motor.\\
+But faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
 This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
 
 For global positioning, in addition to the vision system, a compass is used.
 Most of the time this works well, but once in a while we had problems with massive steel girders below the game field.
 Due to the over-weighting of compass data, the localisation software went amok.
-Therefore data quality information would be highly appreciated on every sensor used.
+Therefore data quality information would be highly appreciated from every sensor used.
 
 \subsubsection{Other teams}
 
-Rotary encoders on wheels are widely used, e.g. in the team ISocRob~\cite{isocrob}.
+Rotary encoders on wheels are widely used, e.g.\ in the team ISocRob~\cite{isocrob}.
 Other teams like IsePorto~\cite{iseporto} also accomplish the rotary encoders with a compass.
 
-To counter at least the problem with the overrunning wheels when accelerating, e.g. the Iranian Team ADRO~\cite{adro} uses a second set of wheels for measuring odometry data.
+To counter at least the problem with the overrunning wheels when accelerating, e.g.\ the Iranian Team ADRO~\cite{adro} uses a second set of wheels for measuring odometry data.
 
 The use of consumer computer mice in the \MSL has been tested by the Milan~Robocup~Team.
 They used two optical mice mounted on the bottom of the robot.
 The main advantages of this approach are the independence of the wheels and the low cost.
 The availability of more dimensions than needed allowed for the corrections of non-systematic errors~\cite{two_mice}.
 
-Accelerometers are used in other leagues, e.g. the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
+Accelerometers are used in other leagues, e.g.\ the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
 They are used only for inertial informations, not yet for navigation~\cite{zadeat}.
 
 
 \subsection{Decision for a type of sensor}
 \label{decision}
 
-The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
-Advantages of industrial solutions would be their robustness and in most cases their native CAN-Bus interface.
-But the big disadvantages of industrial sensors are the their size, weight and power requirement.
-Finished industrial radars, laser interferometers and optical speeds sensors mostly use 230\,V~AC, require an external processing unit and are simply too big and heavy for middle size robots~\cite{laser_vel, opt_vel, s_r_radar}
+The focus lied on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
+Advantages of industrial solutions would be their robustness and in most cases their native CAN-bus interface.
+But the big disadvantages of industrial sensors are the their size, weight and power requirements.
+Finished industrial radars, laser interferometers and optical speeds sensors mostly use 230\,V~AC, require an external processing unit and are simply too big and heavy for middle size robots~\cite{laser_vel, opt_vel, s_r_radar}.
 
 The approach of developing an optical sensor from scratch was shown to be successful for the automotive environment~\cite{Hrach2006}.
 But it would need a lot of time and effort to shrink the gadget enough to fit inside a middle size robot.
-At last, the components involving the camera and the FPGA-processor would be unaffordable for even one robot.
+At last, the components involving the camera and the needed FPGA-processor would be unaffordable for even one robot.
 
 On ultrasonic sensors, most commercial sensors have $> $30\,cm surface distance, we have 20\,mm.
 Reflections are another problem in ultrasonic measurement, we must use at least~3 sensors in close proximity to each other.
 And due to the expected air turbulences close to the wheels as well as the reflection problem, the ultrasonic approach was rejected.
 
-The main criterion against radar sensors are the very different reflection rates on different undergrounds (carpet, wood, concrete, steel, \dots).
+The main criterions against radar sensors are the very different reflection rates on different undergrounds (carpet, wood, concrete, steel, \dots).
 The underground below the carpet is not known prior to a tournament, therefore the sensor is not guaranteed to work.
 Other disadvantages are low accuracy at low speeds, and that radar is disturbed by nearby moving objects.
 
@@ -546,13 +551,12 @@ The approach looked promising, but was not followed due to lack of time.
 Mouse sensors were considered promising from the start of this project.
 They are cheap, and fit into the size and power requirements of a middle size robot.
 The disadvantages of missing range and maximum speed could be negated by replacing their optics.
-By adding more magnification and setting the focus plane farther away from the sensor, maximum speed and range could be extended.
-
+By adding more magnification and setting the focus plane farther away from the sensor, maximum speed and range could be extended.\\
 With the use of two sensors, the needed three degrees of freedom can be reached with extra redundancy. 
 The \MH requires odometry data delivered on the CAN-bus, not the mice's native USB.
-To convert four dimensions of data from two sensors into the needed $dr$,~$ds$,~$d\phi$ values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.
+To convert four dimensions of data from two sensors into the needed $dr$,~$ds$,~$d\phi$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.\\
 The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
-And last, but not least we had a sample sensor sponsored from a German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
+And last, but not least we got a sample mouse sensor sponsored from a friendly German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
 
 
 
@@ -609,11 +613,14 @@ manufacturing drawing
 
 \subsection{Electrical design}
 
-\subsubsection{The ADNS 6010}
+Short text describing electrical layout
+
+
+\subsubsection{ADNS 6010 laser mouse sensor}
 
 specs
 
-workflow diagram (from datasheet)
+workflow diagram (from data sheet)
 
 ADNS-testplatine
   requirements
@@ -622,7 +629,7 @@ ADNS-testplatine
 
   PCB drawing
 
-\subsubsection{The XC164CM microcontroller}
+\subsubsection{XC164CM microcontroller}
 
 Specs etc
 
