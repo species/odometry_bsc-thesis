@@ -569,6 +569,48 @@ And last, but not least we got a sample mouse sensor sponsored from a friendly G
 \clearpage
 \section{Sensor design}
 
+The task was the following: Develop an odometry sensor from a given mouse sensor.
+At the beginning of this project, we got a prototype sensor sponsored from (\$ German RC team FIXME).
+
+It consisted of a mechanically modified Razor~Copperhead laser~mouse.
+In this mouse type, a sensor from Avago~Technologies is used, the ADNS-6010.
+The sensor and illumination were dismounted from its~PCB and relocated in a new casing because of mechanical size constraints (see \autoref{fig:m-casing}.
+It was reconnected to its PCB via thin enamelled copper wires.
+It still worked, although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the pins.
+
+\begin{figure}[hb]
+\begin{center}  
+\includegraphics[width=0.5\columnwidth]{figures/Krikkit3G.jpg}
+\caption{\label{fig:m-casing}
+Prototype sensor from (\$ German RC team FIXME).
+The Sensor~IC and the illumination was relocated from the PCB~(1) to an extension mount~(2).
+}   
+\end{center}
+\end{figure}
+
+Two modifications were to make: Providing a CAN interface instead of USB, and creating a new optics system.
+For the new optics system, access to raw sensor image data is needed for focussing the system.
+Reading out raw image data is not possible via the mouse's USB interface, only directly via the SPI~(Serial Port Interface) of the sensor chip.
+Therefore it was chosen to remove the sensor chip from the mouse, and connect it directly to an external microcontroller.
+This kills two birds with one stone.
+The microcontroller can provide a CAN-bus interface, and provides direct access to the sensor.
+
+
+
+We used an Infineon XC164-CM microcontroller evaluation board~\cite{xc}, of which several were available in the \MH.
+For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
+For the mouse sensor, a custom PCB with minimal needed circuit and the needed connections to the microcontroller was designed.
+The electronics part of this work is described in~\autoref{electronics}.
+
+The optical changes to the system with design and implementation are described in~\autoref{optics}.
+
+
+
+The 
+  - implementing the communications protocol from XC to ADNS in the microcontroller software
+  - create a PCB for ADNS with minimal needed circuit.
+  - calculate the needed optical system
+  - 
 
 
 block diagram
@@ -576,44 +618,9 @@ block diagram
   XC
   PC
 
-\subsection{Optical system}
-  requirements
-
-micro-bench system
-
-Sketch
-
-\subsubsection{Optical path calculations: Original mouse setup}
-
-\subsubsection{Optical path calculations: 2-Lens setup}
-
-\subsubsection{Optical path calculations: Telecentric setup}
-
-
-\subsubsection{Sensor mounting and calibration}
-
-Sketch with adjusting screws in all dimensions
-
-calibration process
-  laser
-
-\subsubsection{Lens 2 and aperture mounting}
-
-manufacturing drawing
-
-\subsubsection{Illumination}
-
-  Why here?
-  types of LEDs and Lasers used
- 
-  Illumination PCB
-
-  circuit
-
-  PCB print
-
 
 \subsection{Electrical design}
+\label{electronics}
 
 Short text describing electrical layout
 
@@ -643,6 +650,41 @@ Wiring of the Evaluation Board
   block diagram
 
   circuit
+
+The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.
+
+\subsection{Optical system}
+\label{optics}
+  requirements
+
+micro-bench system
+
+Sketch
+
+\subsubsection{Optical path calculations: Original mouse setup}
+\subsubsection{Optical path calculations: 2-Lens setup}
+\subsubsection{Optical path calculations: Telecentric setup}
+\subsubsection{Sensor mounting and calibration}
+
+Sketch with adjusting screws in all dimensions
+
+calibration process
+  laser
+
+\subsubsection{Lens 2 and aperture mounting}
+
+manufacturing drawing
+
+\subsubsection{Illumination}
+
+  Why here?
+  types of LEDs and Lasers used
+ 
+  Illumination PCB
+
+  circuit
+
+  PCB print
 
 \subsection{Software}
 
@@ -677,6 +719,7 @@ block diagram
 
 \subsection{Microcontroller and host PC}      
 
+\clearpage
 \section{Experimental results}
 
 \subsection{Illumination tests}
@@ -705,6 +748,7 @@ block diagram
   plots
   ergebnisse
 
+\clearpage
 \section{Conclusions and outlook}
 
   evaluation of a combination of IR-LED illumination and Laser illumination
@@ -730,6 +774,7 @@ summe gesamt 49 Seiten (ohne abstract, inhaltsv, bibl.)
 %--------------------------------------------------------%
 % Bibliography
 %--------------------------------------------------------%
+\clearpage
 \addcontentsline{toc}{section}{Bibliography}
 \label{Bibliography}
 \bibliographystyle{plain}
