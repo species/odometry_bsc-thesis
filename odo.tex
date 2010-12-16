@@ -595,37 +595,47 @@ Therefore it was chosen to remove the sensor chip from the mouse, and connect it
 This kills two birds with one stone.
 The microcontroller can provide a CAN-bus interface, and provides direct access to the sensor.
 
+In summary, we have to create a system as shown in~\autoref{fig:block-diag-sens}.
 
+\begin{figure}[hb]
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{figures/block_diagram}
+\caption{\label{fig:block-diag-sens}
+Schemata of the sensor to be developed.
+From left to right:
+Optical system~(1) attached to the mouse sensor,
+custom~PCB~(2) with the mouse sensor connected via SPI to microcontroller~(3), which is itself connected to a host~PC~(4) via serial~port~(RS-232).
+The low level part of the software runs on the microcontroller, and the user interface runs on the host PC.
+}
+
+\end{center}
+\end{figure}
 
 We used an Infineon XC164-CM microcontroller evaluation board~\cite{xc}, of which several were available in the \MH.
-For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
 For the mouse sensor, a custom PCB with minimal needed circuit and the needed connections to the microcontroller was designed.
 The electronics part of this work is described in~\autoref{electronics}.
 
+The Software part is split into low-level communication with the mouse sensor running on the microcontroller, and the controlling and visualising part on the host~PC, see~\autoref{software}.
+
 The optical changes to the system with design and implementation are described in~\autoref{optics}.
-
-
-
-The 
-  - implementing the communications protocol from XC to ADNS in the microcontroller software
-  - create a PCB for ADNS with minimal needed circuit.
-  - calculate the needed optical system
-  - 
-
-
-block diagram
-  ADNS + optic
-  XC
-  PC
 
 
 \subsection{Electrical design}
 \label{electronics}
 
-Short text describing electrical layout
+%Short text describing electrical layout
+
+The ADNS-6010 runs on custom firmware, that must be flashed from the microcontroller to the sensor before motion read is possible.
+Due to reluctant support from Avago Technologies, the firmware was not available as binary.
+Therefore for connecting the microcontroller board with the ADNS-6010, two stages were needed.\\
+The first setup features the microcontroller wire-tapping on the SPI channel between the original mouse microcontroller and the sensor, monitoring the communication, and recording the firmware as it is flashed on the sensor.\\
+Now that we had the firmware, the sensor was unsoldered from the mouse PCB and inserted in a custom PCB with minimal needed circuit for communication with the new microcontroller.
+
+In this subsection, at first the ADNS-6020 laser mouse sensor is introduced, then the XC164CM microcontroller and its development board.
+At last, the needed circuit between the two chips for each stage is shown.
 
 
-\subsubsection{ADNS 6010 laser mouse sensor}
+\subsubsection{ADNS-6010 laser mouse sensor}
 
 specs
 
@@ -640,6 +650,7 @@ ADNS-testplatine
 
 \subsubsection{XC164CM microcontroller}
 
+For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
 Specs etc
 
 XC-164 eval board 
@@ -652,6 +663,10 @@ Wiring of the Evaluation Board
   circuit
 
 The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.
+
+\subsubsection{Wire-tapping circuit for firmware catch}
+
+\subsubsection{Final circuit between ADNS and XC}
 
 \subsection{Optical system}
 \label{optics}
@@ -687,6 +702,7 @@ manufacturing drawing
   PCB print
 
 \subsection{Software}
+\label{software}
 
 \subsubsection{Microcontroller-software}
 
