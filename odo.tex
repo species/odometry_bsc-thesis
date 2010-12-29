@@ -12,25 +12,21 @@
 % % http://latex.tugraz.at/latex/fortgeschrittene#optischer_randausgleich
 \usepackage[activate=normal]{pdfcprot}
 
-
-%
-%\DSPTitle{Odometry for Wheeled Mobile Robots}
-%{Michael Maier}
-
 \usepackage{graphicx}
 
 \usepackage{subfigure}
 \usepackage{xspace}                   % space nach makro
 \usepackage[left]{eurosym}            % Euro symbol
-\usepackage{hyperref}
-
 \usepackage{needspace} %preserve some space before page break, e.g. at a listings heading
+\usepackage{hyperref}
 
 \newcommand{\mbnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Brandner NOTE: #1}}}
 \newcommand{\mmnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Maier NOTE: #1}}}
 \newcommand{\MH}{\emph{``Mostly Harmless''} RoboCup Team\xspace}
 \newcommand{\MSL}{Middle Size League\xspace}
 \newcommand{\robocup}{\emph{RoboCup}\xspace}
+
+\hyphenation{VCSEL}
 
 \begin{document}
 
@@ -55,17 +51,14 @@ Abstract
 \subsection{RoboCup}
 
 The RoboCup is an international research and education initiative. 
-Its goal is ``By the year 2050, develop a team of fully autonomous robots that can win against the current human soccer world champion team"~\cite{robocup.org}.
-It encourages research in the field of robotics, e.g.\ machine vision, machine learning and autonomous systems.
-
-%|| to Apollo Program.
-
-Every year a world championship is accomplished by a conference in a different city around the globe.
-In addition, various local competitions and conferences are held by local groups.
-
-The RoboCup is divided into three parts: RoboCup Soccer, Rescue and @Home.
+Its goal is \emph{``By the year 2050, develop a team of fully autonomous robots that can win against the current human soccer world champion team"}~\cite{robocup.org}.
+It promotes research in the field of robotics, e.g.\ machine vision, machine learning and autonomous systems.\\
+Every year a world championship is accompanied by a conference in a different city around the globe.
+In addition, various local competitions and conferences are held by local groups.\\
+The RoboCup is split into three division: RoboCup Soccer, Rescue and @Home.
 Every division is divided into several leagues targeted at different challenges.
 
+%|| to Apollo Program.
 %1/2 page
 
 \subsection{\MSL}
@@ -73,18 +66,15 @@ Every division is divided into several leagues targeted at different challenges.
 In RoboCup Soccer the \MSL is most challenging.
 The robots have to be fully autonomous.
 All sensors, actuators and computation are on board and no external input is allowed.
-A Team consists of maximal 6~robots with a size of max. $50\times50\times80$\,cm$^3$.
-
+A team consists of maximal 6~robots with a size of max.\ $50\times50\times80$\,cm$^3$.\\
 The game is played on a field of $12\times18$\,m$^2$ and lasts $2\times15$~minutes.
-The game field surface is usually carpet.
+The game field surface is generally carpet.
 The \MSL is the only league where an official FIFA ball is used.
-Objects are distinguished by colour, the game field is green with white lines, robots and referees are black and the ball is red.
-
+Objects are distinguished by colour: the game field is green with white lines, robots and referees are black and the ball is red.\\
 The rules are the official FIFA rules~\cite{msl-rules} with slight adaptations for robotic players.
 The rules are tightened every year to keep up with the technological progress. 
-For instance the field size has grown from $6\times8$\,m$^2$ to $12\times18$\,m$^2$ since the introduction of the \MSL.
-
-More than 20 teams from all over the world participate in the \MSL, almost all with academical background.
+For instance the field size has grown from $6\times8$\,m$^2$ to $12\times18$\,m$^2$ since the introduction of the \MSL.\\
+More than 20 teams from all over the world participate in the \MSL, almost all with academic background.
 
 % 1/2 p
 
@@ -93,27 +83,26 @@ More than 20 teams from all over the world participate in the \MSL, almost all w
 The \MH participates in the \MSL. 
 Its name is a reference to the ``Hitchhiker's Guide to the Galaxy'' by Douglas Adams~\cite{h2g2}.
 It was founded at Graz University of Technology at the Institute for Software Technology in 2003. 
-This RoboCup team consists solely of students and acts as a platform for master's, bachelor's thesis and seminar projects.
-Currently more than 30~students are working on the robots in their free time.
-
-It regularly participates at European championships as well as World Championships.
-At RoboCup~2009, which took place in Graz, the team advanced a round in the World Championship for the first time.
+This RoboCup team consists solely of students and acts as a platform for master's, bachelor's theses and seminar projects.
+Currently more than 30~students are working on the robots in their free time.\\
+The team regularly participates at European championships as well as World Championships.
+At the RoboCup~2009, which took place in Graz, the team advanced a round in the World Championship for the first time.
 The third place in the technical challenge was won too.
 
 
 
 % 1/4 p
 
-\subsection{Current robot platform: Krikkit}
+\subsection{Current Robot Platform: Krikkit}
 
-The ``Krikkit'' robot platform was built in 2006.%~\cite{}. 
+The ``Krikkit'' robot platform was built in 2006. %~\cite{}. 
 It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
 Nearly all components from electronics to mechanical parts are developed in-house.
-Four robots were built and made their d\'ebut at the World Championship 2006 in Bremen.
+Four robots are build and made their d\'ebut at the World Championship 2006 in Bremen.
 
 Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.5\columnwidth]{figures/krikkit.pdf}
 \caption{\label{fig:krikkit}
@@ -134,7 +123,7 @@ Due to the nature of omni-wheels, the robots are able to move in any direction a
 The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
 All electronic components are connected via CAN-bus.
 
-\begin{figure}[hb]
+\begin{figure}[htbp]
   \begin{minipage}{0.45\textwidth}
    \centering
     \includegraphics[width=1\textwidth]{figures/krikkit_drive_angles}
@@ -155,7 +144,7 @@ In the meantime all major electronic components reached the end of their life cy
 With the knowledge gained, lost and acquired again the successor of the Krikkit generation is in development now.
     
 
-\subsection{In development: Krikkit3G}
+\subsection{In Development: Krikkit3G}
 
 The next generation of robots is in development since mid-2010.
 It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
@@ -192,10 +181,9 @@ The smart battery system also got a major upgrade, featuring even smarter batter
 
 In the mechanical design space is now also provided for an improved odometry system, which will be developed based on this work.
 
-% FIXXME get newer rendering, where camera holding bars are correct.
-\begin{figure}[b]
+\begin{figure}[htbp]
 \begin{center}  
-\includegraphics[width=0.5\columnwidth]{figures/Krikkit3G.jpg}
+\includegraphics[width=0.7\columnwidth]{figures/Krikkit3G.png}
 \caption{\label{fig:krikkit3g}
 Rendering of the currently in construction Krikkit3G robot (Without outer hull).
 }   
@@ -232,7 +220,7 @@ There are more possible use cases for odometry not implemented yet e.g.\ anti-sl
 
 
 
-\subsection{Motivation for this work}
+\subsection{Goals of this Work}
 \label{motivation}
   
 Current odometry systems of the Krikkit generation are based on the rotational speed of the wheels.
@@ -293,7 +281,7 @@ As power supply only two DC lines with 24\,V and 7\,V are available at reasonabl
 
 
 \clearpage
-\section{State of the art in odometry measurement}
+\section{State of the Art in Odometry Measurement}
 
 When determining the position or movement of a vehicle, there are the following options: 
 Relying on global or relative position measurement.
@@ -356,7 +344,7 @@ Every approach has properties to evaluate:
 In preparation for this work a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
 
 
-\subsection{Possible new odometry sensors types}
+\subsection{Possible New Odometry Sensors Types}
 
 In this section technologies to be considered as improved odometry sensor are described in general.
 The reasons for selecting a particular sensor type for evaluation in this work are explained in~\autoref{decision}.
@@ -403,14 +391,14 @@ The main use today is in liquid flow measurements.
 
 
 
-\subsubsection{Microwave Doppler velocimeters (Radar)}
+\subsubsection{Microwave Doppler Velocimeters (Radar)}
 
 Radar is an umbrella term for object detection systems utilizing electromagnetic waves from 300\,MHz up to 3\,THz~\cite{nrt}.
 It can be used to measure the distance of objects and also their speed through the Doppler effect.
 Depending on the object distance, different wavelength are used.
 For short-range measurements short-range microwave sensors with~24\,GHz are used e.g.\ radar guns and also for speed measurements on moving vehicles itself~\cite{s_r_radar}.
 
-\subsubsection{Laser interferometers}
+\subsubsection{Laser Interferometers}
 
 Speed measurement with laser interferometry is divided into two approaches.
 One called Laser Doppler velocimetry and the other is referred as Laser Doppler vibrometry.
@@ -433,7 +421,7 @@ The frequency shift between the two beams results in an overtone at the detector
 
 
 
-\subsubsection{Industrial/Custom-build optical speed sensors}
+\subsubsection{Industrial/Custom-build Optical Speed Sensors}
 
 The operation of an optical speed sensor is based on comparison of sequentially acquired images from a surface.
 From the images, features are extracted, and their position is compared with similar features on the next frame. 
@@ -454,7 +442,7 @@ When developing such a system from scratch, a lot of time and effort is needed.
 This has been shown by the development of an optical slip-angle sensor~\cite{Hrach2006} for the TUG~Racing~Team.
 
 % 1/4
-\subsubsection{Optical mice}
+\subsubsection{Optical Mice}
 
 The most common optical speed sensor is used in newer computer mice.
 Historically computer mice featured a rolling ball with two attached axles (one for each axis), whose rotations are turned into coordinates.
@@ -477,7 +465,7 @@ The sensor itself remains the same, but due to the higher contrast achieved thro
  
 % 1/2
 
-\subsection{Current implementations used in RoboCup}
+\subsection{Current Implementations used in RoboCup}
 
 \subsubsection{\MH}
 
@@ -504,7 +492,7 @@ Most of the time this works well, but once in a while we had problems with massi
 Due to the over-weighting of compass data, the localisation software went amok.
 Therefore data quality information would be highly appreciated from every sensor used.
 
-\subsubsection{Other teams}
+\subsubsection{Other Teams}
 
 Rotary encoders on wheels are widely used, e.g.\ in the team ISocRob~\cite{isocrob}.
 Other teams like IsePorto~\cite{iseporto} also accomplish the rotary encoders with a compass.
@@ -520,7 +508,7 @@ Accelerometers are used in other leagues, e.g.\ the RoboCup Rescue League or in 
 They are used only for inertial informations, not yet for navigation~\cite{zadeat}.
 
 
-\subsection{Decision for a type of sensor}
+\subsection{Decision for a Type of Sensor}
 \label{decision}
 
 The focus lied on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
@@ -555,8 +543,8 @@ By adding more magnification and setting the focus plane farther away from the s
 With the use of two sensors, the needed three degrees of freedom can be reached with extra redundancy. 
 The \MH requires odometry data delivered on the CAN-bus, not the mice's native USB.
 To convert four dimensions of data from two sensors into the needed $dr$,~$ds$,~$d\phi$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.\\
-The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
-And last, but not least we got a sample mouse sensor sponsored from a friendly German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
+%The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
+%And last, but not least we got a sample mouse sensor sponsored from a friendly German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
 
 
 
@@ -567,9 +555,9 @@ And last, but not least we got a sample mouse sensor sponsored from a friendly G
 %        2G spitzenvibration -> no
 
 \clearpage
-\section{Sensor design}
+\section{Sensor Design}
 
-The task was the following: Develop an odometry sensor from a given mouse sensor.
+The task is the following: Develop an odometry sensor from a given mouse sensor.
 At the beginning of this project, we got a prototype sensor sponsored from (\$ German RC team FIXME).
 
 It consisted of a mechanically modified Razor~Copperhead laser~mouse.
@@ -588,13 +576,12 @@ The Sensor~IC and the illumination was relocated from the PCB~(1) to an extensio
 \end{center}
 \end{figure}
 
-Two modifications were to make: Providing a CAN interface instead of USB, and creating a new optics system.
+Two modifications were to make: Providing a~CAN interface instead of USB, and creating a new optics system.
 For the new optics system, access to raw sensor image data is needed for focussing the system.
 Reading out raw image data is not possible via the mouse's USB interface, only directly via the SPI~(Serial Port Interface) of the sensor chip.
 Therefore it was chosen to remove the sensor chip from the mouse, and connect it directly to an external microcontroller.
 This kills two birds with one stone.
-The microcontroller can provide a CAN-bus interface, and provides direct access to the sensor.
-
+The microcontroller can provide a CAN-bus interface, and provides direct access to the sensor.\\
 In summary, we have to create a system as shown in~\autoref{fig:block-diag-sens}.
 
 \begin{figure}[hb]
@@ -611,64 +598,191 @@ The low level part of the software runs on the microcontroller, and the user int
 \end{center}
 \end{figure}
 
-We used an Infineon XC164-CM microcontroller evaluation board~\cite{xc}, of which several were available in the \MH.
-For the mouse sensor, a custom PCB with minimal needed circuit and the needed connections to the microcontroller was designed.
-The electronics part of this work is described in~\autoref{electronics}.
-
-The Software part is split into low-level communication with the mouse sensor running on the microcontroller, and the controlling and visualising part on the host~PC, see~\autoref{software}.
-
+We use an Infineon XC164-CM microcontroller evaluation board~\cite{xc}, of which several are available in the \MH.
+For the mouse sensor, a custom PCB with minimal needed circuit and the needed connections to the microcontroller is designed.
+The electronics part of this work is described in~\autoref{electronics}.\\
+The Software part is split into low-level communication with the mouse sensor running on the microcontroller, and the controlling and visualising part on the host~PC, see~\autoref{software}.\\
 The optical changes to the system with design and implementation are described in~\autoref{optics}.
 
 
-\subsection{Electrical design}
+\subsection{Electrical Design}
 \label{electronics}
 
 %Short text describing electrical layout
 
-The ADNS-6010 runs on custom firmware, that must be flashed from the microcontroller to the sensor before motion read is possible.
+The ADNS-6010 laser mouse sensor runs on custom firmware, that must be flashed from the microcontroller to the sensor before motion read is possible.
 Due to reluctant support from Avago Technologies, the firmware was not available as binary.
 Therefore for connecting the microcontroller board with the ADNS-6010, two stages were needed.\\
-The first setup features the microcontroller wire-tapping on the SPI channel between the original mouse microcontroller and the sensor, monitoring the communication, and recording the firmware as it is flashed on the sensor.\\
-Now that we had the firmware, the sensor was unsoldered from the mouse PCB and inserted in a custom PCB with minimal needed circuit for communication with the new microcontroller.
-
+The first stage features the microcontroller wire-tapping on the SPI channel between the original mouse microcontroller and the sensor, monitoring the communication, and recording the firmware as it is flashed on the sensor.\\
+Now that we have the firmware, the sensor is unsoldered from the mouse PCB and inserted in a custom PCB with minimal needed circuit for communication with the new microcontroller.\\
 In this subsection, at first the ADNS-6020 laser mouse sensor is introduced, then the XC164CM microcontroller and its development board.
 At last, the needed circuit between the two chips for each stage is shown.
 
 
-\subsubsection{ADNS-6010 laser mouse sensor}
+\subsubsection{ADNS-6010 Laser Mouse Sensor}
 
-specs
+The ADNS-6010 laser mouse sensor measures changes in position by optically acquiring sequential images and mathematically determining the direction and magnitude of movement.
+It contains an image acquisition system, a Digital Signal Processor~(DSP), and a four wire serial port.
+It acquires microscopic surface images via the lens and illumination system. 
+These images are processed by the DSP to determine the direction and distance of motion. 
+The DSP calculates the $\Delta x$ and $\Delta y$ relative displacement values. 
+The $\Delta x$ and $\Delta y$ values are output on the serial port to an external microcontroller.~\cite{adns}
 
-workflow diagram (from data sheet)
+%workflow diagram (from data sheet) (none found?)
+ 
+It features the following specifications:
+\begin{itemize}
+ \item High speed motion detection – up to 1100\,mm/s and 20\,g
+ \item Programmable or automatic frame rate over 7080 frames per second
+ \item 400, 800, 1600 or 2000\,cpi selectable resolution
+ \item Single 3.3 volt power supply
+ \item Four-wire serial port along with Power Down, and Reset pins
+ \item integrated laser driver controller for illumination laser diode
+\end{itemize}
 
-ADNS-testplatine
-  requirements
+It comes in a 20-pin package, bundled with its own lens and matching VCSEL~(Vertical-cavity surface-emitting laser) laser diode.
+It uses 3.3V, but can be connected to a 5\,V-microcontroller without level shifting techniques needed.
+Some circuit is needed, as shown in~\autoref{fig:adnsc}.
 
-  circuit diagram
+\begin{figure}[htbp]
+\begin{center}  
+\includegraphics[width=1\columnwidth]{figures/adnsc}
+\caption{\label{fig:adnsc}
+Minimal circuit for the ADNS-6010 laser mouse sensor recommended from data sheet~\cite{adns}.
+The ADNS-6010 is in the centre, the external microcontroller on the left side, the VCSEL laser and driver on the right.
+The 3.3\,V-Regulator needed on 5\,V supply is on top of the diagram.
+}   
+\end{center}
+\end{figure}
 
-  PCB drawing
+The ADNS-6010 is mounted on a custom PCB (Printed circuit board).
+This board contains all needed circuit according to the data sheet, and a 10-pin header for connection to the microcontroller board.
+The board layout is designed in the Cadsoft EAGLE Software.
+The EAGLE-files are available in the AFS~\footnote{/afs/robocup.tugraz.at/electrics/design/99\_concepts/adns\_testplatine/v1.1 as on 21/12/2010}.
+The circuit and board layout for the PCB can be seen in~\autoref{fig:testplatine-layout} and~\autoref{fig:testplatine-board}.
 
-\subsubsection{XC164CM microcontroller}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/schaltplan.png}
+\caption{\label{fig:testplatine-layout}
+Circuit for the custom PCB for the ADNS-6010 laser mouse sensor.
+In the lower right is the 10-pin header for the connection to the microcontroller board.
+Right on the middle the 3.3\,V-Regulator, which takes it power from the 5\,V-line from the microcontroller.
+Top right is the header for the externally connected laser diode.
+}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/platine}
+\caption{\label{fig:testplatine-board}
+Board layout for the custom PCB for the ADNS-6010 laser mouse sensor.
+The 20-pin sensor is in the middle.
+On the left is the 10-pin header for the connection to the microcontroller board.
+Below the sensor is the 3.3\,V-Regulator, and driver and header for the externally connected laser diode.
+Sketch not to scale.
+}
+\end{center}
+\end{figure}
+
+\subsubsection{XC164CM Microcontroller}
+
+The XC164CM microcontroller comes from the Infineon XC166 family, as used in the Krikkit robots for motion control~\cite{krammer07}.
+It is a 16-bit microcontroller, which allows for convenient programming via the Keil~\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE.\\
+A XC164 development board~\cite{xc}, as seen in~\autoref{fig:xcdevboard} is used. 
+It has all pins of the XC~core easily accessible, and all needed circuit for the XC is on board.
+The XC164 on the board runs on 5\,V supply, which is tapped to power the ADNS-6010.
+The use of an oversized evaluation board is of course no option on the Krikkit/3G robots, but sufficient here.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/xcdevboard.png}
+\caption{\label{fig:xcdevboard}
+XC164CM development board~\cite{xc} used to control the sensor.
+It needs 12\,V external power supply (connector visible on the bottom).
+It has external RS-232 (left) and CAN (middle) connectors.
+}
+\end{center}
+\end{figure}
 
 For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
+Programming as well as controlling and reading out data is done over the serial port.
+The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.\\
+A 10-pin header was soldered on the microcontroller board and connected to the needed pins of the XC~core~(\autoref{fig:boardwiring}).
+Then it is connected via a ribbon cable to the original mouse PCB for wire-tapping (Stage~1) and to the new ADNS sensor board (Stage~2).
+The pin-assignment of the header and cable can be seen in~\autoref{pin-table}. 
+
+\begin{table}[htbp]
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \begin{tabular}{|l|l|l|}
+       \hline
+       Pin & Name & XC Port \\
+       \hline
+       1    & NCS   & 7.1     \\
+       2    & MISO  & 7.3     \\
+       3    & SCLK  & 7.7     \\
+       4    & RESET & 7.15    \\
+       5    & MOSI  & 7.4     \\
+       6    & N/C    & -       \\
+       7    & NPD   & 7.16    \\
+       8    & N/C    & -       \\
+       9    & GND   & 7.9     \\
+       10   & VCC   & 7.8     \\
+       \hline
+    \end{tabular}
+  \end{minipage}\hfill
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/header.png}
+  \end{minipage}
+  \caption{Pin-assignment of the 10-pin header and cable on the XC164CM development board}
+  \label{pin-table}
+\end{table}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/boardwiring.png}
+\caption{\label{fig:boardwiring}
+%FIXME newer pic with measurement bridge
+Wiring of the XC164CM development board.
+The pins from the XC are connected to the 10-pin header (left) and the measurement bridge (right)
+}
+\end{center}
+\end{figure}
+
+
+The second role of the XC board is the reference speed measurement on the experimental set-up via a light barrier.
+This is described in~\autoref{lb}
+
+
 Specs etc
 
-XC-164 eval board 
-  Image from datasheet
+%XC-164 eval board 
+%  Image from datasheet
 
 Wiring of the Evaluation Board
 
   block diagram
 
   circuit
+    
 
-The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.
 
-\subsubsection{Wire-tapping circuit for firmware catch}
+\subsubsection{Wire-tapping Circuit for Firmware Catch}
 
-\subsubsection{Final circuit between ADNS and XC}
+Beschaltung beschrieben
 
-\subsection{Optical system}
+wiretapping.png
+
+% 4x vorgang kommt zu uC-software
+
+\subsubsection{Final Circuit between ADNS and XC}
+
+
+
+\subsection{Optical System}
 \label{optics}
   requirements
 
@@ -676,17 +790,17 @@ micro-bench system
 
 Sketch
 
-\subsubsection{Optical path calculations: Original mouse setup}
-\subsubsection{Optical path calculations: 2-Lens setup}
-\subsubsection{Optical path calculations: Telecentric setup}
-\subsubsection{Sensor mounting and calibration}
+\subsubsection{Optical Path Calculations: Original Mouse Setup}
+\subsubsection{Optical Path Calculations: 2-Lens Setup}
+\subsubsection{Optical Path Calculations: Telecentric Setup}
+\subsubsection{Sensor Mounting and Calibration}
 
 Sketch with adjusting screws in all dimensions
 
 calibration process
   laser
 
-\subsubsection{Lens 2 and aperture mounting}
+\subsubsection{Lens 2 and Aperture Mounting}
 
 manufacturing drawing
 
@@ -704,7 +818,7 @@ manufacturing drawing
 \subsection{Software}
 \label{software}
 
-\subsubsection{Microcontroller-software}
+\subsubsection{Microcontroller-Software}
 
   XC-Code
     requirements
@@ -717,28 +831,31 @@ manufacturing drawing
 
 \subsubsection{PyQT GUI}
 
-\subsubsection{Octave analysis scripts}
+\subsubsection{Octave Analysis Scripts}
 
-\section{Experimental setup}
+\newpage
+\section{Experimental Setup}
 
 - requirements
 
-\subsection{Mechanical design of the testbed}
+\subsection{Mechanical Design of the Testbed}
 
 block diagram
 
-\subsection{Motor and disk}
+\subsection{Motor and Disk}
 
-\subsection{Reference speed sensor}
+\subsection{Reference Speed Sensor}
+\label{lb}
+
       Picture of sensor from Datasheet
       electrical setup used
 
-\subsection{Microcontroller and host PC}      
+\subsection{Microcontroller and Host PC}      
 
 \clearpage
-\section{Experimental results}
+\section{Experimental Results}
 
-\subsection{Illumination tests}
+\subsection{Illumination Tests}
 
 \begin{itemize}
   \item Laser
@@ -747,9 +864,9 @@ block diagram
   \item IR-LEDs
 \end{itemize}
 
-\subsection{Non-telecentric tests}
+\subsection{Non-telecentric Tests}
 
-\subsection{Telecentric tests}
+\subsection{Telecentric Tests}
 
 \subsubsection{Carpet 1}
 
@@ -757,7 +874,7 @@ block diagram
 
 \subsubsection{Carpet 3}
 
-\subsubsection{Game field lines}
+\subsubsection{Game Field Lines}
 
 \subsection{Interpretation}
 
@@ -765,7 +882,7 @@ block diagram
   ergebnisse
 
 \clearpage
-\section{Conclusions and outlook}
+\section{Conclusions and Outlook}
 
   evaluation of a combination of IR-LED illumination and Laser illumination
 
