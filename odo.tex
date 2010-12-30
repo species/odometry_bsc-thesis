@@ -562,7 +562,7 @@ At the beginning of this project, we got a prototype sensor sponsored from (\$ G
 
 It consisted of a mechanically modified Razor~Copperhead laser~mouse.
 In this mouse type, a sensor from Avago~Technologies is used, the ADNS-6010.
-The sensor and illumination were dismounted from its~PCB and relocated in a new casing because of mechanical size constraints (see \autoref{fig:m-casing}.
+The sensor and illumination were dismounted from its printed circuit board~(PCB) and relocated in a new casing because of mechanical size constraints (see~\autoref{fig:m-casing}.
 It was reconnected to its PCB via thin enamelled copper wires.
 It still worked, although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the pins.
 
@@ -632,17 +632,20 @@ The $\Delta x$ and $\Delta y$ values are output on the serial port to an externa
  
 It features the following specifications:
 \begin{itemize}
- \item High speed motion detection – up to 1100\,mm/s and 20\,g
+ \item High speed motion detection –- up to 1100\,mm/s and 20\,g
  \item Programmable or automatic frame rate over 7080 frames per second
  \item 400, 800, 1600 or 2000\,cpi selectable resolution
- \item Single 3.3 volt power supply
- \item Four-wire serial port along with Power Down, and Reset pins
- \item integrated laser driver controller for illumination laser diode
+ \item Single 3.3\,V power supply
+ \item Four-wire serial port along with power down, and Reset pins
+ \item Integrated laser driver controller for illumination laser diode
 \end{itemize}
 
-It comes in a 20-pin package, bundled with its own lens and matching VCSEL~(Vertical-cavity surface-emitting laser) laser diode.
-It uses 3.3V, but can be connected to a 5\,V-microcontroller without level shifting techniques needed.
-Some circuit is needed, as shown in~\autoref{fig:adnsc}.
+It comes in a 20-pin package, bundled with its own lens and matching vertical-cavity surface-emitting laser diode (VCSEL).
+It uses 3.3\,V, but can be connected to a 5\,V-microcontroller without level shifting techniques needed.
+The data connection to the microcontroller is a four-wire serial port interface (SPI).
+The lines are source clock (SCLK), chip select input (NCS) which activates the SPI, and the in (MOSI, Master Out/Slave In) and out (MISO, Master In/Slave Out) data lines.
+The microcontroller acts as master and always initiates the data transfer.\\
+Some additional circuit, e.g.\ external reference capacitors and a resonator is needed, as shown in~\autoref{fig:adnsc}.
 
 \begin{figure}[htbp]
 \begin{center}  
@@ -655,8 +658,129 @@ The 3.3\,V-Regulator needed on 5\,V supply is on top of the diagram.
 \end{center}
 \end{figure}
 
-The ADNS-6010 is mounted on a custom PCB (Printed circuit board).
-This board contains all needed circuit according to the data sheet, and a 10-pin header for connection to the microcontroller board.
+
+\subsubsection{XC164CM Microcontroller}
+
+The XC164CM microcontroller comes from the Infineon XC166 family, as used in the Krikkit robots for motion control~\cite{krammer07}.
+It is a 16-bit microcontroller, which allows for convenient programming via the Keil~\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE.\\
+A XC164 development board~\cite{xc}, as seen in~\autoref{fig:xcdevboard} is used. 
+It has all pins of the XC~core easily accessible, and all needed circuit for the XC is on board.
+The XC164 on the board runs on 5\,V supply, which is tapped to power the ADNS-6010.
+The use of an oversized evaluation board is of course no option on the Krikkit/3G robots, but sufficient here.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/xcdevboard.png}
+\caption{\label{fig:xcdevboard}
+XC164CM development board~\cite{xc} used to control the sensor.
+It needs 12\,V external power supply (connector visible on the bottom).
+It has external RS-232 (left) and CAN (middle) connectors.
+}
+\end{center}
+\end{figure}
+
+For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
+Programming as well as controlling and reading out data is done over the serial port.
+The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.\\
+For connection to the ADNS-6010, a 10-pin header is soldered subsequently on the development board and connected to the needed pins of the XC core~(see~\autoref{fig:boardwiring}).
+Besides the 4-port SPI, reset and power down (NPD) lines and the power supply (VCC and GND) are intended for the ADNS-6010.
+Then it is connected via a ribbon cable to the original mouse PCB for wire-tapping (Stage~1) and later to the new ADNS sensor board (Stage~2).
+The pin-assignment of the header and cable can be seen in~\autoref{pin-table}. 
+
+\begin{table}[htbp]
+  \begin{minipage}{0.55\textwidth}
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+       \hline
+       Pin & Name & XC Port & PCB Con\\
+       \hline
+       1    & NCS   & P3.6  & X107.1     \\
+       2    & MISO  & P3.8  & X107.3     \\
+       3    & SCLK  & P3.13 & X107.7     \\
+       4    & RESET & P9.4  & X107.15    \\
+       5    & MOSI  & P3.9  & X107.4     \\
+       6    & N/C   & -     & -          \\
+       7    & NPD   & P9.5  & X107.16    \\
+       8    & N/C   & -     & -          \\
+       9    & GND   & -     & X107.9     \\
+       10   & VCC   & -     & X107.8     \\
+       \hline
+    \end{tabular}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/header.png}
+  \end{minipage}
+  \caption{Pin-assignment of the 10-pin header and cable on the XC164CM development board.}
+  \label{pin-table}
+\end{table}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/boardwiring.png}
+\caption{\label{fig:boardwiring}
+%FIXME newer pic with measurement bridge
+Wiring of the XC164CM development board.
+The pins from the XC are connected from the header X107 (middle right) to the 10-pin header (lower left) and the measurement bridge (lower right).
+}
+\end{center}
+\end{figure}
+
+
+The second role of the XC board is the reference speed measurement on the experimental set-up via a light barrier.
+The circuit and function of the needed measurement bridge is described in~\autoref{lb}
+
+
+%Specs etc
+
+%XC-164 eval board 
+%  Image from datasheet
+
+%Wiring of the Evaluation Board
+
+%  block diagram
+
+%  circuit
+    
+
+
+\subsubsection{Wire-tapping Circuit for Firmware Catch}
+
+%Beschaltung beschrieben
+
+The goal in stage~1 is to catch the firmware written from the mouse microcontroller to the ADNS-6010 for ourselves use.
+The firmware must flashed after powering up the mouse to the ADNS-6010.
+After powering up, the reset pin of the ADNS-6010 is toggled by the mouse microcontroller, and directly after that event the control sequence for downloading to the SROM starts, followed by the firmware.
+The idea is to connect the XC as a second slave to the bus, and record all communication between the mouse microcontroller and the ADNS from the moment the reset pin is toggled.
+We need only four lines: GND, RESET and from the data interface only SCLK and MOSI. 
+The SCLK is needed, because SPI works as a synchronous interface, and we do not know the exact frequency of operation.
+We only need the data written from the microcontroller to the ADNS (MOSI), the reverse channel is uninteresting.\\
+In the implementation four wires are soldered on the GND, RESET, SCLK and MOSI pins of the mouse, and connected via a crimp plug (pin assignment see~\autoref{pin-table}) to the 10-pin header on the microcontroller development board. 
+This set-up can be seen in~\autoref{fig:wiretapping}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.6\columnwidth]{figures/wiretapping.png}
+\caption{\label{fig:wiretapping}
+Implementation of the wire-tapping to catch the firmware (stage~1).
+On top is the mouse on its original PCB.
+The four needed lines GND, RESET, SCLK and MOSI are connected to the microcontroller development board (bottom).
+Our microcontroller is configured as slave and waits for the reset signal, after which the communication between mouse microcontroller and ADNS on the SPI is monitored, and the firmware recorded.
+}
+\end{center}
+\end{figure}
+
+% 4x vorgang kommt zu uC-software
+
+\subsubsection{Final Circuit between ADNS and XC}
+
+After successfully saving the firmware in stage~1, we can connect the ADNS-6010 directly to our microcontroller.
+With the outputs of the XC164CM configured as open drain, we can connect the 5\,V microcontroller with minimal circuit to the 3.3\,V~ADNS-6010.
+The ADNS-6010 is mounted on a custom PCB with the following features: 
+10-pin header for connection to the microcontroller board,
+3.3\,V-regulator,
+circuit needed for the VCSEL diode,
+resonator and reference capacitors.\\
 The board layout is designed in the Cadsoft EAGLE Software.
 The EAGLE-files are available in the AFS~\footnote{/afs/robocup.tugraz.at/electrics/design/99\_concepts/adns\_testplatine/v1.1 as on 21/12/2010}.
 The circuit and board layout for the PCB can be seen in~\autoref{fig:testplatine-layout} and~\autoref{fig:testplatine-board}.
@@ -686,114 +810,74 @@ Sketch not to scale.
 \end{center}
 \end{figure}
 
-\subsubsection{XC164CM Microcontroller}
-
-The XC164CM microcontroller comes from the Infineon XC166 family, as used in the Krikkit robots for motion control~\cite{krammer07}.
-It is a 16-bit microcontroller, which allows for convenient programming via the Keil~\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE.\\
-A XC164 development board~\cite{xc}, as seen in~\autoref{fig:xcdevboard} is used. 
-It has all pins of the XC~core easily accessible, and all needed circuit for the XC is on board.
-The XC164 on the board runs on 5\,V supply, which is tapped to power the ADNS-6010.
-The use of an oversized evaluation board is of course no option on the Krikkit/3G robots, but sufficient here.
-
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=0.5\columnwidth]{figures/xcdevboard.png}
-\caption{\label{fig:xcdevboard}
-XC164CM development board~\cite{xc} used to control the sensor.
-It needs 12\,V external power supply (connector visible on the bottom).
-It has external RS-232 (left) and CAN (middle) connectors.
-}
-\end{center}
-\end{figure}
-
-For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
-Programming as well as controlling and reading out data is done over the serial port.
-The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.\\
-A 10-pin header was soldered on the microcontroller board and connected to the needed pins of the XC~core~(\autoref{fig:boardwiring}).
-Then it is connected via a ribbon cable to the original mouse PCB for wire-tapping (Stage~1) and to the new ADNS sensor board (Stage~2).
-The pin-assignment of the header and cable can be seen in~\autoref{pin-table}. 
-
-\begin{table}[htbp]
-  \begin{minipage}{0.5\textwidth}
-    \centering
-    \begin{tabular}{|l|l|l|}
-       \hline
-       Pin & Name & XC Port \\
-       \hline
-       1    & NCS   & 7.1     \\
-       2    & MISO  & 7.3     \\
-       3    & SCLK  & 7.7     \\
-       4    & RESET & 7.15    \\
-       5    & MOSI  & 7.4     \\
-       6    & N/C    & -       \\
-       7    & NPD   & 7.16    \\
-       8    & N/C    & -       \\
-       9    & GND   & 7.9     \\
-       10   & VCC   & 7.8     \\
-       \hline
-    \end{tabular}
-  \end{minipage}\hfill
-  \begin{minipage}{0.5\textwidth}
-    \centering
-    \includegraphics[width=1\textwidth]{figures/header.png}
-  \end{minipage}
-  \caption{Pin-assignment of the 10-pin header and cable on the XC164CM development board}
-  \label{pin-table}
-\end{table}
-
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=0.5\columnwidth]{figures/boardwiring.png}
-\caption{\label{fig:boardwiring}
-%FIXME newer pic with measurement bridge
-Wiring of the XC164CM development board.
-The pins from the XC are connected to the 10-pin header (left) and the measurement bridge (right)
-}
-\end{center}
-\end{figure}
-
-
-The second role of the XC board is the reference speed measurement on the experimental set-up via a light barrier.
-This is described in~\autoref{lb}
-
-
-Specs etc
-
-%XC-164 eval board 
-%  Image from datasheet
-
-Wiring of the Evaluation Board
-
-  block diagram
-
-  circuit
-    
-
-
-\subsubsection{Wire-tapping Circuit for Firmware Catch}
-
-Beschaltung beschrieben
-
-wiretapping.png
-
-% 4x vorgang kommt zu uC-software
-
-\subsubsection{Final Circuit between ADNS and XC}
-
-
-
 \subsection{Optical System}
 \label{optics}
-  requirements
 
-micro-bench system
+%requirements
+%  surface distance from 2mm to 20mm
+%  5x magnification
+%  telecentric optical path
 
-Sketch
+The optical properties of the mouse have to be improved by an appropriate optical system.
+The most important drawback of the ADNS-6010 is its maximum capable speed of 1.1\,m/s, it must be improved to 5\,m/s. 
+The maximum speed is linear dependent of the field of view of the sensor.
+By magnifying the field of view of the sensor by five times, this will also increase the maximum speed over 5\,m/s.\\
+Another wished feature is a distance to the surface from at least 20\,mm.
+The ADNS-6010 with its original lens has only 2\,mm clearance height, this has to be improved.\\
+And due to varying clearance height resulting from the new independent wheel suspension as well as different carpets, the dependency of the magnification from the clearance height should be eliminated.
+This can be achieved by a telecentric system~\cite{telec}.
+
+It is chosen to keep the original lens in its position, and extend the optical system with additional lenses.
+At first, a lens is added in front of the original lens, which provides the needed magnification.
+Then, a second lens is added responsible for the telecentric set-up.
+We call the original mouse lens L$_1$, the magnification lens L$_2$, and the telecentric lens L$_3$. 
+The aperture stop of the system responsible for the sharpness of the image is placed at L$_2$.
+The whole optical system can be seen in~\autoref{fig:sketch-optic-simple}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/sketch-optic-simple}
+\caption{\label{fig:sketch-optic-simple}
+Complete optical system:
+Image plane S on the left side,
+original mouse lens L$_1$,
+aperture stop A,
+magnification lens L$_2$,
+telecentric lens L$_3$ and object O on the right side.
+}
+\end{center}
+\end{figure}
+%Sketch
+
+The optical system with the sensor is built using a Linos 40\,mm micro-bench carrier system~\cite{microbench} which allows for easy adjustment of all optical components.
+For some of the components a custom mount based on micro-bench carriers has to be developed, so for L$_2$ and the Aperture, due to space constrains (see~\autoref{l2m}).
+The mount of the sensor itself on the micro-bench carrier is described in~\autoref{semo}.
+
+The calculations involved figuring out the original mouse optical system, designing the second lens and needed aperture and choosing an appropriate lens for the telecentric set-up.
+All calculations are verified with WinLens3D\footnote{Qioptiq Photonics GmbH \& Co.\ KG, WinLens3D Basic V1.1.11, \url{http://www.winlens.de} as on 30/12/2010} and are available in the AFS\footnote{/afs/robocup.tugraz.at/projects/2010\_improved-odometry/lenses/ as on 30/12/2012}.
+Detailed explanations of the calculations follow now.
 
 \subsubsection{Optical Path Calculations: Original Mouse Setup}
+
+To alter the properties of an optical system by expansion with more optical elements, the base system must be known exactly.
+The exact parameters of the optical system are not specified in the data sheet, they have to be estimated based on retroactive measurements and own observations.
+From the data sheet~\cite{adns} the following properties are known: 
+aperture 1.4\,mm
+sensor plane - lens plane - image plane = 5.88m
+lens material n=1.5713 at lambda=842\,nm
+lens thickness 2.43\,mm
+
+
+brennweite der linse geschaetzt aus den skizzen des datasheets und beobachtungen 
+
 \subsubsection{Optical Path Calculations: 2-Lens Setup}
+
 \subsubsection{Optical Path Calculations: Telecentric Setup}
+
+veraendert magnification (und schaerfe?) nicht
+
 \subsubsection{Sensor Mounting and Calibration}
+\label{semo}
 
 Sketch with adjusting screws in all dimensions
 
@@ -801,10 +885,14 @@ calibration process
   laser
 
 \subsubsection{Lens 2 and Aperture Mounting}
+\label{l2m}
 
 manufacturing drawing
 
 \subsubsection{Illumination}
+
+842 nm
+image relative responsivity from data sheet 
 
   Why here?
   types of LEDs and Lasers used
