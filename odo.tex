@@ -760,10 +760,10 @@ This set-up can be seen in~\autoref{fig:wiretapping}.
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=0.6\columnwidth]{figures/wiretapping.png}
+\includegraphics[width=0.8\columnwidth]{figures/wiretapping.png}
 \caption{\label{fig:wiretapping}
 Implementation of the wire-tapping to catch the firmware (stage~1).
-On top is the mouse on its original PCB.
+On top is the mouse, with the sensor on its original PCB.
 The four needed lines GND, RESET, SCLK and MOSI are connected to the microcontroller development board (bottom).
 Our microcontroller is configured as slave and waits for the reset signal, after which the communication between mouse microcontroller and ADNS on the SPI is monitored, and the firmware recorded.
 }
@@ -781,8 +781,8 @@ The ADNS-6010 is mounted on a custom PCB with the following features:
 3.3\,V-regulator,
 circuit needed for the VCSEL diode,
 resonator and reference capacitors.\\
-The board layout is designed in the Cadsoft EAGLE Software.
-The EAGLE-files are available in the AFS~\footnote{/afs/robocup.tugraz.at/electrics/design/99\_concepts/adns\_testplatine/v1.1 as on 21/12/2010}.
+The board layout is designed in the Cadsoft EAGLE\footnote{EAGLE light edition v5.10.0 \copyright~CadSoft, \url{http://www.cadsoft.de} as on 1/1/2011} Software.
+The EAGLE-files are available in the AFS\footnote{/afs/robocup.tugraz.at/electrics/design/99\_concepts/adns\_testplatine/v1.1 as on 21/12/2010}.
 The circuit and board layout for the PCB can be seen in~\autoref{fig:testplatine-layout} and~\autoref{fig:testplatine-board}.
 
 \begin{figure}[htbp]
@@ -859,22 +859,116 @@ Detailed explanations of the calculations follow now.
 
 \subsubsection{Optical Path Calculations: Original Mouse Setup}
 
-To alter the properties of an optical system by expansion with more optical elements, the base system must be known exactly.
+To alter the properties of an optical system by expansion with more optical elements, the optical properties of the base system must be known.
+The original mouse sensor set-up consists of the sensor, the lenses for the sensor and the VCSEL combined as one plastic part, and the VCSEL (see~\autoref{fig:o_setup_datasheet}.
 The exact parameters of the optical system are not specified in the data sheet, they have to be estimated based on retroactive measurements and own observations.
 From the data sheet~\cite{adns} the following properties are known: 
-aperture 1.4\,mm
-sensor plane - lens plane - image plane = 5.88m
-lens material n=1.5713 at lambda=842\,nm
-lens thickness 2.43\,mm
+\begin{itemize}
+  \item Distance of sensor plane to lens plane is 5.88\,mm.
+  \item Distance from lens plane to object plane is also 5.88\,mm.
+  \item The lens material has a refraction index of $n=1.5713$ at $\lambda=842$\,nm.
+  \item Lens thickness is 2.43\,mm.
+\end{itemize}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/o_setup_datasheet}
+\caption{\label{fig:o_setup_datasheet}
+Original mouse set-up from the data sheet~\cite{adns}.
+The optical rays from the VCSEL~(right) and the sensor~(left) meet on the surface.
+}
+\end{center}
+\end{figure}
+
+With these informations, we can estimate a focal length of 2.88\,mm for the original mouse lens.
+With the distance of the sensor and object plane being the same of both sides of the lens, this leads to a magnification factor of~1.
+The measured aperture diameter (of the hole in the chip casing) on the original lens is~1.4\,mm.
+The sensor delivers a quadratic image with a side length of approx.~0.92\,mm. 
+Therefore we get a maximum image size of 1.3\,mm diameter.\\
+These findings were confirmed by the simulation via WinLens.
+The WinLens sketch of the system can be seen in~\autoref{fig:ls1_p}.
+The according spot diagrams are satisfactory, see~\autoref{fig:ls1_s}.
+The simulation is done for $\lambda = 842$\,nm, the wavelength of the illuminating VCSEL. 
+The modelling of the first lens is used as base for the simulation of the extended optical systems in WinLens.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/lens_system_mouse.pdf}
+\caption{\label{fig:ls1_p}
+WinLens plot of the simulation of the unmodified optical system of the mouse.
+One single lens with $f=2.88$\,mm sits exactly in the middle between sensor plane~(S) and object plane~(O).
+}
+\end{center}
+\end{figure}
 
 
-brennweite der linse geschaetzt aus den skizzen des datasheets und beobachtungen 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/spot_diagram_mouse.png}
+\caption{\label{fig:ls1_s}
+WinLens plot of the spot diagram of the simulation of the unmodified optical system of the mouse for $\lambda = 842$\,nm.
+The focusing of the spots hint to a relatively well modelled system.
+}
+\end{center}
+\end{figure}
 
 \subsubsection{Optical Path Calculations: 2-Lens Setup}
+
+The goal is to find a lens set-up that magnifies the current optical system by five times.
+We design the system without telecentric at first, as a telecentric add-on does not alter the magnification of the system.
+For a magnifying system, we add a second lens before the original system that has its image plane on the object plane of the original system (see~\autoref{fig:sk2l}).
+The needed focal length $f_2$ of lens~2 is calculated from the LaPlace projection equation~\cite{jaeger} (\autoref{eq:1}). %FIXME auf deutsch heissts so, wie in EN-GB? (nur thin lens eq. gefunden, das is net das was wir wollen
+
+\begin{equation}
+\label{eq:1}
+\frac{1}{f_2} = \frac{1}{o_2}  + \frac{1}{i_2}
+\end{equation}
+
+$o_2$ is the object distance, $i_2$ the image distance from the lens.
+We want to set $o_2 = 5 \cdot i_2$ for a magnification factor of five.
+From the range of possible values for $o_2$, we are limited by the maximum available space for the odometry sensor in the robot.
+The extension of the optical system must be at most 80\,mm long, therefore $o_2$ should be no longer than 65\,mm.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/sketch-optic-2lens}
+\caption{\label{fig:sk2l}
+Sketch of the extension of the original system with a second lens.
+From left to right: 
+Sensor plane~S,
+original mouse lens~L$_1$, 
+virtual image plane~V (former object plane),
+second lens~L$_2$ with new aperture~A,
+new object plane~O.
+}
+\end{center}
+\end{figure}
+
+The next criteria for the lens system is the depth of focus.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/lens_system_mouse.png}
+\caption{\label{fig:ls2_p}
+WinLens plot of the simulation of the unmodified optical system of the mouse.
+One single lens with f=2.88\,mm sits exactly in the middle between sensor plane~(S) and object plane~(O).
+}
+\end{center}
+\end{figure}
 
 \subsubsection{Optical Path Calculations: Telecentric Setup}
 
 veraendert magnification (und schaerfe?) nicht
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/lens_system_mouse.png}
+\caption{\label{fig:ls3_p}
+WinLens plot of the simulation of the unmodified optical system of the mouse.
+One single lens with f=2.88\,mm sits exactly in the middle between sensor plane~(S) and object plane~(O).
+}
+\end{center}
+\end{figure}
 
 \subsubsection{Sensor Mounting and Calibration}
 \label{semo}
