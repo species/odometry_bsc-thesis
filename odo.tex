@@ -13,6 +13,8 @@
 \usepackage[activate=normal]{pdfcprot}
 
 \usepackage{graphicx}
+\usepackage{amstext}
+\usepackage{amsmath}
 
 \usepackage{subfigure}
 \usepackage{xspace}                   % space nach makro
@@ -945,6 +947,49 @@ new object plane~O.
 \end{figure}
 
 The next criteria for the lens system is the depth of focus.
+We wish for at least $\pm 5$\,mm depth of focus to the object plane.
+For any symmetrical lens, the depth of focus lies between the near and far limits, see~\autoref{fig:nfl}.
+We therefore set the near limit $d_n = o_2 - 5$\,mm and the far limit $d_f = o_2 + 5$\,mm.
+The formula for the distance of the near and far limit is the following:
+\begin{align}
+\label{eq:nf}
+d_{n/f} &= \frac{g \cdot d_h}{d_h + (g-f)} \\
+\label{eq:hf}\text{with } d_h &= \frac{f^2}{\kappa \cdot Z} \text{ being the hyperfocal distance}\\
+\label{eq:ka}\text{and } \kappa &= \frac{f}{D} \text{ being the $f$-number.}
+\end{align}
+We see, that the limits depend on the circle of confusion~$Z$ and the aperture diameter~$D$.
+The circle of confusion can be easily calculated: our sensor is 0.92\,mm wide and has a resolution of $30 \times 30$\,px$^2$.
+This leads to a pixel being $\approx 0.03$\,mm wide.
+We use this value to estimate the maximum circle of confusion diameter $Z = 0.03$\,mm.
+We see, that the only variable left responsible for the sharpness is the aperture diameter~$D$.
+The calculations of the needed aperture diameter:\\
+From~\autoref{eq:1} and our magnification factor of five follows
+\begin{equation}
+f_2 = \frac{o_2}{6}
+\end{equation}
+We use this to substitute $\kappa$~\eqref{eq:ka} and~$f$ in $d_h$~\eqref{eq:hf} to get a simplified formula for
+\begin{equation}
+d_h = \frac{o_2}{6} \cdot \left( {\frac{D}{Z} + 1 } \right)
+\end{equation}
+This inserted into the formula for the near limit $d_n = o_2 - 5$\,mm leads to the aperture diameter
+\begin{equation}
+o_2 - 5 = \frac{o_2 \cdot \frac{o_2}{6} \cdot \left( { \frac{D}{Z} + 1} \right) }{ \frac{o_2}{6} \cdot \left( { \frac{D}{Z} + 1} \right) + o_2  - \frac{o_2}{6} } \Rightarrow
+\end{equation}
+
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/near_farpoints}
+\caption{\label{fig:nfl}
+Definition of the depth of focus.
+The focused area lies between the near limit and the far limit.
+The limits are dependant on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
+}
+\end{center}
+\end{figure}
+
+
 
 \begin{figure}[htbp]
 \begin{center}
