@@ -15,6 +15,10 @@
 \usepackage{graphicx}
 \usepackage{amstext}
 \usepackage{amsmath}
+\usepackage{units}
+
+\usepackage{txfonts} % upright \mu => \muup $math env only$
+
 
 \usepackage{subfigure}
 \usepackage{xspace}                   % space nach makro
@@ -274,7 +278,7 @@ The sensors have to be cheap enough to be affordable for series for up to six ro
 
 On the Krikkit3G robots the available space is limited to $50\times50\times110$\,mm$^3$ for each of the three proposed sensor mount points.
 The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
-Due to the new independent wheel suspension the operating range of the sensor must be greater than $\pm 5$\,mm of the reference plane.
+Due to the new independent wheel suspension the operating range of the sensor must be in the range of $\pm 10$\,mm to the reference plane.
 Data must be output on the robot's CAN-bus.
 As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
 
@@ -379,7 +383,7 @@ Often they are even combined with accelerometers in a single chip package to 6-d
 Ultrasonic Doppler velocimeters work similar as ultrasonic distance sensors.
 Ultrasonic distance sensors were used in the first robot generation of the \MH for collision detection.
 
-As on every Doppler measurement, its accuracy is directly dependent on the used wavelengths.
+As on every Doppler measurement, its accuracy is directly dependant on the used wavelengths.
 At ultrasonic sensors wavelengths around~100\,kHz are used. 
 This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.
 
@@ -822,7 +826,7 @@ Sketch not to scale.
 
 The optical properties of the mouse have to be improved by an appropriate optical system.
 The most important drawback of the ADNS-6010 is its maximum capable speed of 1.1\,m/s, it must be improved to 5\,m/s. 
-The maximum speed is linear dependent of the field of view of the sensor.
+The maximum speed is linear dependant of the field of view of the sensor.
 By magnifying the field of view of the sensor by five times, this will also increase the maximum speed over 5\,m/s.\\
 Another wished feature is a distance to the surface from at least 20\,mm.
 The ADNS-6010 with its original lens has only 2\,mm clearance height, this has to be improved.\\
@@ -919,7 +923,7 @@ The focusing of the spots hint to a relatively well modelled system.
 The goal is to find a lens set-up that magnifies the current optical system by five times.
 We design the system without telecentric at first, as a telecentric add-on does not alter the magnification of the system.
 For a magnifying system, we add a second lens before the original system that has its image plane on the object plane of the original system (see~\autoref{fig:sk2l}).
-The needed focal length $f_2$ of lens~2 is calculated from the LaPlace projection equation~\cite{jaeger} (\autoref{eq:1}). %FIXME auf deutsch heissts so, wie in EN-GB? (nur thin lens eq. gefunden, das is net das was wir wollen
+The needed focal length $f_2$ of lens~2 is calculated from the Laplace projection equation~\cite{jaeger}:% (\autoref{eq:1}). %FIXME auf deutsch heissts so, wie in EN-GB? (nur thin lens eq. gefunden, das is net das was wir schreiben wollen)
 
 \begin{equation}
 \label{eq:1}
@@ -942,18 +946,30 @@ original mouse lens~L$_1$,
 virtual image plane~V (former object plane),
 second lens~L$_2$ with new aperture~A,
 new object plane~O.
+Dimensioning below are: 
+Image distance~$i_2$ to virtual image and object distance~$o_2$. % FIXME cite? from WP... but need better ref.
 }
 \end{center}
 \end{figure}
 
 The next criteria for the lens system is the depth of focus.
-We wish for at least $\pm 5$\,mm depth of focus to the object plane.
+We wish for $\pm 10$\,mm depth of focus to the object plane.
 For any symmetrical lens, the depth of focus lies between the near and far limits, see~\autoref{fig:nfl}.
-We therefore set the near limit $d_n = o_2 - 5$\,mm and the far limit $d_f = o_2 + 5$\,mm.
-The formula for the distance of the near and far limit is the following:
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/near_farpoints}
+\caption{\label{fig:nfl}
+Definition of the depth of focus.
+The focused area lies between the near limit and the far limit.
+The limits are dependant on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
+}
+\end{center}
+\end{figure}
+We therefore set the near limit $d_n = o_2 - 10$\,mm and the far limit $d_f = o_2 + 10$\,mm.
+The formula for the distance of the near and far limit is the following: % FIXME cite? from WP... but need better ref.
 \begin{align}
 \label{eq:nf}
-d_{n/f} &= \frac{g \cdot d_h}{d_h + (g-f)} \\
+d_{n/f} &= \frac{g \cdot d_h}{d_h \pm (g-f)} \\
 \label{eq:hf}\text{with } d_h &= \frac{f^2}{\kappa \cdot Z} \text{ being the hyperfocal distance}\\
 \label{eq:ka}\text{and } \kappa &= \frac{f}{D} \text{ being the $f$-number.}
 \end{align}
@@ -965,39 +981,77 @@ We see, that the only variable left responsible for the sharpness is the apertur
 The calculations of the needed aperture diameter:\\
 From~\autoref{eq:1} and our magnification factor of five follows
 \begin{equation}
+\label{f_to_o}
 f_2 = \frac{o_2}{6}
 \end{equation}
 We use this to substitute $\kappa$~\eqref{eq:ka} and~$f$ in $d_h$~\eqref{eq:hf} to get a simplified formula for
 \begin{equation}
 d_h = \frac{o_2}{6} \cdot \left( {\frac{D}{Z} + 1 } \right)
 \end{equation}
-This inserted into the formula for the near limit $d_n = o_2 - 5$\,mm leads to the aperture diameter
+This inserted into the formula for the near limit $d_n = o_2 - 10$\,mm leads to the aperture diameter
 \begin{equation}
-o_2 - 5 = \frac{o_2 \cdot \frac{o_2}{6} \cdot \left( { \frac{D}{Z} + 1} \right) }{ \frac{o_2}{6} \cdot \left( { \frac{D}{Z} + 1} \right) + o_2  - \frac{o_2}{6} } \Rightarrow
+\label{eq:D_nl}
+o_2 - 10 = \frac{o_2 \cdot \frac{o_2}{6} \cdot \left( { \frac{D}{Z} + 1} \right) }{ \frac{o_2}{6} \cdot \left( { \frac{D}{Z} + 1} \right) + o_2  - \frac{o_2}{6} } \Rightarrow D = \underline{Z \cdot \left( { \frac{o_2}{2} -6} \right)}
 \end{equation}
+The formula for the needed aperture diameter on the far limit is similar:
+\begin{equation}
+\label{eq:D_fl}
+D = \underline{Z \cdot \left(\frac{o_2}{2} +4 \right)}
+\end{equation}
+From these both formulas \eqref{eq:D_nl} and \eqref{eq:D_fl} we see, that the needed aperture is linear dependant on the object distance and therefore from the length of the optical extension on a given magnification.
+Bigger apertures yield more light, and with better illumination the sensor will achieve higher frame-rates due to a shorter shutter length.
+Therefore we want to maximize our aperture, and we choose the longest possible object distance.
+From~\eqref{f_to_o} and a maximum object distance of 65\,mm, we choose a lens with $f=10$\,mm on the upper limit, which leads to the following aperture diameters:
+\begin{align*}
+D_n &= \unit[0.672]{mm} & D_f &= \unit[0.952]{mm}
+\end{align*}
+The real needed aperture is somewhere in the middle.
+Apertures in this range are possible to manufacture ourselves, this looks promising.
 
+The next influence on the depth of focus is diffraction.
+Diffraction occurs, when a wave encounters an obstacle.
+Due to the wave nature of light, every spot of light results in an \emph{Airy disc}, when passing a lens with a circular aperture.
+The best possible resolution of an optical system is the minimum distance, where two Airy discs can be distinguished.
+This distance is radius of the Airy disc~\cite{jaeger}, see~\autoref{eq:airy}. %insert sketch from Ex.1 (Jaeger 2000)?
+\begin{equation}
+\label{eq:airy}
+\Delta x_{min} = r = 1.22 \frac{\lambda}{D} f \qquad
+\begin{aligned}
+f & \dots \text{ focal length}\\
+D & \dots \text{ aperture diameter}
+\end{aligned}
+\end{equation}
+%FIXME this correct? we do not focus at the focal point (object not at infinity), but 1/5 after the focal point - does the airy disc get bigger?
+The Airy disks must be at minimum one pixel~($\unit[30]{\muup m}$) apart to be distinguished.
+At $\lambda = \unit[842]{nm}$, with a focal length of \unit[10]{mm} and an estimated aperture of \unit[0.8]{mm}, the Airy disks are~$\unit[12]{\muup m}$ apart.
+This should be more than enough for this lens and aperture combination.
 
+The system with a second lens with $f=10$\,mm is simulated in WinLens, see~\autoref{fig:ls2_p}.
+The according spot diagram can be seen in~\autoref{fig:ls2_s}.
 
-\begin{figure}[htbp]
+\begin{figure}[htbp] %FIXME ugly small plot!
 \begin{center}
-\includegraphics[width=1\columnwidth]{figures/near_farpoints}
-\caption{\label{fig:nfl}
-Definition of the depth of focus.
-The focused area lies between the near limit and the far limit.
-The limits are dependant on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
+\includegraphics[width=1\columnwidth]{figures/lens_system_l2}
+\caption{\label{fig:ls2_p}
+WinLens plot of the simulation of the extended optical system with lens~2.
+From left to right:
+Sensor plane~S,
+original mouse lens~L$_1$,
+aperture A,
+second lens~L$_2$,
+object plane~O.
 }
 \end{center}
 \end{figure}
 
-
-
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=1\columnwidth]{figures/lens_system_mouse.png}
-\caption{\label{fig:ls2_p}
-WinLens plot of the simulation of the unmodified optical system of the mouse.
-One single lens with f=2.88\,mm sits exactly in the middle between sensor plane~(S) and object plane~(O).
+\includegraphics[width=1\columnwidth]{figures/spot_diagram_2lenses.png}
+\caption{\label{fig:ls2_s}
+WinLens plot of the spot diagram of the simulation of the extended optical system with lens~2, $\lambda = 842$\,nm.
+The focusing of the spots hint to a relatively well modelled system.
 }
+
 \end{center}
 \end{figure}
 
