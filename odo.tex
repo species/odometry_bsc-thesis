@@ -779,6 +779,7 @@ Our microcontroller is configured as slave and waits for the reset signal, after
 % 4x vorgang kommt zu uC-software
 
 \subsubsection{Final Circuit between ADNS and XC}
+\label{adns-pcb}
 
 After successfully saving the firmware in stage~1, we can connect the ADNS-6010 directly to our microcontroller.
 With the outputs of the XC164CM configured as open drain, we can connect the 5\,V microcontroller with minimal circuit to the 3.3\,V~ADNS-6010.
@@ -845,18 +846,18 @@ The whole optical system can be seen in~\autoref{fig:sketch-optic-simple}.
 \includegraphics[width=1\columnwidth]{figures/sketch-optic-simple}
 \caption{\label{fig:sketch-optic-simple}
 Complete optical system:
-Image plane S on the left side,
+Image plane~S on the left side,
 original mouse lens L$_1$,
-aperture stop A,
-magnification lens L$_2$,
-telecentric lens L$_3$ and object O on the right side.
+aperture stop~A,
+magnification lens~L$_2$,
+telecentric lens~L$_3$ and object~O on the right side.
 }
 \end{center}
 \end{figure}
 %Sketch
 
 The optical system with the sensor is built using a Linos 40\,mm micro-bench carrier system~\cite{microbench} which allows for easy adjustment of all optical components.
-For some of the components a custom mount based on micro-bench carriers has to be developed, so for L$_2$ and the Aperture, due to space constrains (see~\autoref{l2m}).
+For some of the components a custom mount based on micro-bench carriers has to be developed, so for L$_2$ and the aperture, due to space constrains (see~\autoref{l2m}).
 The mount of the sensor itself on the micro-bench carrier is described in~\autoref{semo}.
 
 The calculations involved figuring out the original mouse optical system, designing the second lens and needed aperture and choosing an appropriate lens for the telecentric set-up.
@@ -866,7 +867,7 @@ Detailed explanations of the calculations follow now.
 \subsubsection{Optical Path Calculations: Original Mouse Setup}
 
 To alter the properties of an optical system by expansion with more optical elements, the optical properties of the base system must be known.
-The original mouse sensor set-up consists of the sensor, the lenses for the sensor and the VCSEL combined as one plastic part, and the VCSEL (see~\autoref{fig:o_setup_datasheet}.
+The original mouse sensor set-up consists of the sensor, the lenses for the sensor and the VCSEL combined as one plastic part, and the VCSEL (see~\autoref{fig:o_setup_datasheet}).
 The exact parameters of the optical system are not specified in the data sheet, they have to be estimated based on retroactive measurements and own observations.
 From the data sheet~\cite{adns} the following properties are known: 
 \begin{itemize}
@@ -902,7 +903,7 @@ The modelling of the first lens is used as base for the simulation of the extend
 \includegraphics[width=1\columnwidth]{figures/lens_system_mouse.pdf}
 \caption{\label{fig:ls1_p}
 WinLens plot of the simulation of the unmodified optical system of the mouse.
-One single lens with $f=2.88$\,mm sits exactly in the middle between sensor plane~(S) and object plane~(O).
+One single lens with $f=2.88$\,mm sits exactly in the middle between sensor plane~S and object plane~O.
 }
 \end{center}
 \end{figure}
@@ -944,10 +945,10 @@ From left to right:
 Sensor plane~S,
 original mouse lens~L$_1$, 
 virtual image plane~V (former object plane),
-second lens~L$_2$ with new aperture~A,
+second lens~L$_2$ with new aperture~A and
 new object plane~O.
 Dimensioning below are: 
-Image distance~$i_2$ to virtual image and object distance~$o_2$. % FIXME cite? from WP... but need better ref.
+Image distance~$i_2$ to virtual image and object distance~$o_2$ for magnifying lens~2. % FIXME cite? from WP... but need better ref.
 }
 \end{center}
 \end{figure}
@@ -1023,7 +1024,7 @@ D & \dots \text{ aperture diameter}
 \end{equation}
 %FIXME this correct? we do not focus at the focal point (object not at infinity), but 1/5 after the focal point - does the airy disc get bigger?
 The Airy disks must be at minimum one pixel~($\unit[30]{\muup m}$) apart to be distinguished.
-At $\lambda = \unit[842]{nm}$, with a focal length of \unit[10]{mm} and an estimated aperture of \unit[0.8]{mm}, the Airy disks are~$\unit[12]{\muup m}$ apart.
+At $\lambda = \unit[842]{nm}$, with a focal length of \unit[10]{mm} and an estimated aperture of \unit[0.8]{mm}, the Airy disks are~$\unit[12]{\muup m}$ apart according to~\autoref{eq:airy}.
 This should be more than enough for this lens and aperture combination.
 
 The system with a second lens with $f=10$\,mm is simulated in WinLens, see~\autoref{fig:ls2_p}.
@@ -1038,7 +1039,7 @@ From left to right:
 Sensor plane~S,
 original mouse lens~L$_1$,
 aperture A,
-second lens~L$_2$,
+second lens~L$_2$ and
 object plane~O.
 }
 \end{center}
@@ -1051,20 +1052,43 @@ object plane~O.
 WinLens plot of the spot diagram of the simulation of the extended optical system with lens~2, $\lambda = 842$\,nm.
 The focusing of the spots hint to a relatively well modelled system.
 }
-
 \end{center}
 \end{figure}
 
 \subsubsection{Optical Path Calculations: Telecentric Setup}
 
-veraendert magnification (und schaerfe?) nicht
+Until now, the magnification of the system (And therefore the measured speed) is linear dependant on the object distance, which we wished to vary about $\pm 10$\,mm.
+This would induce unacceptable errors from varying object distance.
+To counter that, the distance-dependant magnification can be eliminated by a telecentric attachment.\\
+To make a finite conjugate system like ours telecentric, a lens with the focal length of the object distance has to be placed in front of the objective, with its focal point set into the aperture of the objective~\cite{telec}.
+The third lens is therefore placed at the position of the object of the 2-lens set-up, as seen in~\autoref{fig:sketch-optic-simple} in~\autoref{optics}.
+As telecentric lens, an achromatic doublet with $f=50$\,mm is used.
+This does not alter the magnification, and the sharpness remains in an acceptable range up to 30\,mm from the telecentric lens.
+The choice of this lens type has been approved by WinLens simulation, see~\autoref{fig:ls3_p} and~\autoref{fig:ls3_s}.
+
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=1\columnwidth]{figures/lens_system_mouse.png}
+\includegraphics[width=1\columnwidth]{figures/lens_system_telecentric.pdf}
 \caption{\label{fig:ls3_p}
-WinLens plot of the simulation of the unmodified optical system of the mouse.
-One single lens with f=2.88\,mm sits exactly in the middle between sensor plane~(S) and object plane~(O).
+WinLens plot of the telecentric system with all three lenses.
+From left to right:
+Sensor plane~S,
+original mouse lens~L$_1$,
+aperture A,
+second lens~L$_2$,
+third lens~L$_3$ and
+object plane~O.
+}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/spot_diagram_telecentric.png}
+\caption{\label{fig:ls3_s}
+WinLens plot of the spot diagram of the simulation of the complete optical system, $\lambda = 842$\,nm.
+The focusing of the spots hint to a relatively well modelled system.
 }
 \end{center}
 \end{figure}
@@ -1072,10 +1096,45 @@ One single lens with f=2.88\,mm sits exactly in the middle between sensor plane~
 \subsubsection{Sensor Mounting and Calibration}
 \label{semo}
 
-Sketch with adjusting screws in all dimensions
+The PCB for the ADNS-6010 (as shown in~\autoref{fig:testplatine-board} in~\autoref{adns-pcb}) is mounted on a Micro-Bench carrier.
+Its mount allows for position calibration of the sensor in x~and~y - position as well as the angle of the sensor to the optical axis of the Micro-Bench.
+The PCB is mounted in an $21.5^\circ$-angle due to the angle of the optical axis on the ADNS-6010 (as shown in~\autoref{fig:o_setup_datasheet}).
+The mount and the position of all calibration screws is shown in~\autoref{fig:sens-mount}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/sens-mount.pdf}
+\caption{\label{fig:sens-mount}
+The PCB with the ADNS-6010 with its mount on a Micro-Bench carrier on the end of the Micro-Bench.
+It can be adjusted horizontal and vertical to the optical axis of the Micro-Bench.
+There are two pairs of opposite adjusting screws for each direction, horizontal and vertical.
+Its angle can be adjusted with the variable PCB-holding screws on top.
+}
+\end{center}
+\end{figure}
+
+
 
 calibration process
   laser
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/cal_setup.pdf}
+\caption{\label{fig:cal_setup}
+Calibration set-up for the sensor on the Micro-Bench.
+}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/sens-mount.pdf}
+\caption{\label{fig:image-laser}
+}
+\end{center}
+\end{figure}
 
 \subsubsection{Lens 2 and Aperture Mounting}
 \label{l2m}
