@@ -15,6 +15,8 @@
 \usepackage{graphicx}
 \usepackage{amstext}
 \usepackage{amsmath}
+\usepackage{isoent} % \sfrac
+\usepackage{wasysym} % \diameter
 \usepackage{units}
 
 \usepackage{txfonts} % upright \mu => \muup $math env only$
@@ -31,6 +33,7 @@
 \newcommand{\MH}{\emph{``Mostly Harmless''} RoboCup Team\xspace}
 \newcommand{\MSL}{Middle Size League\xspace}
 \newcommand{\robocup}{\emph{RoboCup}\xspace}
+\newcommand{\EMT}{Institute of Electrical Measurement and Measurement Signal Processing}
 
 \hyphenation{VCSEL}
 
@@ -659,7 +662,7 @@ Some additional circuit, e.g.\ external reference capacitors and a resonator is 
 \caption{\label{fig:adnsc}
 Minimal circuit for the ADNS-6010 laser mouse sensor recommended from data sheet~\cite{adns}.
 The ADNS-6010 is in the centre, the external microcontroller on the left side, the VCSEL laser and driver on the right.
-The 3.3\,V-Regulator needed on 5\,V supply is on top of the diagram.
+The 3.3\,V-regulator needed on 5\,V supply is on top of the diagram.
 }   
 \end{center}
 \end{figure}
@@ -785,7 +788,7 @@ After successfully saving the firmware in stage~1, we can connect the ADNS-6010 
 With the outputs of the XC164CM configured as open drain, we can connect the 5\,V microcontroller with minimal circuit to the 3.3\,V~ADNS-6010.
 The ADNS-6010 is mounted on a custom PCB with the following features: 
 10-pin header for connection to the microcontroller board,
-3.3\,V-regulator,
+\hbox{3.3\,V-regulator},
 circuit needed for the VCSEL diode,
 resonator and reference capacitors.\\
 The board layout is designed in the Cadsoft EAGLE\footnote{EAGLE light edition v5.10.0 \copyright~CadSoft, \url{http://www.cadsoft.de} as on 1/1/2011} Software.
@@ -798,7 +801,7 @@ The circuit and board layout for the PCB can be seen in~\autoref{fig:testplatine
 \caption{\label{fig:testplatine-layout}
 Circuit for the custom PCB for the ADNS-6010 laser mouse sensor.
 In the lower right is the 10-pin header for the connection to the microcontroller board.
-Right on the middle the 3.3\,V-Regulator, which takes it power from the 5\,V-line from the microcontroller.
+Right on the middle the 3.3\,V-regulator, which takes it power from the 5\,V-line from the microcontroller.
 Top right is the header for the externally connected laser diode.
 }
 \end{center}
@@ -811,7 +814,7 @@ Top right is the header for the externally connected laser diode.
 Board layout for the custom PCB for the ADNS-6010 laser mouse sensor.
 The 20-pin sensor is in the middle.
 On the left is the 10-pin header for the connection to the microcontroller board.
-Below the sensor is the 3.3\,V-Regulator, and driver and header for the externally connected laser diode.
+Below the sensor is the 3.3\,V-regulator, and driver and header for the externally connected laser diode.
 Sketch not to scale.
 }
 \end{center}
@@ -920,6 +923,7 @@ The focusing of the spots hint to a relatively well modelled system.
 \end{figure}
 
 \subsubsection{Optical Path Calculations: 2-Lens Setup}
+\label{opt:2l}
 
 The goal is to find a lens set-up that magnifies the current optical system by five times.
 We design the system without telecentric at first, as a telecentric add-on does not alter the magnification of the system.
@@ -1097,7 +1101,7 @@ The focusing of the spots hint to a relatively well modelled system.
 \label{semo}
 
 The PCB for the ADNS-6010 (as shown in~\autoref{fig:testplatine-board} in~\autoref{adns-pcb}) is mounted on a Micro-Bench carrier.
-Its mount allows for position calibration of the sensor in x~and~y - position as well as the angle of the sensor to the optical axis of the Micro-Bench.
+Its mount allows for calibration of the sensor in x- and y-position as well as the angle of the sensor to the optical axis of the Micro-Bench.
 The PCB is mounted in an $21.5^\circ$-angle due to the angle of the optical axis on the ADNS-6010 (as shown in~\autoref{fig:o_setup_datasheet}).
 The mount and the position of all calibration screws is shown in~\autoref{fig:sens-mount}.
 
@@ -1113,16 +1117,23 @@ Its angle can be adjusted with the variable PCB-holding screws on top.
 \end{center}
 \end{figure}
 
-
-
-calibration process
-  laser
+For calibrating the sensor to the optical axis of the Micro-Bench, it is mounted on the micro-bench with an IR-laser that defined the optical axis.
+The set-up for calibration is shown in~\autoref{fig:cal_setup}.
+The 5\,mW-laser\footnote{750\,nm, Model FIXME} has to be dampened by a filter-array for safety of the sensor.
+In front of the sensor is the magnification lens L$_2$, which allows for a more accurate calibration with its $5\times$-magnification factor.
+The sensor is connected to the microcontroller, and the image of the sensor is read out and visualized on a computer screen (For details of this process see~\autoref{software}).
+The sensor is calibrated to the optical axis by trying to move the laser speckle in the image to the centre by changing sensor position with the adjusting screws.
+A sample image of the laser pointing to the sensor from the sensor's view can be seen in~\autoref{fig:image-laser}.
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=1\columnwidth]{figures/cal_setup.pdf}
 \caption{\label{fig:cal_setup}
-Calibration set-up for the sensor on the Micro-Bench.
+Set-up for calibrating the sensor to the optical axis of the Micro-Bench.
+From left to right:
+IR-laser,
+laser dampening filter,
+magnification lens~2 in front of the sensor and the microcontroller for reading out the sensor image.
 }
 \end{center}
 \end{figure}
@@ -1130,8 +1141,10 @@ Calibration set-up for the sensor on the Micro-Bench.
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=1\columnwidth]{figures/sens-mount.pdf}
+\includegraphics[width=0.4\columnwidth]{figures/sensor_image_laserspot.PNG}
 \caption{\label{fig:image-laser}
+Image of the laser speckle in the calibration process from the sensor's view.
+$30\times30$\,px$^2$ resolution, 264\,$\muup$s shutter length.
 }
 \end{center}
 \end{figure}
@@ -1139,7 +1152,34 @@ Calibration set-up for the sensor on the Micro-Bench.
 \subsubsection{Lens 2 and Aperture Mounting}
 \label{l2m}
 
-manufacturing drawing
+According to the calculations in~\autoref{opt:2l}, a lens\footnote{N-BK7 Bi-Convex Lens with IR-coating (LB1157-B)} with $f=10$\,mm was ordered from Thorlabs\footnote{\url{http://www.thorlabs.de} as on 08/01/2011}, along with an adapter\footnote{Adapter for \diameter\,6\,mm Optics (LMRA-6)} to 12.7\,mm ($\sfrac{1}{2}''$) diameter.
+Its small diameter (6\,mm or 12.7\,mm with adapter) is not compatible with any Micro-Bench carrier available.
+So a mount for both L$_2$ and the aperture is designed, which could be fixed in a 35\,mm-Micro-Bench carrier.\\
+The mount is turned out of aluminium with a cavity for the 12.7\,mm~lens adapter and mounting holes for the aperture.
+It has four M3 mounting holes, two for the lens holder and two for the aperture.
+The lens holder is held down by two bigger washers, the aperture mounted through its holes with distance washers.
+The complete assembly is shown in~\autoref{fig:l2mount}.
+The UniGraphics drawing of the mount is available in the AFS\footnote{\url{/afs/robocup.tugraz.at/mechanics/01_Krikkit3G/06_Odometriesensoren/CAD/Versuchsaufbau/Linsenhalterunghalterung/} as on 08/01/2011}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.4\columnwidth]{figures/Krikkit3G.jpg}
+\caption{\label{fig:l2mount}
+FIXME take image from lens mount!
+Lens mount for L$_2$ and the aperture.
+The lens in its adapter is held down by two washers,
+the aperture is mounted with distance washers as close as possible to the lens.
+}
+\end{center}
+\end{figure}
+
+For the experiments, a set of apertures with different diameters are made.
+They are made of copper-coated epoxy, normally used for PCBs.
+The apertures are a simple sheet of epoxy the size $10\times40$\,mm$^2$ with the aperture in the middle and two mounting holes matching for the lens~2 mount outside.
+They are manufactured on the circuit board plotter of the \EMT. 
+The EAGLE files for the aperture plates are available in the AFS\footnote{\url{/afs/robocup.tugraz.at/projects/2010_improved-odometry/platinen/Blenden} as on 08/01/2011}.
+Eight different aperture plates with aperture diameters 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 1.8 and 2.1\,mm are manufactured.
+The apertures must be mounted with the copper side facing the lens on the lens mount to sit as close as possible to the lens surface.
 
 \subsubsection{Illumination}
 
