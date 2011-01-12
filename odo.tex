@@ -1186,11 +1186,28 @@ The apertures must be mounted with the copper side facing the lens on the lens m
 The original illumination for the laser mouse consists in a VCSEL laser diode with a wavelength of 842\,nm.
 With the magnification system, we have a much greater target area to illuminate, for which the original VCSEL is too weak.
 The goal is to find a proper illumination for a target area of $5\times5$\,mm$^2$.
-It must be bright enough on every test surface to allow the automatic shutter control of the sensor minimize the shutter for the maximum frame-rate of 7080\,Hz. 
+It must be bright enough on every test surface (see \autoref{}FIXXME chapter requirements} to allow the automatic shutter control of the sensor minimize the shutter for the maximum frame-rate of 7080\,Hz. 
+Other requirements are the available space on the robot for a sensor, and the power consumption. 
+The illumination must fit besides the optical ray path inside the space constraints of $60\times60$\,mm$^2$.
+The power supply are either 24 or 6\,V, and the cooling possibilities are limited by the space constraints.\\
+The frequency of the illumination must be in the range of the responsivity of the ADNS-6010, see~\autoref{fig:resp}.
+A monochromatic light source would find favour, as this would lead to higher contrast.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.6\columnwidth]{figures/responsivity}
+\caption{\label{fig:sens}
+Relative Responsivity for the ADNS-6010 laser mouse sensor from the data sheet~\cite{adns}.
+}
+\end{center}
+\end{figure}
+
+Different types of illumination are evaluated.
 
 
 
-image relative responsivity from data sheet 
+
+%image relative responsivity from data sheet 
 
   Why here?
   types of LEDs and Lasers used
