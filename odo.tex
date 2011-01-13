@@ -20,6 +20,7 @@
 \usepackage{units}
 
 \usepackage{txfonts} % upright \mu => \muup $math env only$
+\usepackage{eurosans} % EUR sign
 
 
 \usepackage{subfigure}
@@ -1186,9 +1187,10 @@ The apertures must be mounted with the copper side facing the lens on the lens m
 The original illumination for the laser mouse consists in a VCSEL laser diode with a wavelength of 842\,nm.
 With the magnification system, we have a much greater target area to illuminate, for which the original VCSEL is too weak.
 The goal is to find a proper illumination for a target area of $5\times5$\,mm$^2$.
-It must be bright enough on every test surface (see \autoref{}FIXXME chapter requirements} to allow the automatic shutter control of the sensor minimize the shutter for the maximum frame-rate of 7080\,Hz. 
+It must be bright enough on every test surface (see \autoref{}) %FIXXME chapter requirements
+to allow the automatic shutter control of the sensor minimize the shutter for the maximum frame-rate. 
 Other requirements are the available space on the robot for a sensor, and the power consumption. 
-The illumination must fit besides the optical ray path inside the space constraints of $60\times60$\,mm$^2$.
+The illumination must fit besides the optical ray path inside the space constraints of the $60\times60$\,mm$^2$ cross-section.
 The power supply are either 24 or 6\,V, and the cooling possibilities are limited by the space constraints.\\
 The frequency of the illumination must be in the range of the responsivity of the ADNS-6010, see~\autoref{fig:resp}.
 A monochromatic light source would find favour, as this would lead to higher contrast.
@@ -1196,18 +1198,98 @@ A monochromatic light source would find favour, as this would lead to higher con
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.6\columnwidth]{figures/responsivity}
-\caption{\label{fig:sens}
-Relative Responsivity for the ADNS-6010 laser mouse sensor from the data sheet~\cite{adns}.
+\caption{\label{fig:resp}
+Relative responsivity for the ADNS-6010 laser mouse sensor from the data sheet~\cite{adns}.
 }
 \end{center}
 \end{figure}
 
-Different types of illumination are evaluated.
+Finding proper illumination is a difficult task, as every tested surface reacts differently on each type of illumination.
+The illuminant tested are a 1\,kW studio spotlight, the laser used for calibrating and different types of high-power LEDs.
+Every illuminant is tested on a white sheet of paper for reference, and then on the three different carpets.
+For the experiments it is required for the illumination to achieve the maximum frame-rate of 7080\,Hz (shutter below 18\,$\muup$s) on all test surfaces accomplished by an acceptable surface quality (feature count around 100).
+The shutter/frame-rate and surface quality were read out via the PyQt-application described in~\autoref{software}.\\
+The studio spotlight could not be focused enough on the $5\times5$\,mm$^2$ spot to achieve the luminous density needed to achieve the needed frame-rate on any of the test surfaces.
+Example screen-shots of the studio spotlight illuminating the test surfaces can be seen in~\autoref{fig:ill-spotlight} for every test surface.
+The studio spotlight would need more focusing optics to reach the luminous density needed, and even using a smaller version would not fit on the robot, so smaller approaches follow next.\\
+For the laser used for calibration, due to its power and beam size being similar to the original VCSEL, it was too weak to be used.\\
+The best power/size rating can be achieved with LEDs.
+The brightest LEDs found were from \href{http://www.led1.de}{LED1.de}.
+Two types of LEDs were chosen for comparison, ultra-bright white LEDs and infra-red LEDs.
+Their specifications can be seen in~\autoref{table:leds}.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \mbox{
+      \subfigure[White sheet of paper]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-papier-scheinwerfer-blende10.PNG}} \hfill
+      \subfigure[Carpet 1]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich1-scheinwerfer-blende10.PNG}}
+      }
+    \mbox{
+      \subfigure[Carpet 2]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich2-scheinwerfer-blende10.PNG}} \hfill
+      \subfigure[Carpet 3]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich3-scheinwerfer-blende10.PNG}}
+      }
+    \caption{Screen shots of the four target surfaces (a--d) with illumination by the studio spotlight.
+The distance of the spotlight to the surface was 17\,cm.
+An aperture of 1.0\,mm was used.
+The surface quality (Squal) of all samples is sufficient, but the needed frame-rate (fps) of 7080\,Hz is not reached anywhere.
+The software used is described in~\autoref{software}.}
+    \label{fig:ill-spotlight}
+  \end{center}
+\end{figure}
+
+\begin{table}[htbp]
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tabular}{r|l}
+       %\hline
+%       Property & Value \\
+       Name  & Nichia NSPW500GS-K1     \\
+       \hline
+       Art.\ \# & \href{http://www.led1.de/shop/product_info.php?pName=nichia-nspw500gsk1-led-5mm-white-44000mcd-10-pcs-p-1161&cName=led-5mm-ultra-bright-white-44000mcd-nichia-c-3_276&xploidID=4a06ee48002afb920a3a4663e80b324d}{54400101} \\
+       Case & 5\,mm waterclear     \\
+       Viewing Angle  & 15$^\circ$     \\
+       Power & 3.2\,V     \\
+       Current & 20\,mA typ., 30\,mA max.     \\
+       Brightness & 44\,000\,mcd     \\
+       Price & 9.99 \euro\ (10 pcs.)     \\
+       Chromaticity \\
+       Coordinates x/y & 0.31/0.32     \\
+    \end{tabular}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tabular}{r|l}
+%      Property & Value     \\
+       Name  & LED 5\,mm infrared     \\
+      \hline
+       Art.\ \# & \href{http://www.led1.de/shop/product_info.php?=&pName=led-5mm-infrared-850nm-120mw-10-pcs-p-1349&cName=led-5mm-ultra-bright-infrared-850nm-120mw-c-3_277&xploidID=4a06ee48002afb920a3a4663e80b324d}{50885002} \\
+       Case & 5\,mm waterclear     \\
+       Viewing Angle  & 15$^\circ$     \\
+       Power & 1.5\,V     \\
+       Current & 50\,mA     \\
+       Intensity & 120\,mW     \\
+       Price & 7.99 \euro\ (10 pcs.)     \\
+       Wave Length & 850\,nm (infrared)     \\
+       &
+    \end{tabular}
+  \end{minipage}
+  \caption{Technical data of both LED types evaluated.
+  LEDs ordered from \href{http://www.led1.de}{LED1.de}, prices from 30/10/2010.}
+  \label{table:leds}
+\end{table}
+
+From each type of LEDs, 20 pieces were ordered.
+Any single LED of these provides still not enough luminous density, so an array of these LEDs are used.
+They must be mounted as close as possible to the target surface.
+The only possible mounting place on the micro-bench is between the second and the third lens, see~\autoref{fig:illm}.
+They are mounted in a ring around the optical rays, and illuminate the surface through the third lens.
+Therefore, a small PCB is designed with nine LEDs in a circular array, and an opening in the centre for the optical beam (\autoref{fig:illupcb}).
+It is designed to fit on the micro-bench, and is then mounted on a micro-bench carrier.
 
 
+cooling
 
 
-%image relative responsivity from data sheet 
 
   Why here?
   types of LEDs and Lasers used
