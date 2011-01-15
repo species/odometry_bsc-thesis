@@ -1279,26 +1279,64 @@ The software used is described in~\autoref{software}.}
 \end{table}
 
 From each type of LEDs, 20 pieces were ordered.
-Any single LED of these provides still not enough luminous density, so an array of these LEDs are used.
+Any single LED of these provides still not enough luminous density, so an array of these LEDs is used.
 They must be mounted as close as possible to the target surface.
 The only possible mounting place on the micro-bench is between the second and the third lens, see~\autoref{fig:illm}.
 They are mounted in a ring around the optical rays, and illuminate the surface through the third lens.
-Therefore, a small PCB is designed with nine LEDs in a circular array, and an opening in the centre for the optical beam (\autoref{fig:illupcb}).
+Therefore, a small PCB is designed\footnote{EAGLE files are available in the AFS:\url{/afs/robocup.tugraz.at/projects/2010_improved-odometry/platinen/LED_ring_v2} as on 15/01/2011} with nine LEDs in a circular array, and an opening in the centre for the optical beam~(\autoref{fig:illupcb}).
 It is designed to fit on the micro-bench, and is then mounted on a micro-bench carrier.
 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.8\columnwidth]{figures/sketch-optic.pdf}
+\caption{\label{fig:illm}
+Complete optical system with illumination.
+The LEDs are placed on a PCB in a circle around the optical ray path, and illuminate the object surface~(O) through the third lens~L$_3$.
+The effect of the third lens on the illumination rays is negligible.
+}
+\end{center}
+\end{figure}
 
-cooling
+\begin{figure}[htbp]
+  \centering
+  \subfigure[Illumination PCB circuit]{\includegraphics[width=0.5\textwidth]{figures/LED-layout.png}} \hfill
+    \subfigure[Illumination PCB board layout. Sketch not to scale.]{\includegraphics[width=0.40\textwidth]{figures/LED-board.png}}
+  
+  \caption{Illumination PCB circuit and layout. 
+  The PCB is designed to be mounted on the micro-bench with the corner-holes and measures $40\times40$\,mm$^2$. 
+  Nine LEDs are arranged around the centre hole for the optical rays.
+  To reduce the overall voltage needed, they are arranged in three parallel lines with three LEDs and a series resistor each.
+  The power supply is to be connected on a simple 2-pin header on top.}
+  \label{fig:illupcb}
+\end{figure}
+
+From the PCB, four pieces were manufactured for testing.
+They are populated with either white or infra-red LEDs.
+Power must be supplied by an external power supply unit.
+Both LED types are to be powered with a constant current source.
+According to~\autoref{table:leds}, for the PCBs with white LEDs for which a maximum current of 30\,mA is allowed, 90\,mA for the three lines are used, and 150\,mA for the infra-red LEDs.
+With the serial resistor, this leads to a needed voltage of $\approx\unit[22]{V}$ for the white LEDs and $\approx\unit[\approx10]{V}$ for the infra-red LEDs.
+It would be possible to achieve more luminosity with the LEDs operating at higher currents in PWM mode~(using the PWM signal for the original VCSEL from the sensor), however the constant current luminosity was enough for the experiments.\\
+The nine LEDs need to be aligned to point exactly to the target centre for the maximum effect.
+Every LED on the PCB is calibrated separately to point to the centre.
+For the white LEDs, this can be seen in~\autoref{fig:led-cal}.
+The infra-red LEDs are calibrated via the streamed video from the sensor, as their light (850\,nm) is invisible to the human eye.\\
+A note on the cooling of the LEDs: They got very warm, but this was no problem in the open testbed.
+When tightly packed inside the robot, an appropriate cooling strategy must be considered.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\textwidth]{figures/led-centre-cal.png}
+\caption{\label{fig:led-cal}
+Calibration of the LEDs to point to the centre for maximum effect.
+The angle of every LED on the PCB is calibrated separately to point to the marked centre.
+}
+\end{center}
+\end{figure}
 
 
+When comparing the white and infra-red LEDs, the infra-red LEDs perform slightly better, so the experiments are done with infra-red illumination.
 
-  Why here?
-  types of LEDs and Lasers used
- 
-  Illumination PCB
-
-  circuit
-
-  PCB print
 
 \subsection{Software}
 \label{software}
