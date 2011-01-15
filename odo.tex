@@ -672,7 +672,7 @@ The 3.3\,V-regulator needed on 5\,V supply is on top of the diagram.
 \subsubsection{XC164CM Microcontroller}
 
 The XC164CM microcontroller comes from the Infineon XC166 family, as used in the Krikkit robots for motion control~\cite{krammer07}.
-It is a 16-bit microcontroller, which allows for convenient programming via the Keil~\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE.\\
+It is a 16-bit microcontroller, which allows for convenient programming via the Keil\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE.\\
 A XC164 development board~\cite{xc}, as seen in~\autoref{fig:xcdevboard} is used. 
 It has all pins of the XC~core easily accessible, and all needed circuit for the XC is on board.
 The XC164 on the board runs on 5\,V supply, which is tapped to power the ADNS-6010.
@@ -1315,7 +1315,7 @@ They are populated with either white or infra-red LEDs.
 Power must be supplied by an external power supply unit.
 Both LED types are to be powered with a constant current source.
 According to~\autoref{table:leds}, for the PCBs with white LEDs for which a maximum current of 30\,mA is allowed, 90\,mA for the three lines are used, and 150\,mA for the infra-red LEDs.
-With the serial resistor, this leads to a needed voltage of $\approx\unit[22]{V}$ for the white LEDs and $\approx\unit[\approx10]{V}$ for the infra-red LEDs.
+With the serial resistor, this leads to a needed voltage of $\approx\unit[22]{V}$ for the white LEDs and $\approx\unit[10]{V}$ for the infra-red LEDs.
 It would be possible to achieve more luminosity with the LEDs operating at higher currents in PWM mode~(using the PWM signal for the original VCSEL from the sensor), however the constant current luminosity was enough for the experiments.\\
 The nine LEDs need to be aligned to point exactly to the target centre for the maximum effect.
 Every LED on the PCB is calibrated separately to point to the centre.
@@ -1341,18 +1341,58 @@ When comparing the white and infra-red LEDs, the infra-red LEDs perform slightly
 \subsection{Software}
 \label{software}
 
+The software required for controlling the sensor is split into two parts: 
+The low-level interface for directly communicating with the ADNS-6010 laser mouse sensor is implemented in the microcontroller software written in~C.
+The software on the microcontroller is again commanded from the user interface running on the~PC written in Python and~Qt (PyQT).\\
+The user interface displays the images read from the sensor, or logs motion data into text files.
+These text files are analysed and the results are plotted with octave.
+
 \subsubsection{Microcontroller-Software}
 
-  XC-Code
-    requirements
-    firmware catch
+The microcontroller software is written in~C and developed with the Keil~\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE. % FIXME footnote already in chapter
+The Keil IDE produces hex files (*.H86), which are flashed over the serial port (RS-232) to the microcontroller development board.
+For the flashing process, see the board manual~\cite{xc}.
+It is important to use a high quality serial cable to avoid bit-errors on the flashing process.
+The full source code of the software and the hex-binary is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/uc_impodo_testbed.git} as on 15/01/2011}.
 
-    image streaming
+The  software on the microcontroller should fulfil the following functions:
+Catch the firmware in stage~1
+and in stage~2 flash the ADNS-6010 with the new firmware, 
+read out images and motion data.\\
+The microcontroller is connected to the PC via RS-232.
+For communication via a terminal emulator from the PC, an interactive console has been implemented based on the motion controller code~\cite{krammer07}.
+
+
+For the firmware catch, the syncronous serial interface~(SSC0) in slave mode is used together with an analogue input, where it waits for the reset signal from the original microcontroller.
+The firmware is stored in the internal RAM of the microcontroller and can be output after the catch in human readable form on the terminal.
+Due to the available RAM in the XC164-CM being smaller than the firmware size, the catch has to be split up.
+It must be repeated with an offset given for four times, until the complete 1936\,Byte of the firmware are available.
+After the firmware is known, it is integrated into the microcontroller program as static array, and can be flashed to the ADNS-6010 any time at stage~2.
+The listening on the communication between the original mouse microcontroller and the ADNS-6010 revealed other interesting data:
+After the firmware is flashed, the self test on the ADNS-6010 is triggered and the CRC of the firmware is checked.
+Then some configuration parameters are set for the ADNS-6010:
+The strength of the laser diode is set to 80\,\%, and the laser shutter mode is disabled. 
+At last the resolution is set to 800\,dpi before starting motion read.
+
+For the image read of the sensor, the image can either be output as PGM image on the terminal, or as binary data for use by the GUI.
+It is interesting that the firmware must not be loaded on the ADNS-6010 before an image can be read out.
+This largely increases the possible frame-rate of the video.
+The bottleneck in video streaming is the serial line from the microcontroller to the host computer.
+Therefore the speed of the RS-232 interface is increased to 115.6\,kbit/s, more was not possible with Windows~XP.
+With an image size of 900\,Byte, a maximum framerate of 5~frames per second can be achieved, which makes the optical calibration processes very comfortable.\\
+
+
 
     motion data streaming
       + reference sensor
 
 \subsubsection{PyQT GUI}
+
+Frame capture
+
+Motion read.
+
+
 
 \subsubsection{Octave Analysis Scripts}
 
