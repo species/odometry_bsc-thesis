@@ -1343,13 +1343,13 @@ When comparing the white and infra-red LEDs, the infra-red LEDs perform slightly
 
 The software required for controlling the sensor is split into two parts: 
 The low-level interface for directly communicating with the ADNS-6010 laser mouse sensor is implemented in the microcontroller software written in~C.
-The software on the microcontroller is again commanded from the user interface running on the~PC written in Python and~Qt (PyQT).\\
+The software on the microcontroller is again commanded from the user interface running on the~PC written in Python and~Qt (PyQt).\\
 The user interface displays the images read from the sensor, or logs motion data into text files.
 These text files are analysed and the results are plotted with octave.
 
 \subsubsection{Microcontroller-Software}
 
-The microcontroller software is written in~C and developed with the Keil~\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE. % FIXME footnote already in chapter
+The microcontroller software is written in~C and developed with the Keil\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE. % FIXME footnote already in chapter
 The Keil IDE produces hex files (*.H86), which are flashed over the serial port (RS-232) to the microcontroller development board.
 For the flashing process, see the board manual~\cite{xc}.
 It is important to use a high quality serial cable to avoid bit-errors on the flashing process.
@@ -1378,19 +1378,28 @@ For the image read of the sensor, the image can either be output as PGM image on
 It is interesting that the firmware must not be loaded on the ADNS-6010 before an image can be read out.
 This largely increases the possible frame-rate of the video.
 The bottleneck in video streaming is the serial line from the microcontroller to the host computer.
-Therefore the speed of the RS-232 interface is increased to 115.6\,kbit/s, more was not possible with Windows~XP.
-With an image size of 900\,Byte, a maximum framerate of 5~frames per second can be achieved, which makes the optical calibration processes very comfortable.\\
+Therefore the speed of the RS-232 interface is increased to 115.6\,kbit/s, more is not possible with Windows~XP.
+With an image size of 900\,Byte, a maximum frame-rate of 5~frames per second can be achieved, which makes the optical calibration processes very comfortable.\\
+In motion read mode, the motion values read from the ADNS-6010 are output continuously on the serial port.
+Before motion read, the firmware must be loaded to the ADNS-6010.
+Data from the reference speed sensor (see~\autoref{lb}) is acquired in a background thread, and the current reference speed is output in addition to mouse sensor speed for comparison.
+
+\subsubsection{PyQt GUI}
+
+The microcontroller can be controlled completely via a command-line interface from a terminal emulator on the serial line.
+But for displaying live images from the sensor, a graphical user interface (GUI) is needed.
+Therefore a small GUI is developed, that can display images from the sensor and save motion data in a more convenient way.
+The GUI is written in the Python\footnote{\url{http://www.python.org/} as on 17/01/2011} scripting language, with a Qt\footnote{\url{http://qt.nokia.com/} as on 17/01/2011} graphical user interface (PyQt\footnote{\url{http://www.riverbankcomputing.co.uk/software/pyqt/intro} as on 17/01/2011}).
+The PyQt environment is chosen because of its cross-platform ability and the simple ways of creating a GUI.
+The complete program with installation instructions is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} as on 17/01/2011}.
+The program is written completely threaded, and has two operation modes: Frame Capture and Motion Read.\\
+In frame capture mode 
 
 
 
-    motion data streaming
-      + reference sensor
+%Frame capture
 
-\subsubsection{PyQT GUI}
-
-Frame capture
-
-Motion read.
+%Motion read.
 
 
 
