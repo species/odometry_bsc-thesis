@@ -1392,18 +1392,58 @@ Therefore a small GUI is developed, that can display images from the sensor and 
 The GUI is written in the Python\footnote{\url{http://www.python.org/} as on 17/01/2011} scripting language, with a Qt\footnote{\url{http://qt.nokia.com/} as on 17/01/2011} graphical user interface (PyQt\footnote{\url{http://www.riverbankcomputing.co.uk/software/pyqt/intro} as on 17/01/2011}).
 The PyQt environment is chosen because of its cross-platform ability and the simple ways of creating a GUI.
 The complete program with installation instructions is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} as on 17/01/2011}.
+On Python modules, \emph{PyQt4} and \emph{serial} are needed.
+The program uses the first serial interface (ttyS0 on Unix or COM1 on Windows), this can be changed in the constructor of the \emph{OdoFrame}-class.
 The program is written completely threaded, and has two operation modes: Frame Capture and Motion Read.\\
-In frame capture mode 
+The common controls and indicators for both modes are explained in~\autoref{fig:gui-common}.
+It is possible to set the laser strength, load the firmware or reset the ADNS-6010 independent from operating mode.
+After reset, the firmware must be loaded again if needed.
 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/gui-common.png}
+\caption{\label{fig:gui-common}
+Screen-shot of the GUI with common controls and indicators.
+On the right side controls with direct reference to the ADNS-6010:
+Setting for the integrated laser driver with a range slider, where laser strength can be chosen between 37\% and 100\%. The setting is applied with the ``Set''-Button~(1).
+The reset line for the ADNS-6010 is toggled with the ``Reset''-Button~(2).
+The firmware of the ADNS-6010 can be reloaded with the ``Reload''-Button~(3).
+Indicators for current Shutter, frame-rate (fps) and surface quality (Squal) in count of features~(4).
+Beginning of frame capture or motion read is controlled with Start/Stop - Buttons~(5).
+The ``Close''-Button terminates the program~(6).
+}
+\end{center}
+\end{figure}
 
+In frame capture mode, live images from the ADNS-6010 are displayed as a video with 5~frames per second.
+After pressing the ``Start''-Button, a frame is captured, and after the ADNS-6010 is reset, the next frame is read.
+This continues in a loop until the ``Stop''-Button is triggered.
+It is not necessary to load the firmware before the frame capture, but it will be loaded before every frame if it was loaded from the beginning.
+The display of the current shutter, frame-rate and surface quality is updated with each image.\\
+In motion read mode, the display changes to a tabular view, where the current and accumulated motion data are displayed.
+This view and the description of the entries is shown in~\autoref{fig:gui-motion}.
+The firmware must be loaded before motion read can be started.
+After pressing the ``Start''-Button, the motion read from the ADNS-6010 is started, and additionally to being displayed, all received data is written to a log-file.
+Data is written in comma-separated value format, which is intended to be used as input for the octave analysis scripts described subsequently.
 
-%Frame capture
-
-%Motion read.
-
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/gui-motion-wtags.png}
+\caption{\label{fig:gui-motion}
+Screen-shot of the GUI in motion read mode.
+Section~1 displays some status details of the ADNS-6010.
+Section~2 shows the current speed calculated from the motion readings.
+Section~3 shows the distance covered from the beginning of the motion read by accumulating every dimension.
+Section~4 shows the speed and accumulated distance from the reference sensor connected to the microcontroller.
+}
+\end{center}
+\end{figure}
 
 
 \subsubsection{Octave Analysis Scripts}
+\label{octave}
+
+text
 
 \newpage
 \section{Experimental Setup}
