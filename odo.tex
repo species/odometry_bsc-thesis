@@ -1443,7 +1443,20 @@ Section~4 shows the speed and accumulated distance from the reference sensor con
 \subsubsection{Octave Analysis Scripts}
 \label{octave}
 
-text
+Mathematical data analysis is done in the GNU~Octave\footnote{\url{http://www.gnu.org/software/octave/} as on 20/01/2011} language, similar to Matlab.
+The scripts process the csv-files produced with the GUI in motion-read mode.
+They are available in the same git-repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} as on 17/01/2011} as the GUI.
+The scripts are used for two purposes: 
+Plotting motion data compared with the reference speed sensor, 
+and providing a statistical analysis of the error-rate resulting from the comparison with the reference sensor.
+All results found in~\autoref{exp} are produced with these scripts.\\
+For plotting, motion data is split into 100\,ms-blocks.
+Motion data and data from the reference speed sensor is then plotted over time via gnuplot\footnote{\url{http://www.gnuplot.info} as on 20/01/2011}.
+Motion data delivered from the ADNS-6010 are not related to any dimensional system, they are simply counts of pixels the sensor is traversed.
+The scripts calculate a conversion factor to the metrical system by comparing the values with the reference sensor.
+The error rate calculated with the scripts equates to the deviance from the mean conversion factor for each test series with different speed.
+
+
 
 \newpage
 \section{Experimental Setup}
@@ -1466,6 +1479,7 @@ block diagram
 
 \clearpage
 \section{Experimental Results}
+\label{exp}
 
 \subsection{Illumination Tests}
 
