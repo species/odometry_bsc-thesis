@@ -153,205 +153,11 @@ The goals of this work were:
 \clearpage
 \section{State of the Art in Odometry Measurement}
 % 1/2
-
-\subsection{Current Implementations used in RoboCup}
-
-\subsubsection{\MH}
-
-The current odometry system of the Krikkit robots is based on rotary encoders attached to each of the axles. 
-The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
-The data from all three rotary encoders is collected by the motion controller, converted into $dr$,~$ds$,~$d\phi$ - coordinate values and send out on the CAN-bus.
-
-Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
-An effect known from all wheels is the slip on accelerating and braking.
-The use of Mecanum wheels complicates the relationship between robot and the floor.
-Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
-Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
-The direction of the fibre results in globally different friction factors in every direction.
-
-Another common construction error of the power train used in the Krikkit robots was a loose connection between the gearing box and the motor.
-The rotary encoders are mounted on the motors and not on the wheels.
-When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
-This resulted in complete disorientation of the localisation software during an overrunning motor.\\
-But faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
-This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
-
-For global positioning, in addition to the vision system, a compass is used.
-Most of the time this works well, but once in a while we had problems with massive steel girders below the game field.
-Due to the over-weighting of compass data, the localisation software went amok.
-Therefore data quality information would be highly appreciated from every sensor used.
-
-\subsubsection{Other Teams}
-
-Rotary encoders on wheels are widely used, e.g.\ in the team ISocRob~\cite{isocrob}.
-Other teams like IsePorto~\cite{iseporto} also accomplish the rotary encoders with a compass.
-
-To counter at least the problem with the overrunning wheels when accelerating, e.g.\ the Iranian Team ADRO~\cite{adro} uses a second set of wheels for measuring odometry data.
-
-The use of consumer computer mice in the \MSL has been tested by the Milan~Robocup~Team.
-They used two optical mice mounted on the bottom of the robot.
-The main advantages of this approach are the independence of the wheels and the low cost.
-The availability of more dimensions than needed allowed for the corrections of non-systematic errors~\cite{two_mice}.
-
-Accelerometers are used in other leagues, e.g.\ the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
-They are used only for inertial informations, not yet for navigation~\cite{zadeat}.
-
-\clearpage
-\section{Decision for a Type of Odometry Sensor}
-\label{decision}
+ 
 
 
-\subsection{Requirements for a New Type of Odometry Sensor}
-
-The \MSL provides an ideal testbed for mobile robotics.
-The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
-
-\Needspace*{4\baselineskip}
-The range of application in the \MSL demands the following design parameters for an odometry sensor: %% FIXXME no page break here!
-\begin{itemize}
-  \item must deliver linear and rotational accurate data in three degrees of freedom
-  \item must work on green carpet, other surfaces are bonus
-  \item must not emit radiation or other disturbing effects irritating other robots or humans
-  \item resistance against dust from the carpet abrasion
-  \item shock resistant
-\end{itemize}
-
-The carpet is a particularly hairy concern, as its choice is up to the event organizer.
-The only restriction in the \MSL rules and regulations~\cite{msl-rules} is: green.
-Therefore the game field surfaces differ in colour and surface roughness on every event.
-Colours from bright green over dark teal to nearly grey have been seen over the past years.
-The roughness is another chapter.
-It ranged from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
-Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.
-
-The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
-From the software side it would be highly appreciated if the sensor delivered data quality information.
-Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
-The \MH had bad memories about a malfunctioning compass ruining the world model.
-At last the \MH has very tight budgetary limitations depending on external sponsors and due to being a student team.
-The sensors have to be cheap enough to be affordable for series for up to six robots.
-
-To get an idea for the field of application of an odometry sensor, the current and next generation of robots of the \MH are introduced next.
-
-% into next chapters?
-On the Krikkit3G robots the available space is limited to $50\times50\times110$\,mm$^3$ for each of the three proposed sensor mount points.
-The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
-Due to the new independent wheel suspension the operating range of the sensor must be in the range of $\pm 10$\,mm to the reference plane.
-Data must be output on the robot's CAN-bus.
-As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
-
-
-
-\subsubsection{Current Robot Platform: Krikkit}
-\label{sec:krikkit}
-
-The ``Krikkit'' robot platform was built in 2006. %~\cite{}. 
-It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
-Nearly all components from electronics to mechanical parts are developed in-house.
-Four robots are build and made their d\'ebut at the World Championship 2006 in Bremen.\\
-Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
-
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=0.5\columnwidth]{figures/krikkit.pdf}
-\caption{\label{fig:krikkit}
-Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneumatic kicker~(3); Omni-drive is below the black bumper.
-}
-\end{center}
-\end{figure}
-
-It has a $360^\circ$ omnidirectional vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
-Its brain is a standard mini-ITX industrial PC.\\
-A powerful pneumatic kicker, with a~200\,bar pressurised air bottle as supply, enables the robot to kick the ball approx.\ 10\,m forward.
-The kicks are such powerful that the vibrations destroyed the former used hard disks now replaced by SSD~storage.
-Additionally, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
-Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
-The $45^\circ$\mbox{-}Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
-The three wheels are arranged in $120^\circ$\mbox{-}steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless~DC motor for each axis.
-Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
-The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
-All electronic components are connected via CAN-bus.
-
-\begin{figure}[htbp]
-  \begin{minipage}{0.45\textwidth}
-   \centering
-    \includegraphics[width=1\textwidth]{figures/krikkit_drive_angles}
-    \caption{\label{fig:omnidrive}Omni-drive schema of the Krikkit robot. The Mecanum wheels have their $45^\circ$~small wheels arranged in $120^\circ${-}steps around the centre.
-    \cite{mecanum2007}}
-  \end{minipage}\hfill
-  \begin{minipage}{0.45\textwidth}
-   \centering
-    \includegraphics[width=1\textwidth]{figures/Omniwheel_drive.png}
-    \caption{\label{fig:mec-wheel}Photo of one of the three Krikkit power trains, visible are from left to right: Motor, gearbox and Mecanum wheel.}
-  \end{minipage}
-\end{figure}
-
-
-The Krikkit robots served well for four years and much was learned.
-Before RoboCup~2009 in Graz a major mechanics overhaul was done.
-In the meantime all major electronic components reached the end of their life cycle also.
-With the knowledge gained, lost and acquired again the successor of the Krikkit generation is in development now.
-    
-
-\subsubsection{In Development: Krikkit3G}
-
-The next generation of robots is in development since mid-2010.
-It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
-
-\Needspace*{4\baselineskip}
-The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME only works inside sentences, want not to break up before the listing
-\begin{itemize}
-  \item omnidirectional drive with the three Mecanum Wheels
-  \item the omni-vision system
-  \item pneumatic kicking concept
-  \item the use of a standard mini-ITX industrial PC
-  \item modularity of all components
-\end{itemize}
-
-The new robot design focuses on the strict modularity of all components.
-It has been shown that fast disassembling and replacing of critical components is crucial in the fast-paced tournament environment.
-The power train has especially been modularised, the wheel, gearing, motor and motor electronics can be swapped as a whole group.
-
-Tests showed that the smoothness of the Mecanum wheels had been insufficient due to manufacturing imprecision.
-The resulting vibrations should be filtered out by an independent wheel suspension.
-
-%  bumpers ?
-
-For the kicking system the pneumatic principle was kept, but it is now much more versatile. 
-It can switch between high and flat kicks at full power and side-kicks are also possible now.
-Featuring a new ball guidance system allows grabbing the ball for a short moment.
-This feature becomes especially useful when decelerating with the ball.
-The vibrations from the kicker, disturbing the camera, should also be reduced by an active final position dampening system.
-Nevertheless short disturbances in the vision system, due to the vibrations, will remain during the kicks.
-
-Big changes have been made in the electronic sector.
-A new microcontroller core (An ARM Cortex~M3) is used on every component, which replaces the different microcontroller architectures used before.
-The smart battery system also got a major upgrade, featuring even smarter batteries.
-
-In the mechanical design space is now also provided for an improved odometry system, which will be developed based on this work.
-
-\begin{figure}[htbp]
-\begin{center}  
-\includegraphics[width=0.7\columnwidth]{figures/Krikkit3G.png}
-\caption{\label{fig:krikkit3g}
-Rendering of the currently in construction Krikkit3G robot (Without outer hull).
-}   
-\end{center}
-\end{figure}
-
-
-% 1p
-
-
-
-\subsection{Possible New Odometry Sensors Types}
-
-%In this section technologies to be considered as improved odometry sensor are described in general.
-%The reasons for selecting a particular sensor type for evaluation in this work are explained in~\autoref{decision}.
-
-
-When determining the position or movement of a vehicle, there are the following options: 
-Relying on global or relative position measurement.
+%When determining the position or movement of a vehicle, there are the following options: 
+%Relying on global or relative position measurement.
 
 The best known global position measurement system is the Global Positioning System GPS.
 This is widely used in robotics for outdoor applications where a GPS signal is available.
@@ -379,38 +185,11 @@ Distance metres can be mechanical or optical.
 The simplest mechanical distance metre is a measuring tape, or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
 In the last decade another electronic approach was developed: optical distance metres based on comparing images for translational displacement, as used in optical computer mice.
 
-% - relative positioning
-%   - acceleration
-%   - velocity
-%   - distance
-%   accelerometers
-%   speedometers relying on the Doppler-effect
-%   mechanical distance meters (like in cars or early computer mice)
-%   optical distance meters based on comparing images for translational displacement, as used in optical computer mice
+\subsection{Possible New Odometry Sensors Types}
 
+In this section technologies to be considered as improved odometry sensor are described in general.
+The reasons for selecting a particular sensor type for evaluation in this work are explained in~\autoref{decision}.
 
-\Needspace*{4\baselineskip}
-Every approach has properties to evaluate:
-\begin{itemize}
-  \item maximum and minimum speed capability
-  \item maximum and minimum acceleration
-  \item number of dimensions of movement data one sensor delivers
-  \item linearity and deviation of data
-  \item length of time of a single measurement
-  \item time lag between measurement and data availability
-  \item highest possible frequency of measurements
-  \item resilience against reference surface distance changes
-  \item maximum and minimum distance to reference surface
-  \item surface state requirements
-  \item resilience against environmental changes
-  \item influence of the sensor on the environment 
-  \item size and power requirements of the sensor
-  \item cost of the sensors for three dimensions
-\end{itemize}
-
-In preparation for this work a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
-
- 
 
 \subsubsection{Accelerometers}
 
@@ -523,6 +302,226 @@ To allow relocating the mouse very fast while lifting off, the best mice used fo
 Laser mice use the same principle as the before mentioned laser speckle sensor.
 The only difference to normal mice is the use of a coherent laser source as illumination instead of an LED.
 The sensor itself remains the same, but due to the higher contrast achieved through the speckle, they work on more surfaces than common optical mice.
+
+
+\subsection{Current Implementations used in RoboCup}
+
+\subsubsection{\MH}
+
+The current odometry system of the Krikkit robots is based on rotary encoders attached to each of the axles. 
+The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
+The data from all three rotary encoders is collected by the motion controller, converted into $dr$,~$ds$,~$d\phi$ - coordinate values and send out on the CAN-bus.
+
+Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
+An effect known from all wheels is the slip on accelerating and braking.
+The use of Mecanum wheels complicates the relationship between robot and the floor.
+Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
+Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
+The direction of the fibre results in globally different friction factors in every direction.
+
+Another common construction error of the power train used in the Krikkit robots was a loose connection between the gearing box and the motor.
+The rotary encoders are mounted on the motors and not on the wheels.
+When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
+This resulted in complete disorientation of the localisation software during an overrunning motor.\\
+But faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
+This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
+
+For global positioning, in addition to the vision system, a compass is used.
+Most of the time this works well, but once in a while we had problems with massive steel girders below the game field.
+Due to the over-weighting of compass data, the localisation software went amok.
+Therefore data quality information would be highly appreciated from every sensor used.
+
+\subsubsection{Other Teams}
+
+Rotary encoders on wheels are widely used, e.g.\ in the team ISocRob~\cite{isocrob}.
+Other teams like IsePorto~\cite{iseporto} also accomplish the rotary encoders with a compass.
+
+To counter at least the problem with the overrunning wheels when accelerating, e.g.\ the Iranian Team ADRO~\cite{adro} uses a second set of wheels for measuring odometry data.
+
+The use of consumer computer mice in the \MSL has been tested by the Milan~Robocup~Team.
+They used two optical mice mounted on the bottom of the robot.
+The main advantages of this approach are the independence of the wheels and the low cost.
+The availability of more dimensions than needed allowed for the corrections of non-systematic errors~\cite{two_mice}.
+
+Accelerometers are used in other leagues, e.g.\ the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
+They are used only for inertial informations, not yet for navigation~\cite{zadeat}.
+
+\clearpage
+\section{Decision for a Type of Odometry Sensor}
+\label{decision}
+
+
+\subsection{Requirements for a New Type of Odometry Sensor}
+
+The \MSL provides an ideal testbed for mobile robotics.
+The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
+
+\Needspace*{4\baselineskip}
+The range of application in the \MSL demands the following design parameters for an odometry sensor: %% FIXXME no page break here!
+\begin{itemize}
+  \item must deliver linear and rotational accurate data in three degrees of freedom
+  \item must work on green carpet, other surfaces are bonus
+  \item must not emit radiation or other disturbing effects irritating other robots or humans
+  \item resistance against dust from the carpet abrasion
+  \item shock resistant
+\end{itemize}
+
+The carpet is a particularly hairy concern, as its choice is up to the event organizer.
+The only restriction in the \MSL rules and regulations~\cite{msl-rules} is: green.
+Therefore the game field surfaces differ in colour and surface roughness on every event.
+Colours from bright green over dark teal to nearly grey have been seen over the past years.
+The roughness is another chapter.
+It ranged from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
+Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.
+
+The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
+From the software side it would be highly appreciated if the sensor delivered data quality information.
+Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
+The \MH had bad memories about a malfunctioning compass ruining the world model.
+At last the \MH has very tight budgetary limitations depending on external sponsors and due to being a student team.
+The sensors have to be cheap enough to be affordable for series for up to six robots.
+
+To get an idea for the field of application of an odometry sensor, the current and next generation of robots of the \MH are introduced next.
+
+
+
+\subsubsection{Current Robot Platform: Krikkit}
+\label{sec:krikkit}
+
+The ``Krikkit'' robot platform was built in 2006. %~\cite{}. 
+It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
+Nearly all components from electronics to mechanical parts are developed in-house.
+Four robots are build and made their d\'ebut at the World Championship 2006 in Bremen.\\
+Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\columnwidth]{figures/krikkit.pdf}
+\caption{\label{fig:krikkit}
+Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneumatic kicker~(3); Omni-drive is below the black bumper.
+}
+\end{center}
+\end{figure}
+
+It has a $360^\circ$ omnidirectional vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
+Its brain is a standard mini-ITX industrial PC.\\
+A powerful pneumatic kicker, with a~200\,bar pressurised air bottle as supply, enables the robot to kick the ball approx.\ 10\,m forward.
+The kicks are such powerful that the vibrations destroyed the former used hard disks now replaced by SSD~storage.
+Additionally, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
+Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
+The $45^\circ$\mbox{-}Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
+The three wheels are arranged in $120^\circ$\mbox{-}steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless~DC motor for each axis.
+Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
+The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
+All electronic components are connected via CAN-bus.
+
+\begin{figure}[htbp]
+  \begin{minipage}{0.45\textwidth}
+   \centering
+    \includegraphics[width=1\textwidth]{figures/krikkit_drive_angles}
+    \caption{\label{fig:omnidrive}Omni-drive schema of the Krikkit robot. The Mecanum wheels have their $45^\circ$~small wheels arranged in $120^\circ${-}steps around the centre.
+    \cite{mecanum2007}}
+  \end{minipage}\hfill
+  \begin{minipage}{0.45\textwidth}
+   \centering
+    \includegraphics[width=1\textwidth]{figures/Omniwheel_drive.png}
+    \caption{\label{fig:mec-wheel}Photo of one of the three Krikkit power trains, visible are from left to right: Motor, gearbox and Mecanum wheel.}
+  \end{minipage}
+\end{figure}
+
+
+The Krikkit robots served well for four years and much was learned.
+Before RoboCup~2009 in Graz a major mechanics overhaul was done.
+In the meantime all major electronic components reached the end of their life cycle also.
+With the knowledge gained, lost and acquired again the successor of the Krikkit generation is in development now.
+    
+
+\subsubsection{In Development: Krikkit3G}
+
+The next generation of robots is in development since mid-2010.
+It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
+
+\Needspace*{4\baselineskip}
+The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME only works inside sentences, want not to break up before the listing
+\begin{itemize}
+  \item omnidirectional drive with the three Mecanum Wheels
+  \item the omni-vision system
+  \item pneumatic kicking concept
+  \item the use of a standard mini-ITX industrial PC
+  \item modularity of all components
+\end{itemize}
+
+The new robot design focuses on the strict modularity of all components.
+It has been shown that fast disassembling and replacing of critical components is crucial in the fast-paced tournament environment.
+The power train has especially been modularised, the wheel, gearing, motor and motor electronics can be swapped as a whole group.
+
+Tests showed that the smoothness of the Mecanum wheels had been insufficient due to manufacturing imprecision.
+The resulting vibrations should be filtered out by an independent wheel suspension.
+
+%  bumpers ?
+
+For the kicking system the pneumatic principle was kept, but it is now much more versatile. 
+It can switch between high and flat kicks at full power and side-kicks are also possible now.
+Featuring a new ball guidance system allows grabbing the ball for a short moment.
+This feature becomes especially useful when decelerating with the ball.
+The vibrations from the kicker, disturbing the camera, should also be reduced by an active final position dampening system.
+Nevertheless short disturbances in the vision system, due to the vibrations, will remain during the kicks.
+
+Big changes have been made in the electronic sector.
+A new microcontroller core (An ARM Cortex~M3) is used on every component, which replaces the different microcontroller architectures used before.
+The smart battery system also got a major upgrade, featuring even smarter batteries.
+
+In the mechanical design space is now also provided for an improved odometry system (see~\autoref{fig:krikkit3g}), which will be developed based on this work.
+
+\begin{figure}[htbp]
+\begin{center}  
+\includegraphics[width=0.7\columnwidth]{figures/Krikkit3G.png}
+\caption{\label{fig:krikkit3g}
+Rendering of the currently in construction Krikkit3G robot (Without outer hull).
+}   
+\end{center}
+\end{figure}
+
+
+% 1p
+On the Krikkit3G robots the available space is limited to $50\times50\times110$\,mm$^3$ for each of the three proposed sensor mount points.
+The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
+Due to the new independent wheel suspension the operating range of the sensor must be in the range of $\pm 10$\,mm to the reference plane.
+Data must be output on the robot's CAN-bus.
+As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
+
+
+
+% - relative positioning
+%   - acceleration
+%   - velocity
+%   - distance
+%   accelerometers
+%   speedometers relying on the Doppler-effect
+%   mechanical distance meters (like in cars or early computer mice)
+%   optical distance meters based on comparing images for translational displacement, as used in optical computer mice
+
+
+\Needspace*{4\baselineskip}
+Every approach has properties to evaluate:
+\begin{itemize}
+  \item maximum and minimum speed capability
+  \item maximum and minimum acceleration
+  \item number of dimensions of movement data one sensor delivers
+  \item linearity and deviation of data
+  \item length of time of a single measurement
+  \item time lag between measurement and data availability
+  \item highest possible frequency of measurements
+  \item resilience against reference surface distance changes
+  \item maximum and minimum distance to reference surface
+  \item surface state requirements
+  \item resilience against environmental changes
+  \item influence of the sensor on the environment 
+  \item size and power requirements of the sensor
+  \item cost of the sensors for three dimensions
+\end{itemize}
+
+In preparation for this work a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
 
 \subsection{FIXME}
 
