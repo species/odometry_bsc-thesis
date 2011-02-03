@@ -156,16 +156,17 @@ The goals of this work were:
  
 
 
-%When determining the position or movement of a vehicle, there are the following options: 
-%Relying on global or relative position measurement.
+When determining the position or movement of a vehicle, there are the following options: 
+Relying on absolute or relative position measurement.
 
-The best known global position measurement system is the Global Positioning System GPS.
+The best known absolute position measurement system is the Global Positioning System GPS.
+With GPS, the position is estimated with triangulation from known reference points, the GPS satellites. %ref needed?
 This is widely used in robotics for outdoor applications where a GPS signal is available.
 Indoors other known fixed reference points than satellites can be used.
 In RoboCup the well-known shape of the soccer field is used for global reference.
 Without exception every soccer robot uses the features of the game field e.g.\ the goals, lines and corner posts for orientation.\\
-Other global approaches for gathering position data are compasses and gyroscopes.
-They also deliver global data, but orientation and not position. 
+Another absolute approach for gathering position data is a compass.
+It also deliver absolute data, but orientation and not position. 
 This approach delivers only one of the three needed degrees of freedom, but it can complete the missing dimension.
 
 % - global positioning
@@ -178,11 +179,16 @@ This approach delivers only one of the three needed degrees of freedom, but it c
 
 For relative position measurement there is the choice to measure distance, velocity or acceleration.
 Every approach has its advantages depending on the use case.
-When aiming for the travelled distance it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the twice integration.\\
-When measuring acceleration there is the choice between industrial grade accelerometers as used e.g.\ in aeroplanes and consumer grade accelerometers based on the piezoelectric effect.\\
-Speedometers exist in various implementations based on the Doppler effect e.g.\ radar.\\
-Distance metres can be mechanical or optical.
-The simplest mechanical distance metre is a measuring tape, or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
+When aiming for the travelled distance it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the double integration.\\
+The most used odometry systems today are based on the rotational speed of the wheels.
+The rotary encoders mounted on the axles measure distance.
+In this work, other approaches should be evaluated. 
+These include techniques measuring also velocity or acceleration.
+Velocity can be measured directly with various implementations based on the Doppler effect e.g.\ radar or ultrasonic sensors.
+%When measuring acceleration there is the choice between industrial grade accelerometers as used e.g.\ in aeroplanes and consumer grade accelerometers based on the piezoelectric effect.\\
+%Speedometers exist in various implementations based on the Doppler effect e.g.\ radar.\\
+%Distance metres can be mechanical or optical.
+%The simplest mechanical distance metre is a measuring tape, or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
 In the last decade another electronic approach was developed: optical distance metres based on comparing images for translational displacement, as used in optical computer mice.
 
 \subsection{Possible New Odometry Sensors Types}
@@ -195,10 +201,9 @@ The reasons for selecting a particular sensor type for evaluation in this work a
 
 Accelerometers consists mainly of flexible mounted masses, which are under the influence of a force.
 If the mounting consists of springs, the displacement is linear to an applied force.
-This displacement is then measured.
+This displacement is then measured~\cite{pmt}.
 Under normal circumstances on earth every object is under the influence of the gravitational force.
-Therefore~1\,g must be subtracted from the result.
-
+Therefore~1\,g must be subtracted from the result.\\
 In commercial sensors piezoelectric elements are used to convert the force into a signal.
 In the last years the use of micro electro-mechanical systems (MEMS) has been increased significantly.
 Sensors for three dimensions are now available in tiny package formats at low cost for consumer applications.
@@ -207,9 +212,8 @@ Sensors for three dimensions are now available in tiny package formats at low co
 
 Gyroscopes are inertial sensors, which detect the change of position.
 Historically they consisted in a flywheel mounted in a Cardan suspension.
-Once spinned up they remain at their orientation, based on the principles of conservation of angular momentum.
-
-Today they are implemented as MEMS similar to  the before mentioned accelerometers.
+Once spinned up they remain at their orientation, based on the principles of conservation of angular momentum.\\
+Today they are implemented as MEMS similar to  the before mentioned accelerometers~\cite{pmt}.
 Often they are even combined with accelerometers in a single chip package to 6-dimensional sensors.
 
 
