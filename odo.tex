@@ -18,6 +18,8 @@
 \usepackage{isoent} % \sfrac
 \usepackage{wasysym} % \diameter
 \usepackage{units}
+\usepackage{rotating} % headers of tables
+\usepackage{color}  % in comparison table
 
 \usepackage{txfonts} % upright \mu => \muup $math env only$
 \usepackage{eurosans} % EUR sign
@@ -189,7 +191,7 @@ Velocity can be measured directly with various implementations based on the Dopp
 %Speedometers exist in various implementations based on the Doppler effect e.g.\ radar.\\
 %Distance metres can be mechanical or optical.
 %The simplest mechanical distance metre is a measuring tape, or when used on moving vessel, the log-line of a sailing ship used for speed measurement.
-In the last decade another electronic approach was developed: optical distance metres based on comparing images for translational displacement, as used in optical computer mice.
+In the last decade another interesting electronic approach was developed: optical distance metres based on comparing images for translational displacement, as used in optical computer mice.
 
 \subsection{Possible New Odometry Sensors Types}
 
@@ -201,36 +203,39 @@ The reasons for selecting a particular sensor type for evaluation in this work a
 
 Accelerometers consists mainly of flexible mounted masses, which are under the influence of a force.
 If the mounting consists of springs, the displacement is linear to an applied force.
-This displacement is then measured~\cite{pmt}.
-Under normal circumstances on earth every object is under the influence of the gravitational force.
-Therefore~1\,g must be subtracted from the result.\\
-In commercial sensors piezoelectric elements are used to convert the force into a signal.
-In the last years the use of micro electro-mechanical systems (MEMS) has been increased significantly.
-Sensors for three dimensions are now available in tiny package formats at low cost for consumer applications.
+This displacement is then measured.
+%Under normal circumstances on earth every object is under the influence of the gravitational force.
+%Therefore~1\,g must be subtracted from the result.\\
+In today's sensors piezoelectric elements are used to convert the force into a signal.~\cite{emt}
+In the last years the use of micro electro-mechanical systems (MEMS), where the all mechanical and electrical components are etched in silicon, has been increased significantly.
+Sensors for three dimensions are now available in tiny package formats.
+Sensors are either available as professional high-quality finished sensors like the Xsens~\cite{xsens}, or as cheap integrated circuits~(IC) for consumer applications (like integrated in today's smart-phones).
+The high accuracy of professional sensors (e.g.\ the Xsens) comes at a hefty price tag of~\euro\,1.000.
+The IC-sensors for consumer products are on the other hand still widely inaccurate (in the year 2008).
+
 
 \subsubsection{Gyroscopes}
 
-Gyroscopes are inertial sensors, which detect the change of position.
+Gyroscopes detect the rotational change of position.
 Historically they consisted in a flywheel mounted in a Cardan suspension.
 Once spinned up they remain at their orientation, based on the principles of conservation of angular momentum.\\
+Due to their nature, they are only applicable to one (rotational) dimension, so they must be accomplished with other sensors.
 Today they are implemented as MEMS similar to  the before mentioned accelerometers~\cite{pmt}.
 Often they are even combined with accelerometers in a single chip package to 6-dimensional sensors.
 
 
-\subsubsection{Ultrasonic Doppler velocimeters}
+\subsubsection{Ultrasonic Doppler Velocimeters}
 
 Ultrasonic Doppler velocimeters work similar as ultrasonic distance sensors.
 Ultrasonic distance sensors were used in the first robot generation of the \MH for collision detection.
 
 As on every Doppler measurement, its accuracy is directly dependant on the used wavelengths.
 At ultrasonic sensors wavelengths around~100\,kHz are used. 
-This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.
-
+This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.\\
 When working with ultrasonic sensors on mobile systems, one thing has to be taken into consideration: 
 As on every wave-based system, the relative speed of the medium~(air) has to be considerably smaller than the wave speed ($v \ll c$).
-Through the relatively low velocity of sound, only speeds up to~30\,km/h are feasible because of the head wind and turbulences~\cite{ultrasonic}.
-
-Also, ultrasonic Doppler velocimeters subtle to vibrations due to low frequencies~\cite{agri}.
+Through the relatively low velocity of sound, only speeds up to~30\,km/h are feasible because of the head wind and turbulences~\cite{ultrasonic}.\\
+Also, ultrasonic Doppler velocimeters are subtle to vibrations due to low frequencies~\cite{agri}.
 
 The main use today is in liquid flow measurements.
 
@@ -242,44 +247,42 @@ Radar is an umbrella term for object detection systems utilizing electromagnetic
 It can be used to measure the distance of objects and also their speed through the Doppler effect.
 Depending on the object distance, different wavelength are used.
 For short-range measurements short-range microwave sensors with~24\,GHz are used e.g.\ radar guns and also for speed measurements on moving vehicles itself~\cite{s_r_radar}.
+But due to the high frequency, they are not so accurate as the before mentioned ultrasonic sensor at low speeds.
+Another significant drawback are the different reflection rates on different undergrounds (carpet, wood, concrete, steel, \dots), and the underground below the carpet is not known prior to a tournament.
+Other disadvantage is that radar is disturbed by nearby moving objects.
+
 
 \subsubsection{Laser Interferometers}
 
 Speed measurement with laser interferometry is divided into two approaches.
-One called Laser Doppler velocimetry and the other is referred as Laser Doppler vibrometry.
-
-In Laser Doppler velocimetry two coherent laser sources are intersected on the moving target surface at different angles.
+One called Laser Doppler velocimetry and the other is referred as Laser Doppler vibrometry.\\
+In Laser Doppler velocimetry two coherent laser beams are intersected on the moving target surface at different angles.
 The interference of the two beams creates a set of straight fringes. 
-Particles of the surface, moving through the fringes, reflect light on the constructive interferences.
-The resulting frequency is then captured by a photo diode~\cite{laser_vel}.
-
-% source: WP
-
+Particles of the surface moving through the fringes reflect light on the constructive interferences.
+The resulting frequency is then captured by a photo diode~\cite{laser_vel}.\\
 In a Laser Doppler vibrometer the beam is split into two coherent beams.
-One beam is reflected and then interfered with the second beam and afterwards collected in a photo diode. 
-The frequency shift between the two beams results in an overtone at the detector.
+One beam is reflected at an angle at the target and then interfered with the second beam and afterwards collected in a photo diode. 
+The frequency shift between the two beams results in an overtone at the detector~\cite{vibro}.
 
-% source: WP
+
 
 %\subsubsection{One-dimensional Optical Spatial Frequency Filtration}
 %1/4
 
 
 
-\subsubsection{Industrial/Custom-build Optical Speed Sensors}
+\subsubsection{Optical Speed Sensors}
 
 The operation of an optical speed sensor is based on comparison of sequentially acquired images from a surface.
-From the images, features are extracted, and their position is compared with similar features on the next frame. 
-
+From the images, features are extracted, and their position is compared with similar features on the next frame.\\
 Such optical systems are common in industrial and consumer sensors.
-Examplary uses are speed sensors for conveyor belts.
-
-The components of an optical speed sensor are usually a high-speed camera, acquiring the images from the surface, and a Digital Signal Processor (DSP) for analysing the images.
-In industrial systems the cameras are usually fixedly mounted and are connected to an external processing device~\cite{opt_vel}.
+Examplary uses are speed sensors for conveyor belts.\\
+The components of an optical speed sensor are usually a high-speed camera acquiring the images from the surface, and a Digital Signal Processor (DSP) for analysing the images.
+In off-the-shelf industrial systems the cameras are usually fixedly mounted and are connected to an external processing device~\cite{opt_vel}.
 
 When the surface contrast is not sufficient to extract enough features for tracking, a little trick helps.
-Every sufficiently rough surface creates a so-called \emph{speckle} when illuminated with a coherent light source.
-This comes from the interference of reflected light waves with different phases due to the roughness of the surface.
+Every sufficiently rough surface illuminated with a coherent light source creates a so-called \emph{speckle}.
+This results from the interference of reflected light waves with different phases due to the roughness of the surface.
 Therefore illumination with a laser light source increases the contrast a lot on otherwise low contrast surfaces.
 This is used e.g.\ in laser speckle strain measurement~\cite{strain}.
 
@@ -291,18 +294,15 @@ This has been shown by the development of an optical slip-angle sensor~\cite{Hra
 
 The most common optical speed sensor is used in newer computer mice.
 Historically computer mice featured a rolling ball with two attached axles (one for each axis), whose rotations are turned into coordinates.
-In the last 10~years this mechanical principle has been superseded by a strictly electronic approach.
-
+In the last 10~years this mechanical principle has been superseded by a strictly electronic approach.\\
 A standard optical mouse consists in a tiny camera taking images of the surface illuminated by an LED.
-The processing of the images is done by an integrated DSP.
-The sensor outputs movement data to an external microcontroller, which also handles the mouse buttons and translates all data to the~USB or PS/2 protocol.
-
-At the time of the search~(2008), the fastest gaming mice had a maximum speed of 1.1\,m/s.\\
+An integrated DSP compares the sequentially acquired images and computes the displacement between them.
+The sensor outputs movement data to an external microcontroller, which also handles the mouse buttons and translates all data to the~USB or PS/2 protocol.\\
+At the time of the search~(2008), the fastest gaming mice had a maximum speed of 1.1\,m/s.
 They operate at speeds up to 7\,000\,Hz.
-Another advantage is their small size and minimal power requirement.\\
+Another advantage is their small size and minimal power requirement.
 Being constructed as an exact gaming device also has disadvantages for RoboCup use:
-To allow relocating the mouse very fast while lifting off, the best mice used for gaming are designed with a very short working range of only 2\,mm.
-
+To allow relocating the mouse very fast while lifting off, the best mice used for gaming are designed with a very short working range of only 2\,mm.\\
 Laser mice use the same principle as the before mentioned laser speckle sensor.
 The only difference to normal mice is the use of a coherent laser source as illumination instead of an LED.
 The sensor itself remains the same, but due to the higher contrast achieved through the speckle, they work on more surfaces than common optical mice.
@@ -312,35 +312,34 @@ The sensor itself remains the same, but due to the higher contrast achieved thro
 
 \subsubsection{\MH}
 
-The current odometry system of the Krikkit robots is based on rotary encoders attached to each of the axles. 
+The current odometry system of the robots is based on rotary encoders attached to each of the axles. 
 The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
-The data from all three rotary encoders is collected by the motion controller, converted into $dr$,~$ds$,~$d\phi$ - coordinate values and send out on the CAN-bus.
+The data from the rotary encoders is collected by the motion controller, converted into d$r$,~d$s$,~d$\phi$ - coordinate values and send out on the CAN-bus.
 
 Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
 An effect known from all wheels is the slip on accelerating and braking.
-The use of Mecanum wheels complicates the relationship between robot and the floor.
+The use of Mecanum wheels in a special arrangement (see~\autoref{sec:krikkit}) complicates the relationship between robot and the floor. %forward reference OK?
 Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
 Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
-The direction of the fibre results in globally different friction factors in every direction.
-
-Another common construction error of the power train used in the Krikkit robots was a loose connection between the gearing box and the motor.
+The direction of the fibre results in globally different friction factors in every direction.\\
+A construction error of the power train used in the %Krikkit 
+robots was a loose connection between the gearing box and the motor.
 The rotary encoders are mounted on the motors and not on the wheels.
 When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
 This resulted in complete disorientation of the localisation software during an overrunning motor.\\
 But faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
-This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.
-
+This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.\\
 For global positioning, in addition to the vision system, a compass is used.
-Most of the time this works well, but once in a while we had problems with massive steel girders below the game field.
+Most of the time this works well, but once in a while we had problems with massive steel girders in the floor below the game field.
 Due to the over-weighting of compass data, the localisation software went amok.
 Therefore data quality information would be highly appreciated from every sensor used.
 
 \subsubsection{Other Teams}
 
 Rotary encoders on wheels are widely used, e.g.\ in the team ISocRob~\cite{isocrob}.
-Other teams like IsePorto~\cite{iseporto} also accomplish the rotary encoders with a compass.
+Other teams like IsePorto also accomplish the rotary encoders with a compass~\cite{iseporto}.
 
-To counter at least the problem with the overrunning wheels when accelerating, e.g.\ the Iranian Team ADRO~\cite{adro} uses a second set of wheels for measuring odometry data.
+To counter at least the problem with the overrunning wheels when accelerating, e.g.\ the Iranian Team ADRO uses a second set of wheels for measuring odometry data~\cite{adro}.
 
 The use of consumer computer mice in the \MSL has been tested by the Milan~Robocup~Team.
 They used two optical mice mounted on the bottom of the robot.
@@ -359,8 +358,7 @@ They are used only for inertial informations, not yet for navigation~\cite{zadea
 
 The \MSL provides an ideal testbed for mobile robotics.
 The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
-
-\Needspace*{4\baselineskip}
+%\Needspace*{4\baselineskip}
 The range of application in the \MSL demands the following design parameters for an odometry sensor: %% FIXXME no page break here!
 \begin{itemize}
   \item must deliver linear and rotational accurate data in three degrees of freedom
@@ -375,11 +373,11 @@ The only restriction in the \MSL rules and regulations~\cite{msl-rules} is: gree
 Therefore the game field surfaces differ in colour and surface roughness on every event.
 Colours from bright green over dark teal to nearly grey have been seen over the past years.
 The roughness is another chapter.
-It ranged from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
+It ranges from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
 Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.
 
 The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
-From the software side it would be highly appreciated if the sensor delivered data quality information.
+From the software side it would be highly appreciated if the sensor delivers data quality information.
 Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
 The \MH had bad memories about a malfunctioning compass ruining the world model.
 At last the \MH has very tight budgetary limitations depending on external sponsors and due to being a student team.
@@ -525,9 +523,30 @@ Every approach has properties to evaluate:
   \item cost of the sensors for three dimensions
 \end{itemize}
 
-In preparation for this work a lot of sensor types, both industrial and consumer grade, were evaluated for the use in the \MSL based on these properties.
 
-\subsection{FIXME}
+\subsection{Decision}
+
+We summarize the requirements for the sensor and the possible sensors in a table.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{rlllllll}
+      & \begin{turn}{60} Acc./Gyro.\ high-end  \end{turn} \hspace{-18mm} & \begin{turn}{60} Acc./Gyro.\ consumer  \end{turn} \hspace{-18mm} & \begin{turn}{60} Ultrasonic \end{turn} \hspace{-8mm} & \begin{turn}{60}  Radar  \end{turn}  \hspace{-5mm} & \begin{turn}{60}Laser interferometer \end{turn} \hspace{-18mm} & \begin{turn}{60}Custom Optical \end{turn} \hspace{-15mm} & \begin{turn}{60}Consumer Mice\end{turn} \hspace{-10mm}\\
+     \hline
+     Cost   & \color{red}{5}   & 1     & 2   &  2 & 2 & \color{red}{5} & 1\\
+     Size   & 2   & 1     & 3   &  4 & 2 & \color{red}{5} & 1\\
+     Power   & 2   & 1     & 2   &  4 & 2 & 4 & 1 \\
+     Speed   & 1   & 2     & \color{red}{5}   &  4 & 1 & 1 & 4\\
+     Surf.\ Distance   & -   & -     & 4   &  4 & 1 & 2 & 3\\
+     Surf.\ Type   & -   & -     & 4   &  \color{red}{5} & 1 & 1 & 1\\
+     Accuracy  & 2   & \color{red}{5}     & 2   &  4 & 1 & 1 & 1\\
+     Environmental Influence  & -   & -     & \color{red}{5}   &  \color{red}{5} & 1 & 1 & 1\\
+     \hline
+  \end{tabular}
+  \caption{Sensor-Types and their score on the requirements. Lower numbers score better, with 1 best and 5 the worst, being a knock-out criteria. }
+\end{table}
+
+
 
 The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
 Advantages of industrial solutions would be their robustness and in most cases their native CAN-bus interface.
