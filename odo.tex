@@ -20,6 +20,7 @@
 \usepackage{units}
 \usepackage{rotating} % headers of tables
 \usepackage{color}  % in comparison table
+\usepackage{threeparttable} %for footnotes in tables
 
 \usepackage{txfonts} % upright \mu => \muup $math env only$
 \usepackage{eurosans} % EUR sign
@@ -194,6 +195,7 @@ Velocity can be measured directly with various implementations based on the Dopp
 In the last decade another interesting electronic approach was developed: optical distance metres based on comparing images for translational displacement, as used in optical computer mice.
 
 \subsection{Possible New Odometry Sensors Types}
+\label{ssec:ntypes}
 
 In this section technologies to be considered as improved odometry sensor are described in general.
 The reasons for selecting a particular sensor type for evaluation in this work are explained in~\autoref{decision}.
@@ -381,7 +383,7 @@ From the software side it would be highly appreciated if the sensor delivers dat
 Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
 The \MH had bad memories about a malfunctioning compass ruining the world model.
 At last the \MH has very tight budgetary limitations depending on external sponsors and due to being a student team.
-The sensors have to be cheap enough to be affordable for series for up to six robots.
+The sensors have to be cheap enough to be affordable for a series of up to six robots.
 
 To get an idea for the field of application of an odometry sensor, the current and next generation of robots of the \MH are introduced next.
 
@@ -459,6 +461,7 @@ The power train has especially been modularised, the wheel, gearing, motor and m
 
 Tests showed that the smoothness of the Mecanum wheels had been insufficient due to manufacturing imprecision.
 The resulting vibrations should be filtered out by an independent wheel suspension.
+The independent wheel suspension adds an  operating range of $\pm 10$\,mm to the clearance height of 20\,mm.
 
 %  bumpers ?
 
@@ -472,25 +475,21 @@ Nevertheless short disturbances in the vision system, due to the vibrations, wil
 Big changes have been made in the electronic sector.
 A new microcontroller core (An ARM Cortex~M3) is used on every component, which replaces the different microcontroller architectures used before.
 The smart battery system also got a major upgrade, featuring even smarter batteries.
-
-In the mechanical design space is now also provided for an improved odometry system (see~\autoref{fig:krikkit3g}), which will be developed based on this work.
+As power supply only two DC lines with 24\,V and 7\,V are available, with the 7\,V-line being limited to~$\approx5$\,A.
+Odometry data must be output on the robot's CAN-bus.
 
 \begin{figure}[htbp]
 \begin{center}  
-\includegraphics[width=0.7\columnwidth]{figures/Krikkit3G.png}
+\includegraphics[width=0.7\columnwidth]{figures/Krikkit3G.pdf}
 \caption{\label{fig:krikkit3g}
 Rendering of the currently in construction Krikkit3G robot (Without outer hull).
+(1) indicates the position of one of the three proposed odometry sensor mount points.
 }   
 \end{center}
 \end{figure}
 
-
-% 1p
-On the Krikkit3G robots the available space is limited to $50\times50\times110$\,mm$^3$ for each of the three proposed sensor mount points.
-The Krikkit3G robot, similar to the old Krikkit generation, has a clearance height of 20\,mm.
-Due to the new independent wheel suspension the operating range of the sensor must be in the range of $\pm 10$\,mm to the reference plane.
-Data must be output on the robot's CAN-bus.
-As power supply only two DC lines with 24\,V and 7\,V are available at reasonable currents.
+In the mechanical design of the Krikkit3G robots space is now also provided for an improved odometry system (see~\autoref{fig:krikkit3g}), which will be developed based on this work.
+The available space for each of the three proposed odometry sensor mount points is limited to $50\times50\times110$\,mm$^3$.
 
 
 
@@ -502,84 +501,78 @@ As power supply only two DC lines with 24\,V and 7\,V are available at reasonabl
 %   speedometers relying on the Doppler-effect
 %   mechanical distance meters (like in cars or early computer mice)
 %   optical distance meters based on comparing images for translational displacement, as used in optical computer mice
-
-
-\Needspace*{4\baselineskip}
-Every approach has properties to evaluate:
-\begin{itemize}
-  \item maximum and minimum speed capability
-  \item maximum and minimum acceleration
-  \item number of dimensions of movement data one sensor delivers
-  \item linearity and deviation of data
-  \item length of time of a single measurement
-  \item time lag between measurement and data availability
-  \item highest possible frequency of measurements
-  \item resilience against reference surface distance changes
-  \item maximum and minimum distance to reference surface
-  \item surface state requirements
-  \item resilience against environmental changes
-  \item influence of the sensor on the environment 
-  \item size and power requirements of the sensor
-  \item cost of the sensors for three dimensions
-\end{itemize}
-
+%
+%
+%\Needspace*{4\baselineskip}
+%Every approach has properties to evaluate:
+%\begin{itemize}
+%  \item maximum and minimum speed capability
+%  \item maximum and minimum acceleration
+%  \item number of dimensions of movement data one sensor delivers
+%  \item linearity and deviation of data
+%  \item length of time of a single measurement
+%  \item time lag between measurement and data availability
+%  \item highest possible frequency of measurements
+%  \item resilience against reference surface distance changes
+%  \item maximum and minimum distance to reference surface
+%  \item surface state requirements
+%  \item resilience against environmental changes
+%  \item influence of the sensor on the environment 
+%  \item size and power requirements of the sensor
+%  \item cost of the sensors for three dimensions
+%\end{itemize}
+%
 
 \subsection{Decision}
-
-We summarize the requirements for the sensor and the possible sensors in a table.
-
-\begin{table}[htbp]
-  \centering
-  \begin{tabular}{rlllllll}
-      & \begin{turn}{60} Acc./Gyro.\ high-end  \end{turn} \hspace{-18mm} & \begin{turn}{60} Acc./Gyro.\ consumer  \end{turn} \hspace{-18mm} & \begin{turn}{60} Ultrasonic \end{turn} \hspace{-8mm} & \begin{turn}{60}  Radar  \end{turn}  \hspace{-5mm} & \begin{turn}{60}Laser interferometer \end{turn} \hspace{-18mm} & \begin{turn}{60}Custom Optical \end{turn} \hspace{-15mm} & \begin{turn}{60}Consumer Mice\end{turn} \hspace{-10mm}\\
-     \hline
-     Cost   & \color{red}{5}   & 1     & 2   &  2 & 2 & \color{red}{5} & 1\\
-     Size   & 2   & 1     & 3   &  4 & 2 & \color{red}{5} & 1\\
-     Power   & 2   & 1     & 2   &  4 & 2 & 4 & 1 \\
-     Speed   & 1   & 2     & \color{red}{5}   &  4 & 1 & 1 & 4\\
-     Surf.\ Distance   & -   & -     & 4   &  4 & 1 & 2 & 3\\
-     Surf.\ Type   & -   & -     & 4   &  \color{red}{5} & 1 & 1 & 1\\
-     Accuracy  & 2   & \color{red}{5}     & 2   &  4 & 1 & 1 & 1\\
-     Environmental Influence  & -   & -     & \color{red}{5}   &  \color{red}{5} & 1 & 1 & 1\\
-     \hline
-  \end{tabular}
-  \caption{Sensor-Types and their score on the requirements. Lower numbers score better, with 1 best and 5 the worst, being a knock-out criteria. }
-\end{table}
-
-
 
 The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
 Advantages of industrial solutions would be their robustness and in most cases their native CAN-bus interface.
 But the big disadvantages of industrial sensors are the their size, weight and power requirements.
 Finished industrial radars, laser interferometers and optical speeds sensors mostly use 230\,V~AC, require an external processing unit and are simply too big and heavy for middle size robots~\cite{laser_vel, opt_vel, s_r_radar}.
 
-The approach of developing an optical sensor from scratch was shown to be successful for the automotive environment~\cite{Hrach2006}.
-But it would need a lot of time and effort to shrink the gadget enough to fit inside a middle size robot.
-At last, the components involving the camera and the needed FPGA-processor would be unaffordable for even one robot.
+The possible odometry sensors introduced in~\autoref{ssec:ntypes} are evaluated by means of the requirements.
+The results are summarized in ~\autoref{tab:comp}.
 
-On ultrasonic sensors, most commercial sensors have $> $30\,cm surface distance, we have 20\,mm.
-Reflections are another problem in ultrasonic measurement, we must use at least~3 sensors in close proximity to each other.
-And due to the expected air turbulences close to the wheels as well as the reflection problem, the ultrasonic approach was rejected.
+\begin{table}[htbp]
+ \begin{threeparttable}[b]
+  \centering
+  \begin{tabular}{rlllllll}
+      & \begin{turn}{60} Acc./Gyro.\ high-end  \end{turn} \hspace{-18mm} & \begin{turn}{60} Acc./Gyro.\ consumer  \end{turn} \hspace{-18mm} & \begin{turn}{60} Ultrasonic \end{turn} \hspace{-8mm} & \begin{turn}{60}  Radar  \end{turn}  \hspace{-5mm} & \begin{turn}{60}Laser interferometer \end{turn} \hspace{-18mm} & \begin{turn}{60}Custom Optical \end{turn} \hspace{-15mm} & \begin{turn}{60}Consumer Mice\end{turn} \hspace{-10mm}\\
+     \hline
+     Cost   & \color{red}{5}   & 1     & 2   &  2 & 2 & \color{red}{5}\tnote{4} & 1\\
+     Size   & 2   & 1     & 3   &  4 & 2 & \color{red}{5} & 1\\
+     Power   & 2   & 1     & 2   &  4 & 2 & 4 & 1 \\
+     Speed   & 1   & 2     & \color{red}{5}\tnote{1}   &  4 & 1 & 1 & 4\\
+     Surf.\ Distance   & -   & -     & 4   &  4 & 1 & 2 & 3\\
+     Surf.\ Type   & -   & -     & 4   &  \color{red}{5}\tnote{3} & 1 & 1 & 1\\
+     Accuracy  & 2   & \color{red}{5}     & 2   &  4 & 1 & 1 & 1\\
+     Environmental Influence  & 2   & 4     & \color{red}{5}\tnote{2}   &  \color{red}{5} & 1 & 1 & 1\\
+     \hline
+  \end{tabular}
+  \begin{tablenotes}
+  \item [1] Wind speed and turbulences affect the wave carrier medium air.
+  \item [2] Reflections are a problem, and we must use at least~3 sensors in close proximity to each other.
+  \item [3] Different undergrounds (carpet, wood, concrete, steel, \dots) have very different reflection rates, and the underground below the carpet is not known prior to a tournament.
+  \item [4] The components involving the camera and the needed FPGA-processor would be unaffordable for even one robot~\cite{Hrach2006}.
+  \end{tablenotes}
 
-The main criterions against radar sensors are the very different reflection rates on different undergrounds (carpet, wood, concrete, steel, \dots).
-The underground below the carpet is not known prior to a tournament, therefore the sensor is not guaranteed to work.
-Other disadvantages are low accuracy at low speeds, and that radar is disturbed by nearby moving objects.
-
-At time of search, consumer grade accelerometers/gyroscopes were not accurate enough to counter the summation errors.
-An industrial Xsens~\cite{xsens} sensor would have better accuracy, but with a price tag of~\euro\,1.000 it was out of our budget.
+  \caption{Sensor-Types and their score on the requirements. Lower numbers score better, with 1 best and 5 the worst, being a knock-out criteria. }
+  \label{tab:comp}
+ \end{threeparttable}
+\end{table}
 
 
+When looking at~\autoref{tab:comp}, only two types of sensors remain possible.\\
 The use of custom-build laser interferometers, especially vibrometers was considered.
 The Institute of Electrical Measurement and Measurement Signal Processing does some work in this field.
-The approach looked promising, but was not followed due to lack of time.
-
-Mouse sensors were considered promising from the start of this project.
+The approach looked promising, but was not followed due to lack of time.\\
+Mouse sensors were considered most promising from the start of this project.
 They are cheap, and fit into the size and power requirements of a middle size robot.
-The disadvantages of missing range and maximum speed could be negated by replacing their optics.
+The disadvantages of missing range and maximum speed can be negated by replacing their optics.
 By adding more magnification and setting the focus plane farther away from the sensor, maximum speed and range could be extended.\\
-With the use of two sensors, the needed three degrees of freedom can be reached with extra redundancy. 
+With the use of two sensors, the needed three degrees of freedom can be reached with extra redundancy.\\
 The \MH requires odometry data delivered on the CAN-bus, not the mice's native USB.
-To convert four dimensions of data from two sensors into the needed $dr$,~$ds$,~$d\phi$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.\\
+To convert four dimensions of data from two sensors into the needed d$r$,~d$s$,~d$\phi$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.
 %The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
 %And last, but not least we got a sample mouse sensor sponsored from a friendly German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
 
