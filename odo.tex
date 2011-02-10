@@ -588,7 +588,7 @@ To convert four dimensions of data from two sensors into the needed d$r$,~d$s$,~
 \section{Sensor Design}
 
 The task is the following: Develop an odometry sensor from a given mouse sensor.
-At the beginning of this project, we got a prototype sensor sponsored from (\$ German RC team FIXME).
+At the beginning of this project, we got a prototype sensor sponsored from the German RoboCup Team Carpe Noctem\footnote{\url{http://carpenoctem.das-lab.net/} (10/02/2010)}.
 
 It consisted of a mechanically modified Razor~Copperhead laser~mouse.
 In this mouse type, a sensor from Avago~Technologies is used, the ADNS-6010.
@@ -598,9 +598,9 @@ It still worked, although the recommended distance to some circuit elements was 
 
 \begin{figure}[hb]
 \begin{center}  
-\includegraphics[width=0.5\columnwidth]{figures/Krikkit3G.jpg}
+\includegraphics[width=0.6\columnwidth]{figures/proto.pdf}
 \caption{\label{fig:m-casing}
-Prototype sensor from (\$ German RC team FIXME).
+Prototype sensor from the German RoboCup team Carpe Noctem.
 The Sensor~IC and the illumination was relocated from the PCB~(1) to an extension mount~(2).
 }   
 \end{center}
@@ -982,15 +982,21 @@ The next criteria for the lens system is the depth of focus.
 We wish for $\pm 10$\,mm depth of focus to the object plane.
 For any symmetrical lens, the depth of focus lies between the near and far limits, see~\autoref{fig:nfl}.
 \begin{figure}[htbp]
-\begin{center}
+%\begin{minipage}{\textwidth}
+%\begin{center}
 \includegraphics[width=1\columnwidth]{figures/near_farpoints}
 \caption{\label{fig:nfl}
 Definition of the depth of focus.
 The focused area lies between the near limit and the far limit.
 The limits are dependant on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
+Source: Wikimedia Commons\footnotemark\, CC~BY-SA~3.0.
 }
-\end{center}
+%{\footnote{bla }%\url{http://commons.wikimedia.org/wiki/File:Schaerfentiefe_hyperfokal_inkl_fernbereich.svg}, CC~BY-SA~3.0.}
+%\end{center}
+%\end{minipage}
 \end{figure}
+%\footnotetext{\url{http://commons.wikimedia.org/wiki/File\:Schaerfentiefe_hyperfokal_inkl_fernbereich.svg}}
+
 We therefore set the near limit $d_n = o_2 - 10$\,mm and the far limit $d_f = o_2 + 10$\,mm.
 The formula for the distance of the near and far limit is the following: % FIXME cite? from WP... but need better ref.
 \begin{align}
