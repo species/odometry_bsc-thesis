@@ -98,7 +98,7 @@ The \MH participates in the \MSL.
 It was founded at Graz University of Technology at the Institute for Software Technology in 2003. 
 This RoboCup team consists solely of students and acts as a platform for master's, bachelor's theses and seminar projects.
 Currently more than 30~students are working on the robots in their free time.\\
-The team regularly participates at European championships as well as World Championships.
+The team regularly participates at European championships as well as World championships.
 At the RoboCup~2009, which took place in Graz, the team advanced a round in the World Championship for the first time.
 The third place in the technical challenge was won too.
 
@@ -357,6 +357,7 @@ They are used only for inertial informations, not yet for navigation~\cite{zadea
 
 
 \subsection{Requirements for a New Type of Odometry Sensor}
+\label{requirements}
 
 The \MSL provides an ideal testbed for mobile robotics.
 The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
@@ -376,7 +377,33 @@ Therefore the game field surfaces differ in colour and surface roughness on ever
 Colours from bright green over dark teal to nearly grey have been seen over the past years.
 The roughness is another chapter.
 It ranges from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
-Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.
+Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.\\
+Three different carpet types are chosen as representative cross-section (see~\autoref{fig:carpets}).
+The experiments are made on these carpets types, the sensor has to work flawless on all three samples.
+
+\begin{figure}[htbp]
+  \begin{center}
+%    \mbox{
+%    FIXME take pictures with height-ruler aside
+      \subfigure[Carpet 1]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}\hfill
+      \subfigure[Carpet 2]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}\hfill
+      \subfigure[Carpet 3]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}
+%      }
+%    \mbox{
+%      \subfigure[Carpet 2]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich2-scheinwerfer-blende10.PNG}} \hfill
+%      \subfigure[Carpet 3]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich3-scheinwerfer-blende10.PNG}}
+%      }
+    \caption{
+      The three different carpet types, on which the sensor must work.
+      The light-green carpet~1~(a) is nearly felt-like with a very smooth surface.
+      Carpet~2~(b) has a mottled teal colour and its hairs are medium long.
+      Carpet~3~(c) has the longest and unevenly hairs and a very dark green colour.
+    }
+    \label{fig:carpets}
+  \end{center}
+\end{figure}
+
+
 
 The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
 From the software side it would be highly appreciated if the sensor delivers data quality information.
@@ -594,7 +621,7 @@ It consisted of a mechanically modified Razor~Copperhead laser~mouse.
 In this mouse type, a sensor from Avago~Technologies is used, the ADNS-6010.
 The sensor and illumination were dismounted from its printed circuit board~(PCB) and relocated in a new casing because of mechanical size constraints (see~\autoref{fig:m-casing}.
 It was reconnected to its PCB via thin enamelled copper wires.
-It still worked, although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the pins.
+It still worked, although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the IC~pins.
 
 \begin{figure}[hb]
 \begin{center}  
@@ -981,19 +1008,19 @@ Image distance~$i_2$ to virtual image and object distance~$o_2$ for magnifying l
 The next criteria for the lens system is the depth of focus.
 We wish for $\pm 10$\,mm depth of focus to the object plane.
 For any symmetrical lens, the depth of focus lies between the near and far limits, see~\autoref{fig:nfl}.
+
 \begin{figure}[htbp]
-%\begin{minipage}{\textwidth}
-%\begin{center}
 \includegraphics[width=1\columnwidth]{figures/near_farpoints}
 \caption{\label{fig:nfl}
 Definition of the depth of focus.
 The focused area lies between the near limit and the far limit.
 The limits are dependant on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
-Source: Wikimedia Commons\footnotemark\, CC~BY-SA~3.0.
+\newline
+Source: Wikimedia Commons$^1$, CC~BY-SA~3.0.
+\newline
+\newline
+$^1$ \url{http://commons.wikimedia.org/wiki/File:Schaerfentiefe_hyperfokal_inkl_fernbereich.svg}
 }
-%{\footnote{bla }%\url{http://commons.wikimedia.org/wiki/File:Schaerfentiefe_hyperfokal_inkl_fernbereich.svg}, CC~BY-SA~3.0.}
-%\end{center}
-%\end{minipage}
 \end{figure}
 %\footnotetext{\url{http://commons.wikimedia.org/wiki/File\:Schaerfentiefe_hyperfokal_inkl_fernbereich.svg}}
 
@@ -1213,7 +1240,7 @@ The apertures must be mounted with the copper side facing the lens on the lens m
 The original illumination for the laser mouse consists in a VCSEL laser diode with a wavelength of 842\,nm.
 With the magnification system, we have a much greater target area to illuminate, for which the original VCSEL is too weak.
 The goal is to find a proper illumination for a target area of $5\times5$\,mm$^2$.
-It must be bright enough on every test surface (see \autoref{}) %FIXXME chapter requirements
+It must be bright enough on every test surface (see \autoref{requirements}) %FIXXME chapter requirements
 to allow the automatic shutter control of the sensor minimize the shutter for the maximum frame-rate. 
 Other requirements are the available space on the robot for a sensor, and the power consumption. 
 The illumination must fit besides the optical ray path inside the space constraints of the $60\times60$\,mm$^2$ cross-section.
@@ -1485,18 +1512,82 @@ The error rate calculated with the scripts equates to the deviance from the mean
 
 
 \newpage
-\section{Experimental Setup}
+\section{Experimental Set-up}
 
-- requirements
+The goal of the experiments was to test the sensor on the required surfaces with speeds up to 5\,m/s at varying distances.
+Therefore a testbed has to be build which allows the sensor to be tested on moving surfaces.
+To simulate a moving surface, it is chosen to use a rotating disk on which different carpets can be mounted.
+The sensor with its complete optical system and illumination should point to the moving surface, and measure their velocity at varying distances to the surface.
+Additionally, the rotational speed of the disk should be measured with a reference sensor.
+The block diagram of the whole testbed is shown in~\autoref{fig:block-testbed}.
 
-\subsection{Mechanical Design of the Testbed}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\textwidth]{figures/block_diagram.pdf}
+\caption{\label{fig:block-testbed}
+Block diagram of experimental setup: a rotating disc covered with different types of carpet simulates the game field. 
+A light barrier sensor is used as a reference for the mouse sensor results.
+}
+\end{center}
+\end{figure}
 
-block diagram
+The testbed consists of the mounting of the disk and its motor, the sensor with illumination, the microcontroller controlling the mouse sensor and the reference sensor, the host~PC and the power supply for all components.
+The disk with its motor are mounted on a frame with alumina profiles, with the mouse sensor, microcontroller and reference sensor attached.
+The components were assembled in the laboratory of the \EMT, as shown in~\autoref{fig:testbed-photo}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/testbed-photo.pdf}
+\caption{\label{fig:testbed-photo}
+Photo of the experimental set-up in the laboratory:
+(1)~Host~PC running the user interface.
+(2)~Power supply for the illumination and the reference sensor.
+(3)~Power supply for the motor.
+(4)~Reference sensor link box.
+(5)~Microcontroller board.
+(6)~Disk motor.
+(7)~Sensor with optics and illumination.
+}
+\end{center}
+\end{figure}
+
+
+%\subsection{Mechanical Design of the Testbed} % needed?
+
+
 
 \subsection{Motor and Disk}
 
+A motor from a hand drill is used to drive the disk.
+It runs on direct current and needs a stronger power supply able to supply 5\,A at 12\,V.
+We used a \emph{EA-PS 2016-100} laboratory power supply for the motor.
+The motor has a very uneven angular velocity, this can be seen in the plots over time in~\autoref{exp}.
+
+The disk is made of plastics material with a thickness of 5\,mm.
+It has a diameter of 295\,mm, and therefore a circumference of 927\,mm.
+It is mounted on an axle with a bearing on the back side, and is clamped into the drill chuck on the front side.
+It was manufactured at the Institute of Production Engineering\footnote{\url{http://www.ift.tugraz.at} (11/02/2011). Thanks to Mr.\ Ingo Riemenschneider.}.
+The three different carpets (see~\autoref{requirements}) are mounted with twin-sided adhesive tape.
+
 \subsection{Reference Speed Sensor}
 \label{lb}
+
+As reference speed sensor, a light barrier is used.
+Reflective elements are mounted on the edge of the disk (see~\autoref{fig:refl}).
+The light barrier is connected to the ADC on the microcontroller.\\
+
+
+
+The light barrier is mounted 5\,mm away from the disk edge.
+On the disk edge, eight reflective elements made of alumina foil with a length of 28\,mm are glued in even intervals.
+Whenever a reflective part passes below the sensor, the output voltage of the photo diode changes.
+
+As light barrier, a \emph{HOA1404 Reflective Sensor}~\cite{hoa} from \empf{Honeywell} is used.
+It consists in an infra-red LED and a photo transistor.
+The sensor came with a link box, where its circuit is contained.
+The link box has connectors for power supply and sensor output.
+
+
 
       Picture of sensor from Datasheet
       electrical setup used
