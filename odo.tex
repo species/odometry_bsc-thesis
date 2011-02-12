@@ -1572,20 +1572,43 @@ The three different carpets (see~\autoref{requirements}) are mounted with twin-s
 \subsection{Reference Speed Sensor}
 \label{lb}
 
-As reference speed sensor, a light barrier is used.
-Reflective elements are mounted on the edge of the disk (see~\autoref{fig:refl}).
-The light barrier is connected to the ADC on the microcontroller.\\
-
-
-
-The light barrier is mounted 5\,mm away from the disk edge.
+As reference speed sensor, a light barrier is used, that measures the rotation speed of the disk.
+A \emph{HOA1404 Reflective Sensor}~\cite{hoa} from \emph{Honeywell} is used.
 On the disk edge, eight reflective elements made of alumina foil with a length of 28\,mm are glued in even intervals.
-Whenever a reflective part passes below the sensor, the output voltage of the photo diode changes.
+The light barrier is mounted 5\,mm away from the disk edge (see~\autoref{fig:lb}).
 
-As light barrier, a \emph{HOA1404 Reflective Sensor}~\cite{hoa} from \emph{Honeywell} is used.
-It consists in an infra-red LED and a photo transistor.
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\textwidth]{figures/light_barrier.pdf}
+\caption{\label{fig:lb}
+The reference speed sensor.
+A reflective sensor~(2) points to the edge of the rotating disk, where the reflective elements~(1) pass in front of it.
+}
+\end{center}
+\end{figure}
+
+The reflective sensor consists in an infra-red LED and a photo transistor.
+Whenever a reflective part on the rotating disk passes below the sensor, the output voltage of the photo transistor changes.
+
 The sensor came with a link box, where its circuit is contained.
 The link box has connectors for power supply and sensor output.
+The IR-diode is specified with a current of~30\,mA~\cite{hoa}.
+When taking the circuit in the box into account, $\approx 22$\,V must be applied to the power supply connector.
+The output on the box is connected to an ADC on the microcontroller.
+On the microcontroller board, a voltage divider is set up to convert the 22\,V sensor output to the 5\,V input range of the ADC.
+The complete circuit is shown in~\autoref{fig:lb_mb}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\textwidth]{figures/Krikkit3G.jpg}
+\caption{\label{fig:lb_mb}
+Circuit of the light barrier.
+
+}
+\end{center}
+\end{figure}
+
+
 
 
 
