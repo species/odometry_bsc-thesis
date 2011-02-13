@@ -1572,7 +1572,7 @@ The three different carpets (see~\autoref{requirements}) are mounted with twin-s
 \subsection{Reference Speed Sensor}
 \label{lb}
 
-As reference speed sensor, a light barrier is used, that measures the rotation speed of the disk.
+As reference speed sensor, a light barrier is used to measure the rotation speed of the disk.
 A \emph{HOA1404 Reflective Sensor}~\cite{hoa} from \emph{Honeywell} is used.
 On the disk edge, eight reflective elements made of alumina foil with a length of 28\,mm are glued in even intervals.
 The light barrier is mounted 5\,mm away from the disk edge (see~\autoref{fig:lb}).
@@ -1600,20 +1600,18 @@ The complete circuit is shown in~\autoref{fig:lb_mb}
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=0.5\textwidth]{figures/Krikkit3G.jpg}
+\includegraphics[width=\textwidth]{figures/light_barrier_sch.png}
 \caption{\label{fig:lb_mb}
 Circuit of the light barrier.
-
+On top is the HOA1404-sensor with the illuminating IR-LED and the photo transistor. 
+It is connected via a 4-wire cable with the link box~(middle).
+The link box is to be supplied with 22\,V~DC.
+The output on the link box is implemented as BNC~plug.
+It is connected to the XC~devel-board, where a voltage divider is soldered before the ADC.
 }
 \end{center}
 \end{figure}
 
-
-
-
-
-      Picture of sensor from Datasheet
-      electrical setup used
 
 \subsection{Microcontroller and Host PC}      
 
