@@ -1440,6 +1440,7 @@ Before motion read, the firmware must be loaded to the ADNS-6010.
 Data from the reference speed sensor (see~\autoref{lb}) is acquired in an interrupt-driven background thread, and the current reference speed is output in addition to mouse sensor speed for comparison.
 
 \subsubsection{PyQt GUI}
+\label{sec:pyqtgui}
 
 The microcontroller can be controlled completely via a command-line interface from a terminal emulator on the serial line.
 But for displaying live images from the sensor, a graphical user interface (GUI) is needed.
@@ -1514,9 +1515,9 @@ The error rate calculated with the scripts equates to the deviance from the mean
 
 
 \newpage
-\section{Experimental Set-up}
+\section{Experimental Set-Up}
 
-The goal of the experiments was to test the sensor on the required surfaces with speeds up to $5\,$m/s at varying distances.
+The goal of the experiments is to test the sensor on the required surfaces with speeds up to $5\,$m/s at varying distances.
 Therefore a testbed has to be build which allows the sensor to be tested on moving surfaces.
 To simulate a moving surface, it is chosen to use a rotating disk on which different carpets can be mounted.
 The sensor with its complete optical system and illumination should point to the moving surface, and measure their velocity at varying distances to the surface.
@@ -1620,18 +1621,44 @@ It is connected to the XC~devel-board, where a voltage divider is soldered befor
 
 \subsection{Microcontroller and Host PC}      
 
+For the microcontroller development board, 12\,V~DC power supply with a coaxial power connector is needed.
+An old wall power supply is used therefore.
+The microcontroller is connected to the sensor via a 10-pin cable to the sensor, and via a serial cable to the host~PC.\\
+The host~PC must be equipped with a serial port (RS-232) able to run the following software:
+\begin{itemize}
+ \item Infineon MemTool for flashing the software to the microcontroller
+ \item A terminal emulator (e.g.\ Tera~Term\footnote{Tera Term v4.62 used. \url{http://ttssh2.sourceforge.jp/index.html.en}}) connected to the serial port at 115.6\,kbit/s
+ \item Python and QT for the GUI described in~\autoref{sec:pyqtgui}
+ \item Octave and gnuplot for the analysis scripts described in~\autoref{octave}
+\end{itemize}
+
+For the experiments, a laptop running Windows~XP is used.
+
+
 \clearpage
 \section{Experimental Results}
 \label{exp}
 
-\subsection{Illumination Tests}
+In all of the experiments, the correlation of our sensor with the reference sensor is evaluated.
+The sensor is tested under the following conditions:
 
 \begin{itemize}
-  \item Laser
-  \item Studio Spotlight
-  \item ultra-bright white LEDs
-  \item IR-LEDs
+ \item Telecentric/non-telecentric set-up
+ \item Different distances to the surface
+ \item Different surface types (carpets/game field lines)
+ \item Different orientations of the sensor
 \end{itemize}
+
+Every type of experiment is done in different speeds, ranging from $1-5$\,m/s in steps of one.
+In the experiments, sensor data is output with the PyQT~GUI and recorded as csv-file.
+The typical procedure of an experiment: 
+\begin{itemize}
+ \item Visual control of the sharpness and frame-rate with the frame-capture mode of the GUI.
+ \item Spinning up the motor to the desired speed. Speed display via the \emph{testADC}-function on the CLI of the microcontroller with the terminal emulator.
+ \item In the GUI: load the firmware, and in motion read mode, \emph{Start}, wait at least five seconds to accumulate enough data, and \emph{Stop}.
+ \item Load the written .csv-file into octave and control the plot.
+\end{itemize}
+
 
 \subsection{Non-telecentric Tests}
 
