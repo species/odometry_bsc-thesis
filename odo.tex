@@ -4,6 +4,10 @@
 % (c) 2005 EMT DSP Group
 %
 \documentclass[12pt,a4paper]{article}
+
+%\usepackage{draftwatermark}
+%\SetWatermarkLightness{ 0.9 }
+
 %\usepackage{dsp_report}
 
 \usepackage{parskip}
@@ -210,7 +214,7 @@ If the mounting consists of springs, the displacement is linear to an applied fo
 This displacement is then measured.
 %Under normal circumstances on earth every object is under the influence of the gravitational force.
 %Therefore~1\,g must be subtracted from the result.\\
-In today's sensors piezoelectric elements are used to convert the force into a signal.~\cite{emt}
+In today's sensors piezoelectric elements are used to convert the force into a signal~\cite{emt}.
 In the last years the use of micro electro-mechanical systems (MEMS), where the all mechanical and electrical components are etched in silicon, has been increased significantly.
 Sensors for three dimensions are now available in tiny package formats.
 Sensors are either available as professional high-quality finished sensors like the Xsens~\cite{xsens}, or as cheap integrated circuits~(IC) for consumer applications (like integrated in today's smart-phones).
@@ -641,13 +645,14 @@ Reading out raw image data is not possible via the mouse's USB interface, only d
 Therefore it was chosen to remove the sensor chip from the mouse, and connect it directly to an external microcontroller.
 This kills two birds with one stone.
 The microcontroller can provide a CAN-bus interface, and provides direct access to the sensor.\\
+For evaluation, a serial port (RS-232) is used instead of the CAN bus because of its simpler nature.
 In summary, we have to create a system as shown in~\autoref{fig:block-diag-sens}.
 
 \begin{figure}[hb]
 \begin{center}
 \includegraphics[width=0.9\columnwidth]{figures/block_diagram}
 \caption{\label{fig:block-diag-sens}
-Schemata of the sensor to be developed.
+Schemata of the evaluation sensor to be developed.
 From left to right:
 Optical system~(1) attached to the mouse sensor,
 custom~PCB~(2) with the mouse sensor connected via SPI to microcontroller~(3), which is itself connected to a host~PC~(4) via serial~port~(RS-232).
@@ -685,7 +690,7 @@ It contains an image acquisition system, a Digital Signal Processor~(DSP), and a
 It acquires microscopic surface images via the lens and illumination system. 
 These images are processed by the DSP to determine the direction and distance of motion. 
 The DSP calculates the $\Delta x$ and $\Delta y$ relative displacement values. 
-The $\Delta x$ and $\Delta y$ values are output on the serial port to an external microcontroller.~\cite{adns}
+The $\Delta x$ and $\Delta y$ values are output on the serial port to an external microcontroller~\cite{adns}.
 
 %workflow diagram (from data sheet) (none found?)
  
@@ -1659,18 +1664,148 @@ The typical procedure of an experiment:
  \item Load the written .csv-file into octave and control the plot.
 \end{itemize}
 
+A typical experiment plot for one measure is shown in~\autoref{example-plot}. 
+
+
+
+The .csv-files for all experiments are available FIXME.
+
+
+Type
+
+
 
 \subsection{Non-telecentric Tests}
 
+At the beginning, tests without the telecentric lens were made.
+The experiments showed a nearly linear dependence of the measured speed from the surface distance.
+This can be seen in~\autoref{fig:ntele-scale}. 
+When comparing results at a distance between 50\,mm and 65\,mm, there was a difference of up to 30\,\% in the measured speed due to the varying magnification. 
+Therefore a non-telecentric system is not  eligible for our application.\\
+The according standard deviations and bias for each series can be seen in~\autoref{fig:ntele-bias}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/ntele-scale.pdf}
+\caption{\label{fig:ntele-scale}
+Speed deviation for non-telecentric system for varying clearance heights. The non-telecentric system induces a linear error dependant on the surface distance. 
+With deviations of 30\,\% on our needed working range, the non-telecentric system is clearly not eligible for our application.
+}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/ntele-bias.pdf}
+\caption{\label{fig:ntele-bias}
+Bias and standard deviation for non-telecentric tests. 
+With deviations below 5\,\% within each fixed distance, the results would be acceptable for constant surface distance.
+}
+\end{center}
+\end{figure}
+
 \subsection{Telecentric Tests}
+
+5 plots 1-5 mps
+
+For every carpet, a number of tests with varying distance were done.
+The distances tested depend on the hair length and unevenness of each sample.
+
+
 
 \subsubsection{Carpet 1}
 
+drehgrade
+
+10-13mm  13-16mm  16-19mm  3-5mm  5-8mm
+
+
 \subsubsection{Carpet 2}
+
+4-7mm
+7-10mm
+9-12mm
 
 \subsubsection{Carpet 3}
 
+3-6mm
+5-8mm
+
 \subsubsection{Game Field Lines}
+
+
+\subsubsection{Second Series of Experiments}
+
+For the publication of the I$^2$MTC-paper a second series of experiments was run, to get better results without the influence of the motor.
+The experiments were repeated on a milling machine, where the carpet disc was clamped into the milling head chuck (see~\autoref{fig:pict0018}).
+The milling head has a very even angular velocity compared to the hand drill motor, so the waveform of the first plots could be eliminated.\\
+In the low speed operating range, due to the fixed gear ratio, only 80, 160 and 245\,rpm are available. 
+This corresponds roughly to 1.5, 3 and 4.5\,m/s.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/pict0018.jpg}
+\caption{\label{fig:pict0018}
+Photo of the sensor mounted on the milling machine.
+The carpet disc is clamped into the milling head chuck.
+The sensor itself is mounted on the milling table.
+The distance to the carpet can be adjusted with the vertical feed of the milling table.
+}
+\end{center}
+\end{figure}
+
+For every carpet, one experiment with these three speeds was done. 
+Using a target distance of $5\,$mm we obtain a sensor bias as shown inFigure~\ref{fig:bias}a. 
+In order to simplify the comparison of different boundary conditions, the bias is related to its true value resulting in the measured {\sl relative bias}. 
+In this experiment the sensor signal is sampled with $f_s=500\,$Hz and consequently median filtered ($N=3$) to remove outliers.
+It can be seen that while each carpet leads to a different bias behaviour, the overall relative bias of the odometry sensor is less than $0.6\,\%$ over the whole target range of velocities. 
+The associated standard deviations of the odometry readings estimated using $M=500$ samples -- again related to the true velocity -- are shown in Figure~\ref{fig:bias}b. 
+Note that while the standard deviation of carpet 2 steadily increases with increasing velocities, the standard deviation
+of carpet 3 decreases with increasing velocity. These results are caused by the optical properties of the different carpets~\cite{i2mtc}.
+
+\begin{figure*}[t]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.47\columnwidth]{figures/mm_bias} &
+\includegraphics[width=0.47\columnwidth]{figures/mm_dev} \\
+(a) & (b) \\
+\end{tabular}
+\caption{\label{fig:bias}
+Comparison of the odometry sensor with ground-truth data. (a) Relative bias for different carpets for a constant
+surface distance of $5\,$mm. (b) The relative standard deviation of the odometry results are dominated by the
+optical properties of the carpet used.}
+\end{center}
+\end{figure*}
+
+For the influence of the surface quality on the bias, a series of experiments was run with carpet~1 on a speed of 1.5\,m/s.
+The decreased surface count was inducted by decreasing the illumination strength.
+The results can be seen in~\autoref{fig:mm-squal}.
+
+
+In a last experiment the function of the telecentric optical path design was validated on carpet~1 with a speed of 1.5\,m/s.
+The relative bias of the odometry sensor is investigated for varying surface distances.
+\autoref{fig:telec_error} shows the obtained results augmented by their respective relative standard deviations for a surface distance ranging from $5\,$mm to $15\,$mm. 
+A bias of less than $1\,\%$ can be observed for a surface distance in the range $5-12\,$mm and the maximum bias is less than $6\,\%$ over the whole range of surface distances.
+The increased bias in this set-up is caused by two effects: First, the optical set-up of the prototype is not perfectly aligned giving raise to telecentricity errors. 
+Second, the surface illumination fails to properly cover the whole range surface distances~\cite{i2mtc}.
+
+\begin{figure}[htbp]
+  \begin{minipage}{0.47\textwidth}
+   \centering
+    \includegraphics[width=1\textwidth]{figures/mm-squal.pdf}
+    \caption{\label{fig:mm-squal}Relative bias introduced by a decreased surface feature count.
+    }
+  \end{minipage}\hfill
+  \begin{minipage}{0.47\textwidth}
+   \centering
+    \includegraphics[width=1\textwidth]{figures/telec_error}
+    \caption{\label{fig:telec_error}Validation of the telecentric system using a variable surface distance ranging from $5\,$mm to $15\,$mm.
+}
+  \end{minipage}
+\end{figure}
+
+
 
 \subsection{Interpretation}
 
