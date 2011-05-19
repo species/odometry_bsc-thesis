@@ -1664,14 +1664,12 @@ The typical procedure of an experiment:
  \item Load the written .csv-file into octave and control the plot.
 \end{itemize}
 
-A typical experiment plot for one measure is shown in~\autoref{example-plot}. 
+A typical experiment plot series is shown in~\autoref{fig:series}. 
 
 
 
 The .csv-files for all experiments are available FIXME.
 
-
-Type
 
 
 
@@ -1707,8 +1705,6 @@ With deviations below 5\,\% within each fixed distance, the results would be acc
 
 \subsection{Telecentric Tests}
 
-5 plots 1-5 mps
-
 For every carpet, a number of tests with varying distance were done.
 The distances tested depend on the hair length and unevenness of each sample.
 A typical series of tests is shown in~\autoref{fig:series}. 
@@ -1718,46 +1714,91 @@ The amplitude decreases on higher speeds, because the moment of inertia has a gr
 \begin{figure}[htbp]
   \begin{center}
     \mbox{
-      \subfigure[Carpet 1]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}\hfill
-      \subfigure[Carpet 3]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}
+      \subfigure[]{\includegraphics[width=0.48\textwidth]{figures/plot1}}\quad
+      \subfigure[]{\includegraphics[width=0.48\textwidth]{figures/plot2}}
       }
     \mbox{
-      \subfigure[Carpet 2]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich2-scheinwerfer-blende10.PNG}} \hfill
-      \subfigure[Carpet 3]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich3-scheinwerfer-blende10.PNG}}
+      \subfigure[]{\includegraphics[width=0.48\textwidth]{figures/plot3}} \quad
+      \subfigure[]{\includegraphics[width=0.48\textwidth]{figures/plot4}}
       }
     \mbox{
-      \subfigure[Carpet 2]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich2-scheinwerfer-blende10.PNG}}
+      \subfigure[]{\includegraphics[width=0.48\textwidth]{figures/plot5}}
       }
     \caption{
-      The three different carpet types, on which the sensor must work.
-      The light-green carpet~1~(a) is nearly felt-like with a very smooth surface.
-      Carpet~2~(b) has a mottled teal colour and its hairs are medium long.
-      Carpet~3~(c) has the longest and unevenly hairs and a very dark green colour.
+      A typical test series with five different speeds.
+      For example, the series with carpet~3 at a distance of 3-6\,mm is shown. 
+      Notable is the much less accuracy of the reference sensor compared to our sensor.
+      This is of minor importance, because the sensor is calibrated to the median of a few seconds.
     }
-    \label{fig:carpets}
+    \label{fig:series}
   \end{center}
 \end{figure}
 
 
+
 \subsubsection{Carpet 1}
 
-drehgrade
+Carpet~1 has a very even surface, with allowed for the greatest height variations. 
+Test series were made with the following distances: 3-5\,mm, 5-8\,mm, 10-13\,mm, 13-16\,mm and 16-19\,mm.
+The plastic disk itself was warped due to manufacturing, and the resulting level difference is about~3\,mm, which is reflected on the given clearance height ranges.\\
+Shown in~\autoref{fig:t1_dist} are the results from the test series of carpet~1 for the five distance ranges.
 
-10-13mm  13-16mm  16-19mm  3-5mm  5-8mm
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/T1_dist.pdf}
+\caption{\label{fig:t1_dist}
+Results for carpet~1 and five distance ranges. 
+Shown are the calibration factors of every single experiment compared to the mean value of 1\,m/s.
+A slight tendency of the sensor to display lower than real values at higher speeds can be observed.
+The outlier on 16-19\,mm at top speed is likely related to insufficient illumination.
+}
+\end{center}
+\end{figure}
 
+A second series of tests was done with different orientations of the sensor. 
+On a fixed distance, the sensor was rotated in four 90$^{\circ}$-steps.
+
+FIXME circular plot
 
 \subsubsection{Carpet 2}
 
-4-7mm
-7-10mm
-9-12mm
+Carpet~2 was tested in the following ranges: 4-7\,mm, 7-10\,mm and 9-12\,mm.
+The results are shown in~\autoref{fig:t2_dist}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/T2_dist.pdf}
+\caption{\label{fig:t2_dist}
+Results for carpet~2 and three distance ranges.
+Shown are the calibration factors of every single experiment compared to the mean value of 1\,m/s.
+Carpet~2 performs much better than carpet~1.
+With deviations around 1\,\% the results are excellent for these distance ranges.
+}
+\end{center}
+\end{figure}
+
 
 \subsubsection{Carpet 3}
 
-3-6mm
-5-8mm
+Carpet 3 is the thickest sample with greater deviations in hair length, so only two series with different ranges were made, 3-6\,mm and 5-8\,mm.
+The results are shown in~\autoref{fig:t3_dist}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/T3_dist.pdf}
+\caption{\label{fig:t3_dist}
+Results for carpet~3 and two distance ranges.
+Shown are the calibration factors of every single experiment compared to the mean value of 1\,m/s.
+The results are well within 2\,\%, and are considered satisfactory.
+}
+\end{center}
+\end{figure}
+
 
 \subsubsection{Game Field Lines}
+
+The game field lines of a RoboCup game field consist normally of white gaffer tape on top of the carpet.
+It has the downside of being highly reflective and featuring very little contrast.
 
 
 \subsubsection{Second Series of Experiments}
@@ -1781,7 +1822,7 @@ The distance to the carpet can be adjusted with the vertical feed of the milling
 \end{figure}
 
 For every carpet, one experiment with these three speeds was done. 
-Using a target distance of $5\,$mm we obtain a sensor bias as shown inFigure~\ref{fig:bias}a. 
+Using a target distance of $5\,$mm we obtain a sensor bias as shown in Figure~\ref{fig:bias}a. 
 In order to simplify the comparison of different boundary conditions, the bias is related to its true value resulting in the measured {\sl relative bias}. 
 In this experiment the sensor signal is sampled with $f_s=500\,$Hz and consequently median filtered ($N=3$) to remove outliers.
 It can be seen that while each carpet leads to a different bias behaviour, the overall relative bias of the odometry sensor is less than $0.6\,\%$ over the whole target range of velocities. 
