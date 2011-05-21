@@ -1757,8 +1757,23 @@ The outlier on 16-19\,mm at top speed is likely related to insufficient illumina
 
 A second series of tests was done with different orientations of the sensor. 
 On a fixed distance, the sensor was rotated in four 90$^{\circ}$-steps.
+The results for each series for each rotation step are shown in~\autoref{fig:angles}.
+The sensor shows a tendency to favour some directions. 
+With steady deviations around 3\,\% for each direction it is advised to implement a software correction system depending on the current direction of movement.
 
-FIXME circular plot
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/angles}
+\caption{\label{fig:angles}
+Results for carpet~1 and different orientation of the sensor over the moving direction.
+Shown are the calibration factors of every single experiment compared to the mean value over all experiments.
+The deviations around 3\,\% are homogeneous for each direction (forward and backward) should be corrected by software once implemented.
+These tests were done with 10-13\,mm surface distance.
+}   
+\end{center}
+\end{figure}
+
+
 
 \subsubsection{Carpet 2}
 
@@ -1800,6 +1815,9 @@ The results are well within 2\,\%, and are considered satisfactory.
 The game field lines of a RoboCup game field consist normally of white gaffer tape on top of the carpet.
 It has the downside of being highly reflective and featuring very little contrast.
 
+FIXME more
+ - shutter
+ - squal
 
 \subsubsection{Second Series of Experiments}
 
