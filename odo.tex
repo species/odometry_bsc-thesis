@@ -368,7 +368,7 @@ They are used only for inertial informations, not yet for navigation~\cite{zadea
 The \MSL provides an ideal testbed for mobile robotics.
 The main demands in robotics are miniaturisation, low cost, energy usage and robustness against the environment.
 %\Needspace*{4\baselineskip}
-The range of application in the \MSL demands the following design parameters for an odometry sensor: %% FIXXME no page break here!
+The range of application in the \MSL demands the following design parameters for an odometry sensor: 
 \begin{itemize}
   \item must deliver linear and rotational accurate data in three degrees of freedom
   \item must work on green carpet, other surfaces are bonus
@@ -482,9 +482,9 @@ It will be a direct successor of the Krikkit generation, therefore the name \emp
 The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME only works inside sentences, want not to break up before the listing
 \begin{itemize}
   \item omnidirectional drive with the three Mecanum Wheels
-  \item the omni-vision system
+  \item omni-vision system
   \item pneumatic kicking concept
-  \item the use of a standard mini-ITX industrial PC
+  \item use of a standard mini-ITX industrial PC
   \item modularity of all components
 \end{itemize}
 
@@ -1728,7 +1728,7 @@ The amplitude decreases on higher speeds, because the moment of inertia has a gr
       A typical test series with five different speeds.
       For example, the series with carpet~3 at a distance of 3-6\,mm is shown. 
       Notable is the much less accuracy of the reference sensor compared to our sensor.
-      This is of minor importance, because the sensor is calibrated to the median of a few seconds.
+      This is of minor importance, because the sensor is calibrated to the median of the reference sensor over a few seconds.
     }
     \label{fig:series}
   \end{center}
@@ -1814,10 +1814,29 @@ The results are well within 2\,\%, and are considered satisfactory.
 
 The game field lines of a RoboCup game field consist normally of white gaffer tape on top of the carpet.
 It has the downside of being highly reflective and featuring very little contrast.
+With the illumination of white or IR LEDs, this leads to a surface feature count not high enough for tracking.
+But with the different surface feature count, we are able to distinguish white lines from the green carpet.
+This information is vital for our sensor fusion system to ignore our sensor data while moving over white lines and meanwhile extrapolate the motion.
+The features used for distinguishing between lines and 'better' surfaces are shown in~\autoref{tab:lines}.
 
-FIXME more
- - shutter
- - squal
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{r|r|r|r|r}
+       & Line & Carpet~1 & Carpet~2 & Carpet~3 \\
+       \hline
+       E$[ squal ] $     & \color{red}{13.5}  &  89.9  & 119.1 & 130.2    \\
+       $\sigma ( squal ) $ & 9.5   &  6.5   & 5.9   & 5.0     \\
+       & & & & \\
+       E$[ shutter  ]  $ & 6.7  &  11.2  & 15.1  & 17.4     \\
+       $\sigma ( shutter)$ & 1.2  &  1.3   & 1.6   & 2.8     \\
+
+    \end{tabular}
+  \caption{\label{tab:lines}Properties of game field lines vs. the carpet itself.
+  Shown are the mean~(E) and the standard deviation~($\sigma$) of the surface feature count (\emph{squal}) and the \emph{shutter} (in $\muup$s).
+  The surface feature count can be used as a line indicator, where sensor readings should be ignored.}
+\end{table}
+
+\newpage
 
 \subsubsection{Second Series of Experiments}
 
@@ -1891,32 +1910,45 @@ Second, the surface illumination fails to properly cover the whole range surface
 
 
 
-\subsection{Interpretation}
+\subsection{Conclusion}
 
-  plots
-  ergebnisse
+This work shows that our sensor prototype works sufficiently well on carpet.\\
+The added optics make a computer mouse sensor suitable for the RoboCup environment.
+The bias for every test made was below 5\,\%, which suits the requirements.
+The surface quality information proved to be a reliable data quality indicator, which can be used in our sensor fusion system.
+
+One negative aspect discovered, the sensor does not work on the game field lines with the current illumination.
+But when using three sensors, as intended on the Krikkit3G platform, the six available degrees of freedom should be enough to cover the temporary blackout of one sensor.
+
+The telecentric set-up fulfilled its expectations, and the small telecentric errors can be reduced with a more precise optical set-up.
+The alignment of the telecentric set-up is a rather simple mechanic task, and improves the accuracy in a linear way.
 
 \clearpage
-\section{Conclusions and Outlook}
+\section{Outlook}
 
-  evaluation of a combination of IR-LED illumination and Laser illumination
+In this section, thoughts on continuing this project will be given.
+The next step will be to design a sensor that can be used in the Krikkit3G.
+It should go into production in small series from 6~--~20 pieces.
 
-  newer sensor ADNS-90xx
+It has to fit into the Krikkit3G space restrictions ($50\times50\times80$\,cm$^3$).
+Also, for the rather dusty environment on the artificial carpet, some sort of dust-cleaning mechanism has to be provided.
+Experience shows that after a game, the bottom of the robot is covered with an oily film (from the gearboxes and bearings), where green dust from outworn carpet hairs sticks onto.
+The lens at the bottom has to be protected from these dust.
 
-  mechanical limitations
-    size constraints
-    dirt cleaning...
-  electrical requirements
-    new architecture: ARM
-    also include illumination control in uC
-      use of the shuttered illumination for higher power 
-      use of both LEDs and Lasers for white lines
-  software algorithms: compute 3 dimension out of 2/4/6
+On the illumination, an approach with laser illumination should be tried, to get better results on the game field lines through the laser speckle effect.
+Therefore a strong laser has to be found for this task.
+The red laser used in the laboratory was not usable on the green carpet because of the poor reflection coefficient of the used wavelength on  the green surface.
+Maybe both LEDs and a laser in parallel or alternating, depending on the current surface can be used.\\
+When using LEDs, more care has to be taken about the cooling, especially in the tighter space constraints of the robot drive.
 
-ca 3-5p
+The successor of our used mouse sensor is available in the meanwhile, the ADNS-90xx.
+It offers a maximum speed of 5\,m/s out of the box.
+With the new sensor, perhaps the magnification lens can be saved, which would cut down the space requirements and costs of the optical path.
 
+On the microcontroller side, the new standard for the \MH is the ARM architecture, which has to be used on a new sensor.
+The STM32F103CBT6 chip used in other electronics project of the \MH offers SPI, CAN and all other features needed.
 
-summe gesamt 49 Seiten (ohne abstract, inhaltsv, bibl.)
+On the software side, an algorithm~\cite{two_mice} has to be implemented, to compute the 3 needed dimension out of 2/4/6 available, depending on the number of sensors, which offer reliable data at the moment.
 
 
 %--------------------------------------------------------%
