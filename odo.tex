@@ -33,7 +33,7 @@
 \usepackage{subfigure}
 \usepackage{xspace}                   % space nach makro
 \usepackage[left]{eurosym}            % Euro symbol
-\usepackage{needspace} %preserve some space before page break, e.g. at a listings heading
+\usepackage{needspace} %preserve some space before page break e.g. at a listings heading
 \usepackage{hyperref}
 
 \newcommand{\mbnote}[1]{\textcolor{Gray}{\textbf{\noindent M. Brandner NOTE: #1}}}
@@ -57,9 +57,18 @@
 
 
 \begin{abstract}
-Abstract
 
-% 1p
+In this work, the development of an optical odometry sensor for Middle-Size soccer robots based on a computer mouse for the \MH is presented.\\
+After summarizing the state of the art, the decision for this particular sensor type is justified.
+The electrical and optical design of the sensor is described and an introduction into the developed software is given.
+The documentation given here shall be used for further developments based on this work.
+A prototype of the sensor is tested on a RoboCup game field simulator.
+For the experiments, the set-up of the testbed and the workflow of the tests is documented.
+The experimental results are presented and summarized in a conclusion.
+The work closes with an outlook to the steps needed for the final implementation on the robots.
+
+Based on this work, a paper named ``Low-Cost Optical Odometry for Wheeled Mobile Robots''~\cite{i2mtc} was accepted on the International Instrumentation and Measurement Conference (I$^2$MTC)~2011, located in Hangzhou, China.
+
 \end{abstract}
 
 \clearpage
@@ -71,11 +80,11 @@ Abstract
 
 The RoboCup is an international research and education initiative. 
 Its goal is \emph{``By the year 2050, develop a team of fully autonomous robots that can win against the current human soccer world champion team"}~\cite{robocup.org}.
-It promotes research in the field of robotics, e.g.\ machine vision, machine learning and autonomous systems.\\
+It promotes research in the field of robotics e.g.\ machine vision, machine learning and autonomous systems.\\
 Every year a world championship is accompanied by a conference in a different city around the globe.
 In addition, various local competitions and conferences are held by local groups.\\
-The RoboCup is split into three division: RoboCup Soccer, Rescue and @Home.
-Every division is divided into several leagues targeted at different challenges.
+The RoboCup is split into three divisions: RoboCup Soccer, Rescue and @Home.
+Every division is split into several leagues targeted at different challenges.
 
 %|| to Apollo Program.
 %1/2 page
@@ -104,7 +113,7 @@ The \MH participates in the \MSL.
 It was founded at Graz University of Technology at the Institute for Software Technology in 2003. 
 This RoboCup team consists solely of students and acts as a platform for master's, bachelor's theses and seminar projects.
 Currently more than 30~students are working on the robots in their free time.\\
-The team regularly participates at European championships as well as World championships.
+The team regularly participates in European championships as well as World championships.
 At the RoboCup~2009, which took place in Graz, the team advanced a round in the World Championship for the first time.
 The third place in the technical challenge was won too.
 
@@ -125,14 +134,14 @@ The third place in the technical challenge was won too.
 %The best known odometry measuring is used in cars as kilometre reading on the tachometer.
 Odometry is the art of position estimation during wheeled vehicle navigation~\cite{webster}.
 The simplest odometry application is the tachometer in a motorcar, where the distance driven is estimated by the rotation count of the wheels.
-In an omnidirectional wheeled robot, the odometry system is more complex as three degrees of freedom~(DoF) have to be taken into account.
-The movement into two directions and the rotational component are represented by the three variables d$r$, d$s$ and d$\phi$.\\
+In an omnidirectional wheeled robot the odometry system is more complex as three degrees of freedom~(DoF) have to be taken into account.
+The movement in two directions and the rotational component are represented by the three variables d$r$, d$s$ and d$\phi$.\\
 %dr,ds dphi erklaert.dr [mm/sec], ds [mm/sec], dphi*1000 [rad/sec]
-In the robot software of the \MH, odometry plays an important role.
+In the robot software of the \MH odometry plays an important role.
 Together with the vision system and the compass, odometry is a part in the sensor fusion for parametrization of the world model.
 Odometry fulfils the following purposes:
 In the image processing in our software, odometry data is used as an initialisation vector when comparing two camera frames for calculating the offset between them on updating the robot's position.
-Currently, the camera provides only a frame-rate of 15\,Hz, and odometry data are available with a higher frequency (50\,Hz).
+Currently, the camera provides only a frame-rate of 15\,Hz and odometry data are available with a higher frequency (50\,Hz).
 Therefore its values are added to the last known position in the world model for the time between two camera frames.
 At last it acts as a backup system for the mainly vision based localisation system in case of camera blackouts (e.g.\ blurred images due to the vibrations from a kick or a collision).\\
 There are more possible use cases for odometry not implemented yet e.g.\ anti-slip regulation for every single wheel.
@@ -162,20 +171,18 @@ The goals of this work were:
 \clearpage
 \section{State of the Art in Odometry Measurement}
 % 1/2
- 
 
-
-When determining the position or movement of a vehicle, there are the following options: 
+When determining the position or movement of a vehicle there are the following options: 
 Relying on absolute or relative position measurement.
 
 The best known absolute position measurement system is the Global Positioning System GPS.
-With GPS, the position is estimated with triangulation from known reference points, the GPS satellites. %ref needed?
+With GPS the position is estimated with triangulation from known reference points, the GPS satellites. %ref needed?
 This is widely used in robotics for outdoor applications where a GPS signal is available.
 Indoors other known fixed reference points than satellites can be used.
 In RoboCup the well-known shape of the soccer field is used for global reference.
 Without exception every soccer robot uses the features of the game field e.g.\ the goals, lines and corner posts for orientation.\\
 Another absolute approach for gathering position data is a compass.
-It also deliver absolute data, but orientation and not position. 
+It also delivers absolute data, but orientation and not position. 
 This approach delivers only one of the three needed degrees of freedom, but it can complete the missing dimension.
 
 % - global positioning
@@ -191,8 +198,8 @@ Every approach has its advantages depending on the use case.
 When aiming for the travelled distance it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the double integration.\\
 The most used odometry systems today are based on the rotational speed of the wheels.
 The rotary encoders mounted on the axles measure distance.
-In this work, other approaches should be evaluated. 
-These include techniques measuring also velocity or acceleration.
+In this work other approaches should be evaluated. 
+These approaches include techniques measuring also velocity or acceleration.
 Velocity can be measured directly with various implementations based on the Doppler effect e.g.\ radar or ultrasonic sensors.
 %When measuring acceleration there is the choice between industrial grade accelerometers as used e.g.\ in aeroplanes and consumer grade accelerometers based on the piezoelectric effect.\\
 %Speedometers exist in various implementations based on the Doppler effect e.g.\ radar.\\
@@ -209,7 +216,7 @@ The reasons for selecting a particular sensor type for evaluation in this work a
 
 \subsubsection{Accelerometers}
 
-Accelerometers consists mainly of flexible mounted masses, which are under the influence of a force.
+Accelerometers consist mainly of flexible mounted masses, which are under the influence of a force.
 If the mounting consists of springs, the displacement is linear to an applied force.
 This displacement is then measured.
 %Under normal circumstances on earth every object is under the influence of the gravitational force.
@@ -217,8 +224,8 @@ This displacement is then measured.
 In today's sensors piezoelectric elements are used to convert the force into a signal~\cite{emt}.
 In the last years the use of micro electro-mechanical systems (MEMS), where the all mechanical and electrical components are etched in silicon, has been increased significantly.
 Sensors for three dimensions are now available in tiny package formats.
-Sensors are either available as professional high-quality finished sensors like the Xsens~\cite{xsens}, or as cheap integrated circuits~(IC) for consumer applications (like integrated in today's smart-phones).
-The high accuracy of professional sensors (e.g.\ the Xsens) comes at a hefty price tag of~\euro\,1.000.
+Sensors are either available as professional high-quality finished sensors like the Xsens~\cite{xsens} or as cheap integrated circuits~(IC) for consumer applications (like integrated in today's smart-phones).
+The high accuracy of professional sensors (e.g.\ the Xsens) comes at a hefty price of~\euro\,1.000.
 The IC-sensors for consumer products are on the other hand still widely inaccurate (in the year 2008).
 
 
@@ -227,7 +234,7 @@ The IC-sensors for consumer products are on the other hand still widely inaccura
 Gyroscopes detect the rotational change of position.
 Historically they consisted in a flywheel mounted in a Cardan suspension.
 Once spinned up they remain at their orientation, based on the principles of conservation of angular momentum.\\
-Due to their nature, they are only applicable to one (rotational) dimension, so they must be accomplished with other sensors.
+Due to their nature they are only applicable to one (rotational) dimension, so they must be accomplished with other sensors.
 Today they are implemented as MEMS similar to  the before mentioned accelerometers~\cite{pmt}.
 Often they are even combined with accelerometers in a single chip package to 6-dimensional sensors.
 
@@ -237,13 +244,13 @@ Often they are even combined with accelerometers in a single chip package to 6-d
 Ultrasonic Doppler velocimeters work similar as ultrasonic distance sensors.
 Ultrasonic distance sensors were used in the first robot generation of the \MH for collision detection.
 
-As on every Doppler measurement, its accuracy is directly dependant on the used wavelengths.
+As with every Doppler measurement, its accuracy is directly dependent of the used wavelengths.
 At ultrasonic sensors wavelengths around~100\,kHz are used. 
 This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\cite{ultrasonic}.\\
 When working with ultrasonic sensors on mobile systems, one thing has to be taken into consideration: 
-As on every wave-based system, the relative speed of the medium~(air) has to be considerably smaller than the wave speed ($v \ll c$).
+As with every wave-based system, the relative speed of the medium~(air) has to be considerably smaller than the wave speed ($v \ll c$).
 Through the relatively low velocity of sound, only speeds up to~30\,km/h are feasible because of the head wind and turbulences~\cite{ultrasonic}.\\
-Also, ultrasonic Doppler velocimeters are subtle to vibrations due to low frequencies~\cite{agri}.
+Additionally, ultrasonic Doppler velocimeters are subtle to vibrations due to low frequencies~\cite{agri}.
 
 The main use today is in liquid flow measurements.
 
@@ -255,9 +262,9 @@ Radar is an umbrella term for object detection systems utilizing electromagnetic
 It can be used to measure the distance of objects and also their speed through the Doppler effect.
 Depending on the object distance, different wavelength are used.
 For short-range measurements short-range microwave sensors with~24\,GHz are used e.g.\ radar guns and also for speed measurements on moving vehicles itself~\cite{s_r_radar}.
-But due to the high frequency, they are not so accurate as the before mentioned ultrasonic sensor at low speeds.
-Another significant drawback are the different reflection rates on different undergrounds (carpet, wood, concrete, steel, \dots), and the underground below the carpet is not known prior to a tournament.
-Other disadvantage is that radar is disturbed by nearby moving objects.
+But due to the high frequency they are not so accurate as the before mentioned ultrasonic sensor at low speeds.
+Another significant drawback are the different reflection rates on different undergrounds (e.g.\ carpet, wood, concrete and steel) and the underground below the carpet is not known prior to a tournament.
+Another disadvantage is that radar is disturbed by nearby moving objects.
 
 
 \subsubsection{Laser Interferometers}
@@ -282,10 +289,10 @@ The frequency shift between the two beams results in an overtone at the detector
 \subsubsection{Optical Speed Sensors}
 
 The operation of an optical speed sensor is based on comparison of sequentially acquired images from a surface.
-From the images, features are extracted, and their position is compared with similar features on the next frame.\\
+From the images features are extracted and their position is compared with similar features on the next frame.\\
 Such optical systems are common in industrial and consumer sensors.
 Examplary uses are speed sensors for conveyor belts.\\
-The components of an optical speed sensor are usually a high-speed camera acquiring the images from the surface, and a Digital Signal Processor (DSP) for analysing the images.
+The components of an optical speed sensor are usually a high-speed camera acquiring the images from the surface and a Digital Signal Processor (DSP) for analysing the images.
 In off-the-shelf industrial systems the cameras are usually fixedly mounted and are connected to an external processing device~\cite{opt_vel}.
 
 When the surface contrast is not sufficient to extract enough features for tracking, a little trick helps.
@@ -294,7 +301,7 @@ This results from the interference of reflected light waves with different phase
 Therefore illumination with a laser light source increases the contrast a lot on otherwise low contrast surfaces.
 This is used e.g.\ in laser speckle strain measurement~\cite{strain}.
 
-When developing such a system from scratch, a lot of time and effort is needed.
+When developing such a system from scratch a lot of time and effort is needed.
 This has been shown by the development of an optical slip-angle sensor~\cite{Hrach2006} for the TUG~Racing~Team.
 
 % 1/4
@@ -306,14 +313,14 @@ In the last 10~years this mechanical principle has been superseded by a strictly
 A standard optical mouse consists in a tiny camera taking images of the surface illuminated by an LED.
 An integrated DSP compares the sequentially acquired images and computes the displacement between them.
 The sensor outputs movement data to an external microcontroller, which also handles the mouse buttons and translates all data to the~USB or PS/2 protocol.\\
-At the time of the search~(2008), the fastest gaming mice had a maximum speed of 1.1\,m/s.
-They operate at speeds up to 7\,000\,Hz.
+At the time of the search~(2008) the fastest gaming mice had a maximum speed of 1.1\,m/s.
+They operate at speeds up to 7000\,Hz.
 Another advantage is their small size and minimal power requirement.
 Being constructed as an exact gaming device also has disadvantages for RoboCup use:
 To allow relocating the mouse very fast while lifting off, the best mice used for gaming are designed with a very short working range of only 2\,mm.\\
 Laser mice use the same principle as the before mentioned laser speckle sensor.
 The only difference to normal mice is the use of a coherent laser source as illumination instead of an LED.
-The sensor itself remains the same, but due to the higher contrast achieved through the speckle, they work on more surfaces than common optical mice.
+The sensor itself remains the same but due to the higher contrast achieved through the speckle they work on more surfaces than common optical mice.
 
 
 \subsection{Current Implementations used in RoboCup}
@@ -321,11 +328,11 @@ The sensor itself remains the same, but due to the higher contrast achieved thro
 \subsubsection{\MH}
 
 The current odometry system of the robots is based on rotary encoders attached to each of the axles. 
-The rotary encoders are needed for motion control, and odometry data fells off as a by-product.
-The data from the rotary encoders is collected by the motion controller, converted into d$r$,~d$s$,~d$\phi$ - coordinate values and send out on the CAN-bus.
+The rotary encoders are needed for motion control and odometry data falls off as a by-product.
+Data from the rotary encoders are collected by the motion controller, converted into d$r$,~d$s$,~d$\phi$ - coordinate values and send out on the CAN-bus.
 
 Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
-An effect known from all wheels is the slip on accelerating and braking.
+An effect known from all wheels is the slip occurring by accelerating and braking.
 The use of Mecanum wheels in a special arrangement (see~\autoref{sec:krikkit}) complicates the relationship between robot and the floor. %forward reference OK?
 Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
 Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
@@ -333,29 +340,29 @@ The direction of the fibre results in globally different friction factors in eve
 A construction error of the power train used in the %Krikkit 
 robots was a loose connection between the gearing box and the motor.
 The rotary encoders are mounted on the motors and not on the wheels.
-When the connection between motor and the wheel got loose, the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
+When the connection between motor and the wheel got loose the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
 This resulted in complete disorientation of the localisation software during an overrunning motor.\\
-But faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
+Faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
 This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.\\
 For global positioning, in addition to the vision system, a compass is used.
-Most of the time this works well, but once in a while we had problems with massive steel girders in the floor below the game field.
-Due to the over-weighting of compass data, the localisation software went amok.
+Most of the time it worked well, but once in a while we had problems with massive steel girders in the floor below the game field.
+Due to the over-weighting of compass data the localisation software went amok.
 Therefore data quality information would be highly appreciated from every sensor used.
 
 \subsubsection{Other Teams}
 
-Rotary encoders on wheels are widely used, e.g.\ in the team ISocRob~\cite{isocrob}.
+Rotary encoders on wheels are widely used e.g.\ in the team ISocRob~\cite{isocrob}.
 Other teams like IsePorto also accomplish the rotary encoders with a compass~\cite{iseporto}.
 
-To counter at least the problem with the overrunning wheels when accelerating, e.g.\ the Iranian Team ADRO uses a second set of wheels for measuring odometry data~\cite{adro}.
+To counter at least the problem with the overrunning wheels when accelerating e.g.\ the Iranian Team ADRO uses a second set of wheels for measuring odometry data~\cite{adro}.
 
 The use of consumer computer mice in the \MSL has been tested by the Milan~Robocup~Team.
 They used two optical mice mounted on the bottom of the robot.
-The main advantages of this approach are the independence of the wheels and the low cost.
-The availability of more dimensions than needed allowed for the corrections of non-systematic errors~\cite{two_mice}.
+The main advantages of this approach are the independence of the wheels and the low costs.
+The availability of more dimensions than needed allows the corrections of non-systematic errors~\cite{two_mice}.
 
-Accelerometers are used in other leagues, e.g.\ the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
-They are used only for inertial informations, not yet for navigation~\cite{zadeat}.
+Accelerometers are used in other leagues e.g.\ the RoboCup Rescue League or in the Standard Platform League with humanoid robots.
+They are only used for inertial informations and not for navigation yet~\cite{zadeat}.
 
 \clearpage
 \section{Decision for a Type of Odometry Sensor}
@@ -377,27 +384,22 @@ The range of application in the \MSL demands the following design parameters for
   \item shock resistant
 \end{itemize}
 
-The carpet is a particularly hairy concern, as its choice is up to the event organizer.
+The carpet is a particularly hairy concern as its choice is up to the event organizer.
 The only restriction in the \MSL rules and regulations~\cite{msl-rules} is: green.
-Therefore the game field surfaces differ in colour and surface roughness on every event.
+Therefore the game field surfaces differ in colour and surface roughness at every event.
 Colours from bright green over dark teal to nearly grey have been seen over the past years.
 The roughness is another chapter.
 It ranges from a very even felt with a roughness of maximum~2\,mm to an artificial grass like carpet with 15\,mm long hairs. 
 Depending on the carpet the robot sinks in some millimetres, which also affects the clearance height.\\
 Three different carpet types are chosen as representative cross-section (see~\autoref{fig:carpets}).
-The experiments are made on these carpets types, the sensor has to work flawless on all three samples.
+The experiments are made on these carpets types and the sensor has to work flawless on all three samples.
 
 \begin{figure}[htbp]
   \begin{center}
 %    \mbox{
-%    FIXME take pictures with height-ruler aside
-      \subfigure[Carpet 1]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}\hfill
-      \subfigure[Carpet 2]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}\hfill
-      \subfigure[Carpet 3]{\includegraphics[width=0.3\textwidth]{figures/Krikkit3G.jpg}}
-%      }
-%    \mbox{
-%      \subfigure[Carpet 2]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich2-scheinwerfer-blende10.PNG}} \hfill
-%      \subfigure[Carpet 3]{\includegraphics[width=0.48\textwidth]{figures/beleuchtung-teppich3-scheinwerfer-blende10.PNG}}
+      \subfigure[Carpet 1]{\includegraphics[height=4em]{figures/carpet1.jpg}}\hfill
+      \subfigure[Carpet 2]{\includegraphics[height=4em]{figures/carpet2.jpg}}\hfill
+      \subfigure[Carpet 3]{\includegraphics[height=4em]{figures/carpet3.jpg}}
 %      }
     \caption{
       The three different carpet types, on which the sensor must work.
@@ -413,12 +415,12 @@ The experiments are made on these carpets types, the sensor has to work flawless
 
 The \MH requirements for a new odometry sensor are speeds of at least 5\,m/s at an operating frequency of at least 50\,Hz.
 From the software side it would be highly appreciated if the sensor delivers data quality information.
-Data quality information is crucial for the sensor fusion to recognize and de-prioritize erroneous data.
-The \MH had bad memories about a malfunctioning compass ruining the world model.
+Data quality information are crucial for the sensor fusion to recognize and de-prioritize erroneous data.
+The \MH has bad memories about a malfunctioning compass ruining the world model.
 At last the \MH has very tight budgetary limitations depending on external sponsors and due to being a student team.
 The sensors have to be cheap enough to be affordable for a series of up to six robots.
 
-To get an idea for the field of application of an odometry sensor, the current and next generation of robots of the \MH are introduced next.
+To get an idea of the field of application of an odometry sensor, the current and next generation of robots of the \MH are introduced next.
 
 
 
@@ -426,9 +428,9 @@ To get an idea for the field of application of an odometry sensor, the current a
 \label{sec:krikkit}
 
 The ``Krikkit'' robot platform was built in 2006. %~\cite{}. 
-It was designed solely for playing soccer, in contrast to the old, multi-purpose research robot platform.
-Nearly all components from electronics to mechanical parts are developed in-house.
-Four robots are build and made their d\'ebut at the World Championship 2006 in Bremen.\\
+It was designed solely for playing soccer, in contrast to the old multi-purpose research robot platform.
+Nearly all components from electronics to mechanical parts were developed in-house.
+Four robots were build and made their d\'ebut at the World Championship 2006 in Bremen.\\
 Some of the main features of the ``Krikkit'' robot are shown in \autoref{fig:krikkit}.
 
 \begin{figure}[htbp]
@@ -442,13 +444,13 @@ Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneuma
 
 It has a $360^\circ$ omnidirectional vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
 Its brain is a standard mini-ITX industrial PC.\\
-A powerful pneumatic kicker, with a~200\,bar pressurised air bottle as supply, enables the robot to kick the ball approx.\ 10\,m forward.
-The kicks are such powerful that the vibrations destroyed the former used hard disks now replaced by SSD~storage.
+A powerful pneumatic kicker with a~200\,bar pressurised air bottle as supply, enables the robot to kick the ball approx.\ 10\,m forward.
+The kicks are so powerful that the vibrations destroyed the former used hard disks now replaced by SSD~storage.
 Additionally, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
 Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
-The $45^\circ$\mbox{-}Arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
+The $45^\circ$\mbox{-}arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
 The three wheels are arranged in $120^\circ$\mbox{-}steps (see~\autoref{fig:omnidrive}) and are driven by a 200\,W brushless~DC motor for each axis.
-Due to the nature of omni-wheels, the robots are able to move in any direction and any orientation.\\
+Due to the nature of omni-wheels the robots are able to move in any direction and any orientation.\\
 The motors and all other electric components are supplied by a smart battery system~\cite{krammer06} with NiMH rechargeable batteries.
 All electronic components are connected via CAN-bus.
 
@@ -469,7 +471,7 @@ All electronic components are connected via CAN-bus.
 
 The Krikkit robots served well for four years and much was learned.
 Before RoboCup~2009 in Graz a major mechanics overhaul was done.
-In the meantime all major electronic components reached the end of their life cycle also.
+In the meantime all major electronic components also reached the end of their life cycle.
 With the knowledge gained, lost and acquired again the successor of the Krikkit generation is in development now.
     
 
@@ -490,9 +492,10 @@ The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME o
 
 The new robot design focuses on the strict modularity of all components.
 It has been shown that fast disassembling and replacing of critical components is crucial in the fast-paced tournament environment.
-The power train has especially been modularised, the wheel, gearing, motor and motor electronics can be swapped as a whole group.
+The power train has especially been modularised.
+The wheel, gearing, motor and motor electronics can be swapped as a whole group.
 
-Tests showed that the smoothness of the Mecanum wheels had been insufficient due to manufacturing imprecision.
+Tests showed that the smoothness of the Mecanum wheels were insufficient due to manufacturing imprecision.
 The resulting vibrations should be filtered out by an independent wheel suspension.
 The independent wheel suspension adds an  operating range of $\pm 10$\,mm to the clearance height of 20\,mm.
 
@@ -507,7 +510,7 @@ Nevertheless short disturbances in the vision system, due to the vibrations, wil
 
 Big changes have been made in the electronic sector.
 A new microcontroller core (An ARM Cortex~M3) is used on every component, which replaces the different microcontroller architectures used before.
-The smart battery system also got a major upgrade, featuring even smarter batteries.
+The smart battery system also got a major upgrade featuring even smarter batteries.
 As power supply only two DC lines with 24\,V and 7\,V are available, with the 7\,V-line being limited to~$\approx5$\,A.
 Odometry data must be output on the robot's CAN-bus.
 
@@ -560,8 +563,8 @@ The available space for each of the three proposed odometry sensor mount points 
 
 The focus lies on cheap consumer-grade sensor based solutions, due to the hefty price for industrial sensors.
 Advantages of industrial solutions would be their robustness and in most cases their native CAN-bus interface.
-But the big disadvantages of industrial sensors are the their size, weight and power requirements.
-Finished industrial radars, laser interferometers and optical speeds sensors mostly use 230\,V~AC, require an external processing unit and are simply too big and heavy for middle size robots~\cite{laser_vel, opt_vel, s_r_radar}.
+The big disadvantages of industrial sensors are their size, weight and power requirements.
+Finished industrial radars, laser interferometers and optical speeds sensors mostly use 230\,V~AC and require an external processing unit and are simply too big and heavy for middle size robots~\cite{laser_vel, opt_vel, s_r_radar}.
 
 The possible odometry sensors introduced in~\autoref{ssec:ntypes} are evaluated by means of the requirements.
 The results are summarized in ~\autoref{tab:comp}.
@@ -584,8 +587,8 @@ The results are summarized in ~\autoref{tab:comp}.
   \end{tabular}
   \begin{tablenotes}
   \item [1] Wind speed and turbulences affect the wave carrier medium air.
-  \item [2] Reflections are a problem, and we must use at least~3 sensors in close proximity to each other.
-  \item [3] Different undergrounds (carpet, wood, concrete, steel, \dots) have very different reflection rates, and the underground below the carpet is not known prior to a tournament.
+  \item [2] Reflections are a problem and we must use at least~3 sensors in close proximity to each other.
+  \item [3] Different undergrounds (e.g.\ carpet, wood, concrete and steel) have very different reflection rates and the underground below the carpet is not known prior to a tournament.
   \item [4] The components involving the camera and the needed FPGA-processor would be unaffordable for even one robot~\cite{Hrach2006}.
   \end{tablenotes}
 
@@ -595,15 +598,15 @@ The results are summarized in ~\autoref{tab:comp}.
 \end{table}
 
 
-When looking at~\autoref{tab:comp}, only two types of sensors remain possible.\\
-The use of custom-build laser interferometers, especially vibrometers was considered.
+When looking at~\autoref{tab:comp} only two types of sensors remain possible.\\
+The use of custom-build laser interferometers, especially vibrometers, was considered.
 The Institute of Electrical Measurement and Measurement Signal Processing does some work in this field.
-The approach looked promising, but was not followed due to lack of time.\\
+The approach seemed promising but was not followed due to lack of time.\\
 Mouse sensors were considered most promising from the start of this project.
-They are cheap, and fit into the size and power requirements of a middle size robot.
+They are cheap and fit into the size and power requirements of a middle size robot.
 The disadvantages of missing range and maximum speed can be negated by replacing their optics.
 By adding more magnification and setting the focus plane farther away from the sensor, maximum speed and range could be extended.\\
-With the use of two sensors, the needed three degrees of freedom can be reached with extra redundancy.\\
+With the use of two sensors the needed three degrees of freedom can be reached with extra redundancy.\\
 The \MH requires odometry data delivered on the CAN-bus, not the mice's native USB.
 To convert four dimensions of data from two sensors into the needed d$r$,~d$s$,~d$\phi$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.
 %The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
@@ -621,13 +624,13 @@ To convert four dimensions of data from two sensors into the needed d$r$,~d$s$,~
 \section{Sensor Design}
 
 The task is the following: Develop an odometry sensor from a given mouse sensor.
-At the beginning of this project, we got a prototype sensor sponsored from the German RoboCup Team Carpe Noctem\footnote{\url{http://carpenoctem.das-lab.net/} (10/02/2010)}.
+At the beginning of this project we got a prototype sensor sponsored from the German RoboCup Team Carpe Noctem\footnote{\url{http://carpenoctem.das-lab.net/} (last accessed 10.02.2010)}.
 
 It consisted of a mechanically modified Razor~Copperhead laser~mouse.
-In this mouse type, a sensor from Avago~Technologies is used, the ADNS-6010.
+In this mouse type a sensor from Avago~Technologies is used, the ADNS-6010.
 The sensor and illumination were dismounted from its printed circuit board~(PCB) and relocated in a new casing because of mechanical size constraints (see~\autoref{fig:m-casing}.
 It was reconnected to its PCB via thin enamelled copper wires.
-It still worked, although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the IC~pins.
+It still worked although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the IC~pins.
 
 \begin{figure}[hb]
 \begin{center}  
@@ -639,34 +642,34 @@ The Sensor~IC and the illumination was relocated from the PCB~(1) to an extensio
 \end{center}
 \end{figure}
 
-Two modifications were to make: Providing a~CAN interface instead of USB, and creating a new optics system.
-For the new optics system, access to raw sensor image data is needed for focussing the system.
-Reading out raw image data is not possible via the mouse's USB interface, only directly via the SPI~(Serial Port Interface) of the sensor chip.
-Therefore it was chosen to remove the sensor chip from the mouse, and connect it directly to an external microcontroller.
+Two modifications were to make: Providing a~CAN interface instead of USB and creating a new optics system.
+For the new optics system, access to raw sensor image data was needed for focussing the system.
+Reading out raw image data was not possible via the mouse's USB interface, only directly via the SPI~(Serial Port Interface) of the sensor chip.
+Therefore it was chosen to remove the sensor chip from the mouse and connect it directly to an external microcontroller.
 This kills two birds with one stone.
-The microcontroller can provide a CAN-bus interface, and provides direct access to the sensor.\\
-For evaluation, a serial port (RS-232) is used instead of the CAN bus because of its simpler nature.
-In summary, we have to create a system as shown in~\autoref{fig:block-diag-sens}.
+The microcontroller can provide a CAN-bus interface and provides direct access to the sensor.\\
+For evaluation a serial port (RS-232) is used instead of the CAN bus because of its simpler nature.
+In summary, we had to create a system as shown in~\autoref{fig:block-diag-sens}.
 
 \begin{figure}[hb]
 \begin{center}
 \includegraphics[width=0.9\columnwidth]{figures/block_diagram}
 \caption{\label{fig:block-diag-sens}
-Schemata of the evaluation sensor to be developed.
+Schemata of the developed evaluation sensor.
 From left to right:
 Optical system~(1) attached to the mouse sensor,
 custom~PCB~(2) with the mouse sensor connected via SPI to microcontroller~(3), which is itself connected to a host~PC~(4) via serial~port~(RS-232).
-The low level part of the software runs on the microcontroller, and the user interface runs on the host PC.
+The low level part of the software runs on the microcontroller and the user interface runs on the host PC.
 }
 
 \end{center}
 \end{figure}
 
-We use an Infineon XC164-CM microcontroller evaluation board~\cite{xc}, of which several are available in the \MH.
-For the mouse sensor, a custom PCB with minimal needed circuit and the needed connections to the microcontroller is designed.
+We used an Infineon XC164-CM microcontroller evaluation board~\cite{xc} of which several are available in the \MH.
+For the mouse sensor a custom PCB with minimal needed circuit and the needed connections to the microcontroller was designed.
 The electronics part of this work is described in~\autoref{electronics}.\\
-The Software part is split into low-level communication with the mouse sensor running on the microcontroller, and the controlling and visualising part on the host~PC, see~\autoref{software}.\\
-The optical changes to the system with design and implementation are described in~\autoref{optics}.
+The Software part is split into low-level communication with the mouse sensor running on the microcontroller and the controlling and visualising part on the host~PC, see~\autoref{software}.\\
+The optical changes of the system concerning design and implementation are described in~\autoref{optics}.
 
 
 \subsection{Electrical Design}
@@ -674,19 +677,20 @@ The optical changes to the system with design and implementation are described i
 
 %Short text describing electrical layout
 
-The ADNS-6010 laser mouse sensor runs on custom firmware, that must be flashed from the microcontroller to the sensor before motion read is possible.
+The ADNS-6010 laser mouse sensor runs on custom firmware, which must be flashed from the microcontroller to the sensor before motion read is possible.
 Due to reluctant support from Avago Technologies, the firmware was not available as binary.
-Therefore for connecting the microcontroller board with the ADNS-6010, two stages were needed.\\
-The first stage features the microcontroller wire-tapping on the SPI channel between the original mouse microcontroller and the sensor, monitoring the communication, and recording the firmware as it is flashed on the sensor.\\
-Now that we have the firmware, the sensor is unsoldered from the mouse PCB and inserted in a custom PCB with minimal needed circuit for communication with the new microcontroller.\\
-In this subsection, at first the ADNS-6020 laser mouse sensor is introduced, then the XC164CM microcontroller and its development board.
-At last, the needed circuit between the two chips for each stage is shown.
+Therefore two stages for connecting the microcontroller board with the ADNS-6010 were needed.\\
+The first stage features the microcontroller wire-tapping on the SPI channel between the original mouse microcontroller and the sensor, monitoring the communication and recording the firmware as it is flashed on the sensor.\\
+Now that we have the firmware the sensor is unsoldered from the mouse PCB and inserted in a custom PCB with minimal needed circuit for communication with the new microcontroller.\\
+In this subsection the ADNS-6010 laser mouse sensor is introduced at first.
+Then the XC164CM microcontroller and its development board are presented.
+At last the needed circuit between the two chips for each stage is shown.
 
 
 \subsubsection{ADNS-6010 Laser Mouse Sensor}
 
 The ADNS-6010 laser mouse sensor measures changes in position by optically acquiring sequential images and mathematically determining the direction and magnitude of movement.
-It contains an image acquisition system, a Digital Signal Processor~(DSP), and a four wire serial port.
+It contains an image acquisition system, a Digital Signal Processor~(DSP) and a four wire serial port.
 It acquires microscopic surface images via the lens and illumination system. 
 These images are processed by the DSP to determine the direction and distance of motion. 
 The DSP calculates the $\Delta x$ and $\Delta y$ relative displacement values. 
@@ -700,16 +704,16 @@ It features the following specifications:
  \item Programmable or automatic frame rate over 7080 frames per second
  \item 400, 800, 1600 or 2000\,cpi selectable resolution
  \item Single 3.3\,V power supply
- \item Four-wire serial port along with power down, and Reset pins
+ \item Four-wire serial port along with power down and Reset pins
  \item Integrated laser driver controller for illumination laser diode
 \end{itemize}
 
-It comes in a 20-pin package, bundled with its own lens and matching vertical-cavity surface-emitting laser diode (VCSEL).
+It comes in a 20-pin package bundled with its own lens and matching vertical-cavity surface-emitting laser diode (VCSEL).
 It uses 3.3\,V, but can be connected to a 5\,V-microcontroller without level shifting techniques needed.
 The data connection to the microcontroller is a four-wire serial port interface (SPI).
-The lines are source clock (SCLK), chip select input (NCS) which activates the SPI, and the in (MOSI, Master Out/Slave In) and out (MISO, Master In/Slave Out) data lines.
+The lines are source clock (SCLK) and chip select input (NCS) which activates the SPI and the in (MOSI, Master Out/Slave In) and out (MISO, Master In/Slave Out) data lines.
 The microcontroller acts as master and always initiates the data transfer.\\
-Some additional circuit, e.g.\ external reference capacitors and a resonator is needed, as shown in~\autoref{fig:adnsc}.
+Some additional circuit e.g.\ external reference capacitors and a resonator is needed as shown in~\autoref{fig:adnsc}.
 
 \begin{figure}[htbp]
 \begin{center}  
@@ -726,11 +730,11 @@ The 3.3\,V-regulator needed on 5\,V supply is on top of the diagram.
 \subsubsection{XC164CM Microcontroller}
 
 The XC164CM microcontroller comes from the Infineon XC166 family, as used in the Krikkit robots for motion control~\cite{krammer07}.
-It is a 16-bit microcontroller, which allows for convenient programming via the Keil\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE.\\
-A XC164 development board~\cite{xc}, as seen in~\autoref{fig:xcdevboard} is used. 
-It has all pins of the XC~core easily accessible, and all needed circuit for the XC is on board.
+It is a 16-bit microcontroller, which allows convenient programming via the Keil\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com} (last accessed 26.05.2011)}~IDE.\\
+A XC164 development board~\cite{xc} as seen in~\autoref{fig:xcdevboard} is used. 
+It has all pins of the XC~core easily accessible and all needed circuit for the XC is on board.
 The XC164 on the board runs on 5\,V supply, which is tapped to power the ADNS-6010.
-The use of an oversized evaluation board is of course no option on the Krikkit/3G robots, but sufficient here.
+The use of an oversized evaluation board is of course no option for the Krikkit/3G robots, but sufficient for our experiments.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -743,9 +747,9 @@ It has external RS-232 (left) and CAN (middle) connectors.
 \end{center}
 \end{figure}
 
-For development, the microcontroller board is connected via its serial port (RS-232) to a host computer.
+For the experiments the microcontroller board is connected via its serial port (RS-232) to a host computer.
 Programming as well as controlling and reading out data is done over the serial port.
-The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected at the moment.\\
+The CAN interface of the microcontroller is only needed on the final implementation on the robot, therefore it is not connected during the experiments.\\
 For connection to the ADNS-6010, a 10-pin header is soldered subsequently on the development board and connected to the needed pins of the XC core~(see~\autoref{fig:boardwiring}).
 Besides the 4-port SPI, reset and power down (NPD) lines and the power supply (VCC and GND) are intended for the ADNS-6010.
 Then it is connected via a ribbon cable to the original mouse PCB for wire-tapping (Stage~1) and later to the new ADNS sensor board (Stage~2).
@@ -781,11 +785,10 @@ The pin-assignment of the header and cable can be seen in~\autoref{pin-table}.
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=0.5\columnwidth]{figures/boardwiring.png}
+\includegraphics[width=0.5\columnwidth]{figures/boardwiring.jpg}
 \caption{\label{fig:boardwiring}
-%FIXME newer pic with measurement bridge
 Wiring of the XC164CM development board.
-The pins from the XC are connected from the header X107 (middle right) to the 10-pin header (lower left) and the measurement bridge (lower right).
+The pins from the XC are connected from the header~X107 (middle right) to the 10-pin header (lower left) and from the header~X106 (top) to the measurement bridge (bottom).
 }
 \end{center}
 \end{figure}
@@ -812,14 +815,14 @@ The circuit and function of the needed measurement bridge is described in~\autor
 
 %Beschaltung beschrieben
 
-The goal in stage~1 is to catch the firmware written from the mouse microcontroller to the ADNS-6010 for ourselves use.
-The firmware must flashed after powering up the mouse to the ADNS-6010.
-After powering up, the reset pin of the ADNS-6010 is toggled by the mouse microcontroller, and directly after that event the control sequence for downloading to the SROM starts, followed by the firmware.
-The idea is to connect the XC as a second slave to the bus, and record all communication between the mouse microcontroller and the ADNS from the moment the reset pin is toggled.
-We need only four lines: GND, RESET and from the data interface only SCLK and MOSI. 
-The SCLK is needed, because SPI works as a synchronous interface, and we do not know the exact frequency of operation.
+The goal in stage~1 is to catch the firmware written from the mouse microcontroller to the ADNS-6010 for our use.
+The firmware must be flashed after powering up the mouse to the ADNS-6010.
+After powering up, the reset pin of the ADNS-6010 is toggled by the mouse microcontroller and directly after that event the control sequence for downloading to the SROM starts followed by the firmware.
+The idea is to connect the XC as a second slave to the bus and record all communication between the mouse microcontroller and the ADNS from the moment the reset pin is toggled.
+We only need four lines: GND, RESET and from the data interface only SCLK and MOSI. 
+The SCLK is needed because SPI works as a synchronous interface and we do not know the exact frequency of operation.
 We only need the data written from the microcontroller to the ADNS (MOSI), the reverse channel is uninteresting.\\
-In the implementation four wires are soldered on the GND, RESET, SCLK and MOSI pins of the mouse, and connected via a crimp plug (pin assignment see~\autoref{pin-table}) to the 10-pin header on the microcontroller development board. 
+In the implementation four wires are soldered on the GND, RESET, SCLK and MOSI pins of the mouse and connected via a crimp plug (pin assignment see~\autoref{pin-table}) to the 10-pin header on the microcontroller development board. 
 This set-up can be seen in~\autoref{fig:wiretapping}.
 
 \begin{figure}[htbp]
@@ -827,9 +830,9 @@ This set-up can be seen in~\autoref{fig:wiretapping}.
 \includegraphics[width=0.8\columnwidth]{figures/wiretapping.png}
 \caption{\label{fig:wiretapping}
 Implementation of the wire-tapping to catch the firmware (stage~1).
-On top is the mouse, with the sensor on its original PCB.
+On top is the mouse with the sensor on its original PCB.
 The four needed lines GND, RESET, SCLK and MOSI are connected to the microcontroller development board (bottom).
-Our microcontroller is configured as slave and waits for the reset signal, after which the communication between mouse microcontroller and ADNS on the SPI is monitored, and the firmware recorded.
+Our microcontroller is configured as slave and waits for the reset signal after which the communication between mouse microcontroller and ADNS on the SPI is monitored and the firmware recorded.
 }
 \end{center}
 \end{figure}
@@ -839,15 +842,15 @@ Our microcontroller is configured as slave and waits for the reset signal, after
 \subsubsection{Final Circuit between ADNS and XC}
 \label{adns-pcb}
 
-After successfully saving the firmware in stage~1, we can connect the ADNS-6010 directly to our microcontroller.
-With the outputs of the XC164CM configured as open drain, we can connect the 5\,V microcontroller with minimal circuit to the 3.3\,V~ADNS-6010.
+After successfully saving the firmware in stage~1 we were able to connect the ADNS-6010 directly to our microcontroller.
+With the outputs of the XC164CM configured as open drain, we connected the 5\,V microcontroller with minimal circuit to the 3.3\,V~ADNS-6010.
 The ADNS-6010 is mounted on a custom PCB with the following features: 
 10-pin header for connection to the microcontroller board,
 \hbox{3.3\,V-regulator},
 circuit needed for the VCSEL diode,
 resonator and reference capacitors.\\
-The board layout is designed in the Cadsoft EAGLE\footnote{EAGLE light edition v5.10.0 \copyright~CadSoft, \url{http://www.cadsoft.de} as on 1/1/2011} Software.
-The EAGLE-files are available in the AFS\footnote{/afs/robocup.tugraz.at/electrics/design/99\_concepts/adns\_testplatine/v1.1 as on 21/12/2010}.
+The board layout is designed in the Cadsoft EAGLE\footnote{EAGLE light edition v5.10.0 \copyright~CadSoft, \url{http://www.cadsoft.de} (last accessed 01.01.2011)} Software.
+The EAGLE-files are available in the AFS\footnote{/afs/robocup.tugraz.at/electrics/design/99\_concepts/adns\_testplatine/v1.1 (last accessed 21.12.2010)}.
 The circuit and board layout for the PCB can be seen in~\autoref{fig:testplatine-layout} and~\autoref{fig:testplatine-board}.
 
 \begin{figure}[htbp]
@@ -856,7 +859,7 @@ The circuit and board layout for the PCB can be seen in~\autoref{fig:testplatine
 \caption{\label{fig:testplatine-layout}
 Circuit for the custom PCB for the ADNS-6010 laser mouse sensor.
 In the lower right is the 10-pin header for the connection to the microcontroller board.
-Right on the middle the 3.3\,V-regulator, which takes it power from the 5\,V-line from the microcontroller.
+In the right middle the 3.3\,V-regulator which takes it power from the 5\,V-line from the microcontroller.
 Top right is the header for the externally connected laser diode.
 }
 \end{center}
@@ -869,7 +872,7 @@ Top right is the header for the externally connected laser diode.
 Board layout for the custom PCB for the ADNS-6010 laser mouse sensor.
 The 20-pin sensor is in the middle.
 On the left is the 10-pin header for the connection to the microcontroller board.
-Below the sensor is the 3.3\,V-regulator, and driver and header for the externally connected laser diode.
+Below the sensor is the 3.3\,V-regulator and driver and header for the externally connected laser diode.
 Sketch not to scale.
 }
 \end{center}
@@ -885,17 +888,17 @@ Sketch not to scale.
 
 The optical properties of the mouse have to be improved by an appropriate optical system.
 The most important drawback of the ADNS-6010 is its maximum capable speed of 1.1\,m/s, it must be improved to 5\,m/s. 
-The maximum speed is linear dependant of the field of view of the sensor.
-By magnifying the field of view of the sensor by five times, this will also increase the maximum speed over 5\,m/s.\\
+The maximum speed is linear dependent on the field of view of the sensor.
+Magnifying the field of view of the sensor by five times will also increase the maximum speed over 5\,m/s.\\
 Another wished feature is a distance to the surface from at least 20\,mm.
 The ADNS-6010 with its original lens has only 2\,mm clearance height, this has to be improved.\\
-And due to varying clearance height resulting from the new independent wheel suspension as well as different carpets, the dependency of the magnification from the clearance height should be eliminated.
+Due to varying clearance height resulting from the new independent wheel suspension as well as different carpets, the dependency of the magnification from the clearance height should be eliminated.
 This can be achieved by a telecentric system~\cite{telec}.
 
-It is chosen to keep the original lens in its position, and extend the optical system with additional lenses.
+It is chosen to keep the original lens in its position and extend the optical system with additional lenses.
 At first, a lens is added in front of the original lens, which provides the needed magnification.
 Then, a second lens is added responsible for the telecentric set-up.
-We call the original mouse lens L$_1$, the magnification lens L$_2$, and the telecentric lens L$_3$. 
+We call the original mouse lens L$_1$, the magnification lens L$_2$ and the telecentric lens L$_3$. 
 The aperture stop of the system responsible for the sharpness of the image is placed at L$_2$.
 The whole optical system can be seen in~\autoref{fig:sketch-optic-simple}.
 
@@ -914,19 +917,20 @@ telecentric lens~L$_3$ and object~O on the right side.
 \end{figure}
 %Sketch
 
-The optical system with the sensor is built using a Linos 40\,mm micro-bench carrier system~\cite{microbench} which allows for easy adjustment of all optical components.
-For some of the components a custom mount based on micro-bench carriers has to be developed, so for L$_2$ and the aperture, due to space constrains (see~\autoref{l2m}).
+The optical system with the sensor is built using a Linos 40\,mm micro-bench carrier system~\cite{microbench} which allows easy adjustment of all optical components.
+For L$_2$ and the aperture a custom mount, based on micro-bench carriers, has to be developed due to space constrains (see~\autoref{l2m}).
 The mount of the sensor itself on the micro-bench carrier is described in~\autoref{semo}.
 
 The calculations involved figuring out the original mouse optical system, designing the second lens and needed aperture and choosing an appropriate lens for the telecentric set-up.
-All calculations are verified with WinLens3D\footnote{Qioptiq Photonics GmbH \& Co.\ KG, WinLens3D Basic V1.1.11, \url{http://www.winlens.de} as on 30/12/2010} and are available in the AFS\footnote{/afs/robocup.tugraz.at/projects/2010\_improved-odometry/lenses/ as on 30/12/2012}.
+All calculations are verified with WinLens3D\footnote{Qioptiq Photonics GmbH \& Co.\ KG, WinLens3D Basic V1.1.11, \url{http://www.winlens.de} (last accessed 30.12.2010)} and are available in the AFS\footnote{/afs/robocup.tugraz.at/projects/2010\_improved-odometry/lenses/ (last accessed 30.12.2010)}.
 Detailed explanations of the calculations follow now.
 
 \subsubsection{Optical Path Calculations: Original Mouse Setup}
 
-To alter the properties of an optical system by expansion with more optical elements, the optical properties of the base system must be known.
-The original mouse sensor set-up consists of the sensor, the lenses for the sensor and the VCSEL combined as one plastic part, and the VCSEL (see~\autoref{fig:o_setup_datasheet}).
-The exact parameters of the optical system are not specified in the data sheet, they have to be estimated based on retroactive measurements and own observations.
+To alter the properties of an optical system by expansion with more optical elements the optical properties of the base system must be known.
+The original mouse sensor set-up consists of the sensor, the lenses for the sensor and the VCSEL combined as one plastic part and the VCSEL (see~\autoref{fig:o_setup_datasheet}).
+The exact parameters of the optical system are not specified in the data sheet.
+They have to be estimated based on retroactive measurements and own observations.
 From the data sheet~\cite{adns} the following properties are known: 
 \begin{itemize}
   \item Distance of sensor plane to lens plane is 5.88\,mm.
@@ -945,7 +949,7 @@ The optical rays from the VCSEL~(right) and the sensor~(left) meet on the surfac
 \end{center}
 \end{figure}
 
-With these informations, we can estimate a focal length of 2.88\,mm for the original mouse lens.
+With these informations we can estimate a focal length of 2.88\,mm for the original mouse lens.
 With the distance of the sensor and object plane being the same of both sides of the lens, this leads to a magnification factor of~1.
 The measured aperture diameter (of the hole in the chip casing) on the original lens is~1.4\,mm.
 The sensor delivers a quadratic image with a side length of approx.~0.92\,mm. 
@@ -961,7 +965,7 @@ The modelling of the first lens is used as base for the simulation of the extend
 \includegraphics[width=1\columnwidth]{figures/lens_system_mouse.pdf}
 \caption{\label{fig:ls1_p}
 WinLens plot of the simulation of the unmodified optical system of the mouse.
-One single lens with $f=2.88$\,mm sits exactly in the middle between sensor plane~S and object plane~O.
+One single lens with $f=2.88$\,mm is exactly located in the middle between sensor plane~S and object plane~O.
 }
 \end{center}
 \end{figure}
@@ -981,8 +985,8 @@ The focusing of the spots hint to a relatively well modelled system.
 \label{opt:2l}
 
 The goal is to find a lens set-up that magnifies the current optical system by five times.
-We design the system without telecentric at first, as a telecentric add-on does not alter the magnification of the system.
-For a magnifying system, we add a second lens before the original system that has its image plane on the object plane of the original system (see~\autoref{fig:sk2l}).
+We designed the system without telecentric at first, as a telecentric add-on does not alter the magnification of the system.
+For a magnifying system we added a second lens in front of the original system that has its image plane on the object plane of the original system (see~\autoref{fig:sk2l}).
 The needed focal length $f_2$ of lens~2 is calculated from the Laplace projection equation~\cite{jaeger}:% (\autoref{eq:1}). %FIXME auf deutsch heissts so, wie in EN-GB? (nur thin lens eq. gefunden, das is net das was wir schreiben wollen)
 
 \begin{equation}
@@ -1007,21 +1011,21 @@ virtual image plane~V (former object plane),
 second lens~L$_2$ with new aperture~A and
 new object plane~O.
 Dimensioning below are: 
-Image distance~$i_2$ to virtual image and object distance~$o_2$ for magnifying lens~2. % FIXME cite? from WP... but need better ref.
+Image distance~$i_2$ to virtual image and object distance~$o_2$ for magnifying lens~$L_2$. % FIXME cite? from WP... but need better ref.
 }
 \end{center}
 \end{figure}
 
 The next criteria for the lens system is the depth of focus.
-We wish for $\pm 10$\,mm depth of focus to the object plane.
-For any symmetrical lens, the depth of focus lies between the near and far limits, see~\autoref{fig:nfl}.
+We wished $\pm 10$\,mm depth of focus to the object plane.
+For any symmetrical lens the depth of focus lies between the near and far limits, see~\autoref{fig:nfl}.
 
 \begin{figure}[htbp]
 \includegraphics[width=1\columnwidth]{figures/near_farpoints}
 \caption{\label{fig:nfl}
 Definition of the depth of focus.
 The focused area lies between the near limit and the far limit.
-The limits are dependant on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
+The limits are dependent on the focal length $f$, the aperture $D$, the image/object distance $b$/$g$ and the allowed circle of confusion diameter $Z$.
 \newline
 Source: Wikimedia Commons$^1$, CC~BY-SA~3.0.
 \newline
@@ -1039,11 +1043,11 @@ d_{n/f} &= \frac{g \cdot d_h}{d_h \pm (g-f)} \\
 \label{eq:hf}\text{with } d_h &= \frac{f^2}{\kappa \cdot Z} \text{ being the hyperfocal distance}\\
 \label{eq:ka}\text{and } \kappa &= \frac{f}{D} \text{ being the $f$-number.}
 \end{align}
-We see, that the limits depend on the circle of confusion~$Z$ and the aperture diameter~$D$.
+We see that the limits depend on the circle of confusion~$Z$ and the aperture diameter~$D$.
 The circle of confusion can be easily calculated: our sensor is 0.92\,mm wide and has a resolution of $30 \times 30$\,px$^2$.
 This leads to a pixel being $\approx 0.03$\,mm wide.
 We use this value to estimate the maximum circle of confusion diameter $Z = 0.03$\,mm.
-We see, that the only variable left responsible for the sharpness is the aperture diameter~$D$.
+We see that the only variable left responsible for the sharpness is the aperture diameter~$D$.
 The calculations of the needed aperture diameter:\\
 From~\autoref{eq:1} and our magnification factor of five follows
 \begin{equation}
@@ -1064,21 +1068,21 @@ The formula for the needed aperture diameter on the far limit is similar:
 \label{eq:D_fl}
 D = \underline{Z \cdot \left(\frac{o_2}{2} +4 \right)}
 \end{equation}
-From these both formulas \eqref{eq:D_nl} and \eqref{eq:D_fl} we see, that the needed aperture is linear dependant on the object distance and therefore from the length of the optical extension on a given magnification.
-Bigger apertures yield more light, and with better illumination the sensor will achieve higher frame-rates due to a shorter shutter length.
-Therefore we want to maximize our aperture, and we choose the longest possible object distance.
-From~\eqref{f_to_o} and a maximum object distance of 65\,mm, we choose a lens with $f=10$\,mm on the upper limit, which leads to the following aperture diameters:
+From these both formulas \eqref{eq:D_nl} and \eqref{eq:D_fl} we see that the needed aperture is linear dependent on the object distance and therefore from the length of the optical extension on a given magnification.
+Bigger apertures yield more light and with better illumination the sensor will achieve higher frame-rates due to a shorter shutter length.
+Therefore we want to maximize our aperture and we choose the longest possible object distance.
+From~\eqref{f_to_o} and a maximum object distance of 65\,mm we choose a lens with $f=10$\,mm on the upper limit, which leads to the following aperture diameters:
 \begin{align*}
 D_n &= \unit[0.672]{mm} & D_f &= \unit[0.952]{mm}
 \end{align*}
 The real needed aperture is somewhere in the middle.
-Apertures in this range are possible to manufacture ourselves, this looks promising.
+Apertures in this range are possible to manufacture ourselves, which looks promising.
 
 The next influence on the depth of focus is diffraction.
-Diffraction occurs, when a wave encounters an obstacle.
-Due to the wave nature of light, every spot of light results in an \emph{Airy disc}, when passing a lens with a circular aperture.
+Diffraction occurs when a wave encounters an obstacle.
+Due to the wave nature of light every spot of light results in an \emph{Airy disc}, when passing a lens with a circular aperture.
 The best possible resolution of an optical system is the minimum distance, where two Airy discs can be distinguished.
-This distance is radius of the Airy disc~\cite{jaeger}, see~\autoref{eq:airy}. %insert sketch from Ex.1 (Jaeger 2000)?
+This distance is the radius of the Airy disc~\cite{jaeger}, see~\autoref{eq:airy}. %insert sketch from Ex.1 (Jaeger 2000)?
 \begin{equation}
 \label{eq:airy}
 \Delta x_{min} = r = 1.22 \frac{\lambda}{D} f \qquad
@@ -1090,7 +1094,7 @@ D & \dots \text{ aperture diameter}
 %FIXME this correct? we do not focus at the focal point (object not at infinity), but 1/5 after the focal point - does the airy disc get bigger?
 The Airy disks must be at minimum one pixel~($\unit[30]{\muup m}$) apart to be distinguished.
 At $\lambda = \unit[842]{nm}$, with a focal length of \unit[10]{mm} and an estimated aperture of \unit[0.8]{mm}, the Airy disks are~$\unit[12]{\muup m}$ apart according to~\autoref{eq:airy}.
-This should be more than enough for this lens and aperture combination.
+This should be more than enough for these lens and aperture combination.
 
 The system with a second lens with $f=10$\,mm is simulated in WinLens, see~\autoref{fig:ls2_p}.
 The according spot diagram can be seen in~\autoref{fig:ls2_s}.
@@ -1122,13 +1126,13 @@ The focusing of the spots hint to a relatively well modelled system.
 
 \subsubsection{Optical Path Calculations: Telecentric Setup}
 
-Until now, the magnification of the system (And therefore the measured speed) is linear dependant on the object distance, which we wished to vary about $\pm 10$\,mm.
+Until now the magnification of the system (and therefore the measured speed) is linear dependent on the object distance, which we wished to vary about $\pm 10$\,mm.
 This would induce unacceptable errors from varying object distance.
-To counter that, the distance-dependant magnification can be eliminated by a telecentric attachment.\\
-To make a finite conjugate system like ours telecentric, a lens with the focal length of the object distance has to be placed in front of the objective, with its focal point set into the aperture of the objective~\cite{telec}.
+To counter that, the distance-dependent magnification can be eliminated by a telecentric attachment.\\
+To make a finite conjugate system like ours telecentric, a lens with the focal length of the object distance has to be placed in front of the objective with its focal point set into the aperture of the objective~\cite{telec}.
 The third lens is therefore placed at the position of the object of the 2-lens set-up, as seen in~\autoref{fig:sketch-optic-simple} in~\autoref{optics}.
-As telecentric lens, an achromatic doublet with $f=50$\,mm is used.
-This does not alter the magnification, and the sharpness remains in an acceptable range up to 30\,mm from the telecentric lens.
+As telecentric lens an achromatic doublet with $f=50$\,mm is used.
+This does not alter the magnification and the sharpness remains in an acceptable range up to 30\,mm from the telecentric lens.
 The choice of this lens type has been approved by WinLens simulation, see~\autoref{fig:ls3_p} and~\autoref{fig:ls3_s}.
 
 
@@ -1162,7 +1166,7 @@ The focusing of the spots hint to a relatively well modelled system.
 \label{semo}
 
 The PCB for the ADNS-6010 (as shown in~\autoref{fig:testplatine-board} in~\autoref{adns-pcb}) is mounted on a Micro-Bench carrier.
-Its mount allows for calibration of the sensor in x- and y-position as well as the angle of the sensor to the optical axis of the Micro-Bench.
+Its mount allows calibration of the sensor in x- and y-position as well as the angle of the sensor to the optical axis of the Micro-Bench.
 The PCB is mounted in an $21.5^\circ$-angle due to the angle of the optical axis on the ADNS-6010 (as shown in~\autoref{fig:o_setup_datasheet}).
 The mount and the position of all calibration screws is shown in~\autoref{fig:sens-mount}.
 
@@ -1180,10 +1184,10 @@ Its angle can be adjusted with the variable PCB-holding screws on top.
 
 For calibrating the sensor to the optical axis of the Micro-Bench, it is mounted on the micro-bench with an IR-laser that defined the optical axis.
 The set-up for calibration is shown in~\autoref{fig:cal_setup}.
-The 5\,mW-laser\footnote{750\,nm, Model FIXME} has to be dampened by a filter-array for safety of the sensor.
+The 5\,mW-laser\footnote{750\,nm, Model FIXME} has to be dampened by a filter-array for the safety of the sensor.
 In front of the sensor is the magnification lens L$_2$, which allows for a more accurate calibration with its $5\times$-magnification factor.
-The sensor is connected to the microcontroller, and the image of the sensor is read out and visualized on a computer screen (For details of this process see~\autoref{software}).
-The sensor is calibrated to the optical axis by trying to move the laser speckle in the image to the centre by changing sensor position with the adjusting screws.
+The sensor is connected to the microcontroller and the image of the sensor is read out and visualized on a computer screen (For details of this process see~\autoref{software}).
+The sensor is calibrated to the optical axis by trying to move the laser speckle in the field of view to the centre by changing sensor position with the adjusting screws.
 A sample image of the laser pointing to the sensor from the sensor's view can be seen in~\autoref{fig:image-laser}.
 
 \begin{figure}[htbp]
@@ -1213,20 +1217,19 @@ $30\times30$\,px$^2$ resolution, 264\,$\muup$s shutter length.
 \subsubsection{Lens 2 and Aperture Mounting}
 \label{l2m}
 
-According to the calculations in~\autoref{opt:2l}, a lens\footnote{N-BK7 Bi-Convex Lens with IR-coating (LB1157-B)} with $f=10$\,mm was ordered from Thorlabs\footnote{\url{http://www.thorlabs.de} as on 08/01/2011}, along with an adapter\footnote{Adapter for \diameter\,6\,mm Optics (LMRA-6)} to 12.7\,mm ($\sfrac{1}{2}''$) diameter.
+According to the calculations in~\autoref{opt:2l}, a lens\footnote{N-BK7 Bi-Convex Lens with IR-coating (LB1157-B)} with $f=10$\,mm was ordered from Thorlabs\footnote{\url{http://www.thorlabs.de} (last access 08.01.2011) }, along with an adapter\footnote{Adapter for \diameter\,6\,mm Optics (LMRA-6)} to 12.7\,mm ($\sfrac{1}{2}''$) diameter.
 Its small diameter (6\,mm or 12.7\,mm with adapter) is not compatible with any Micro-Bench carrier available.
 So a mount for both L$_2$ and the aperture is designed, which could be fixed in a 35\,mm-Micro-Bench carrier.\\
 The mount is turned out of aluminium with a cavity for the 12.7\,mm~lens adapter and mounting holes for the aperture.
 It has four M3 mounting holes, two for the lens holder and two for the aperture.
 The lens holder is held down by two bigger washers, the aperture mounted through its holes with distance washers.
 The complete assembly is shown in~\autoref{fig:l2mount}.
-The UniGraphics drawing of the mount is available in the AFS\footnote{\url{/afs/robocup.tugraz.at/mechanics/01_Krikkit3G/06_Odometriesensoren/CAD/Versuchsaufbau/Linsenhalterunghalterung/} as on 08/01/2011}.
+The UniGraphics drawing of the mount is available in the AFS\footnote{\url{/afs/robocup.tugraz.at/mechanics/01_Krikkit3G/06_Odometriesensoren/CAD/Versuchsaufbau/Linsenhalterunghalterung/} (last access 08.01.2011) }.
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=0.4\columnwidth]{figures/Krikkit3G.jpg}
+\includegraphics[width=0.4\columnwidth]{figures/lens-mount.jpg}
 \caption{\label{fig:l2mount}
-FIXME take image from lens mount!
 Lens mount for L$_2$ and the aperture.
 The lens in its adapter is held down by two washers,
 the aperture is mounted with distance washers as close as possible to the lens.
@@ -1234,26 +1237,25 @@ the aperture is mounted with distance washers as close as possible to the lens.
 \end{center}
 \end{figure}
 
-For the experiments, a set of apertures with different diameters are made.
+For the experiments a set of apertures with different diameters are made.
 They are made of copper-coated epoxy, normally used for PCBs.
-The apertures are a simple sheet of epoxy the size $10\times40$\,mm$^2$ with the aperture in the middle and two mounting holes matching for the lens~2 mount outside.
+The apertures are a simple sheet of epoxy with the size $10\times40$\,mm$^2$, where the aperture is in the middle and two mounting holes matching for lens~2 mount outside.
 They are manufactured on the circuit board plotter of the \EMT. 
-The EAGLE files for the aperture plates are available in the AFS\footnote{\url{/afs/robocup.tugraz.at/projects/2010_improved-odometry/platinen/Blenden} as on 08/01/2011}.
+The EAGLE files for the aperture plates are available in the AFS\footnote{\url{/afs/robocup.tugraz.at/projects/2010_improved-odometry/platinen/Blenden} (last access 08.01.2011)}.
 Eight different aperture plates with aperture diameters 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 1.8 and 2.1\,mm are manufactured.
-The apertures must be mounted with the copper side facing the lens on the lens mount to sit as close as possible to the lens surface.
+The apertures must be mounted with the copper side facing the lens on the lens mount to be as close as possible to the lens surface.
 
 \subsubsection{Illumination}
 
 The original illumination for the laser mouse consists in a VCSEL laser diode with a wavelength of 842\,nm.
-With the magnification system, we have a much greater target area to illuminate, for which the original VCSEL is too weak.
+With the magnification system we have a much greater target area to illuminate for which the original VCSEL is too weak.
 The goal is to find a proper illumination for a target area of $5\times5$\,mm$^2$.
-It must be bright enough on every test surface (see \autoref{requirements}) %FIXXME chapter requirements
-to allow the automatic shutter control of the sensor minimize the shutter for the maximum frame-rate. 
-Other requirements are the available space on the robot for a sensor, and the power consumption. 
+It must be bright enough on every test surface (see \autoref{requirements}) to allow the automatic shutter control of the sensor to minimize the shutter for the maximum frame-rate. 
+Other requirements are the available space on the robot for a sensor and the power consumption. 
 The illumination must fit besides the optical ray path inside the space constraints of the $60\times60$\,mm$^2$ cross-section.
-The power supply are either 24 or 6\,V, and the cooling possibilities are limited by the space constraints.\\
+The power supply is either 24 or 6\,V and the cooling possibilities are limited by the space constraints.\\
 The frequency of the illumination must be in the range of the responsivity of the ADNS-6010, see~\autoref{fig:resp}.
-A monochromatic light source would find favour, as this would lead to higher contrast.
+A monochromatic light source would be favoured as this would lead to higher contrast.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -1264,15 +1266,16 @@ Relative responsivity for the ADNS-6010 laser mouse sensor from the data sheet~\
 \end{center}
 \end{figure}
 
-Finding proper illumination is a difficult task, as every tested surface reacts differently on each type of illumination.
+Finding proper illumination is a difficult task as every tested surface reacts differently with each type of illumination.
 The illuminant tested are a 1\,kW studio spotlight, the laser used for calibrating and different types of high-power LEDs.
-Every illuminant is tested on a white sheet of paper for reference, and then on the three different carpets.
-For the experiments it is required for the illumination to achieve the maximum frame-rate of 7080\,Hz (shutter below 18\,$\muup$s) on all test surfaces accomplished by an acceptable surface quality (feature count around 100).
+Every illuminant is tested on a white sheet of paper for reference and then on the three different carpets.
+For the experiments with the illumination it is required to achieve the maximum frame-rate of 7080\,Hz (shutter below 18\,$\muup$s) on all test surfaces accomplished by an acceptable surface quality (feature count around 100).
 The shutter/frame-rate and surface quality were read out via the PyQt-application described in~\autoref{software}.\\
-The studio spotlight could not be focused enough on the $5\times5$\,mm$^2$ spot to achieve the luminous density needed to achieve the needed frame-rate on any of the test surfaces.
+The studio spotlight could not be focused enough on the $5\times5$\,mm$^2$ spot to achieve the needed luminous density needed to get the necessary frame-rate of the test surfaces.
 Example screen-shots of the studio spotlight illuminating the test surfaces can be seen in~\autoref{fig:ill-spotlight} for every test surface.
-The studio spotlight would need more focusing optics to reach the luminous density needed, and even using a smaller version would not fit on the robot, so smaller approaches follow next.\\
-For the laser used for calibration, due to its power and beam size being similar to the original VCSEL, it was too weak to be used.\\
+The studio spotlight would need more focusing optics to reach the needed luminous density and even using a smaller version would not fit on the robot.
+So smaller approaches follow next.\\
+The laser used for calibration, due to its power and beam size being similar to the original VCSEL it was too weak to be used.\\
 The best power/size rating can be achieved with LEDs.
 The brightest LEDs found were from \href{http://www.led1.de}{LED1.de}.
 Two types of LEDs were chosen for comparison, ultra-bright white LEDs and infra-red LEDs.
@@ -1334,24 +1337,24 @@ The software used is described in~\autoref{software}.}
     \end{tabular}
   \end{minipage}
   \caption{Technical data of both LED types evaluated.
-  LEDs ordered from \href{http://www.led1.de}{LED1.de}, prices from 30/10/2010.}
+  LEDs ordered from \href{http://www.led1.de}{LED1.de}, prices of 30.10.2010.}
   \label{table:leds}
 \end{table}
 
-From each type of LEDs, 20 pieces were ordered.
-Any single LED of these provides still not enough luminous density, so an array of these LEDs is used.
+From each type of LEDs 20 pieces were ordered.
+Any single LED of these does still not provide enough luminous density, so an array of these LEDs is used.
 They must be mounted as close as possible to the target surface.
 The only possible mounting place on the micro-bench is between the second and the third lens, see~\autoref{fig:illm}.
-They are mounted in a ring around the optical rays, and illuminate the surface through the third lens.
-Therefore, a small PCB is designed\footnote{EAGLE files are available in the AFS:\url{/afs/robocup.tugraz.at/projects/2010_improved-odometry/platinen/LED_ring_v2} as on 15/01/2011} with nine LEDs in a circular array, and an opening in the centre for the optical beam~(\autoref{fig:illupcb}).
-It is designed to fit on the micro-bench, and is then mounted on a micro-bench carrier.
+They are mounted in a ring around the optical rays and illuminate the surface through the third lens.
+Therefore, a small PCB is designed\footnote{EAGLE files are available in the AFS:\url{/afs/robocup.tugraz.at/projects/2010_improved-odometry/platinen/LED_ring_v2} (last accessed 15.01.2011)} with nine LEDs in a circular array and an opening in the centre for the optical beam~(\autoref{fig:illupcb}).
+It is designed to fit on the micro-bench and is then mounted on a micro-bench carrier.
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.8\columnwidth]{figures/sketch-optic.pdf}
 \caption{\label{fig:illm}
 Complete optical system with illumination.
-The LEDs are placed on a PCB in a circle around the optical ray path, and illuminate the object surface~(O) through the third lens~L$_3$.
+The LEDs are placed on a PCB in a circle around the optical ray path and illuminate the object surface~(O) through the third lens~L$_3$.
 The effect of the third lens on the illumination rays is negligible.
 }
 \end{center}
@@ -1365,24 +1368,24 @@ The effect of the third lens on the illumination rays is negligible.
   \caption{Illumination PCB circuit and layout. 
   The PCB is designed to be mounted on the micro-bench with the corner-holes and measures $40\times40$\,mm$^2$. 
   Nine LEDs are arranged around the centre hole for the optical rays.
-  To reduce the overall voltage needed, they are arranged in three parallel lines with three LEDs and a series resistor each.
+  To reduce the needed overall voltage, they are arranged in three parallel lines with three LEDs and a series resistor each.
   The power supply is to be connected on a simple 2-pin header on top.}
   \label{fig:illupcb}
 \end{figure}
 
-From the PCB, four pieces were manufactured for testing.
+From the PCB four pieces were manufactured for testing.
 They are populated with either white or infra-red LEDs.
 Power must be supplied by an external power supply unit.
 Both LED types are to be powered with a constant current source.
-According to~\autoref{table:leds}, for the PCBs with white LEDs for which a maximum current of 30\,mA is allowed, 90\,mA for the three lines are used, and 150\,mA for the infra-red LEDs.
-With the serial resistor, this leads to a needed voltage of $\approx\unit[22]{V}$ for the white LEDs and $\approx\unit[10]{V}$ for the infra-red LEDs.
+According to~\autoref{table:leds}, for the PCBs with white LEDs for which a maximum current of 30\,mA is allowed, 90\,mA for the three lines are used and 150\,mA for the infra-red LEDs.
+With the serial resistor it leads to a needed voltage of $\approx\unit[22]{V}$ for the white LEDs and $\approx\unit[10]{V}$ for the infra-red LEDs.
 It would be possible to achieve more luminosity with the LEDs operating at higher currents in PWM mode~(using the PWM signal for the original VCSEL from the sensor), however the constant current luminosity was enough for the experiments.\\
 The nine LEDs need to be aligned to point exactly to the target centre for the maximum effect.
 Every LED on the PCB is calibrated separately to point to the centre.
-For the white LEDs, this can be seen in~\autoref{fig:led-cal}.
-The infra-red LEDs are calibrated via the streamed video from the sensor, as their light (850\,nm) is invisible to the human eye.\\
+For the white LEDs this can be seen in~\autoref{fig:led-cal}.
+The infra-red LEDs are calibrated via the streamed video from the sensor, as their light (850\,nm) is invisible for the human eye.\\
 A note on the cooling of the LEDs: They got very warm, but this was no problem in the open testbed.
-When tightly packed inside the robot, an appropriate cooling strategy must be considered.
+When tightly packed inside the robot an appropriate cooling strategy must be considered.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -1404,61 +1407,61 @@ When comparing the white and infra-red LEDs, the infra-red LEDs perform slightly
 The software required for controlling the sensor is split into two parts: 
 The low-level interface for directly communicating with the ADNS-6010 laser mouse sensor is implemented in the microcontroller software written in~C.
 The software on the microcontroller is again commanded from the user interface running on the~PC written in Python and~Qt (PyQt).\\
-The user interface displays the images read from the sensor, or logs motion data into text files.
+The user interface displays the images read from the sensor or logs motion data into text files.
 These text files are analysed and the results are plotted with octave.
 
 \subsubsection{Microcontroller-Software}
 
-The microcontroller software is written in~C and developed with the Keil\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com}}~IDE. % FIXME footnote already in chapter
+The microcontroller software is written in~C and developed with the Keil\footnote{Keil uVision3 V3.30a \copyright~Keil Software Inc.\ downloadable from: \url{http://www.keil.com} (last accessed 25.05.2011)}~IDE. 
 The Keil IDE produces hex files (*.H86), which are flashed over the serial port (RS-232) to the microcontroller development board.
 For the flashing process, see the board manual~\cite{xc}.
-It is important to use a high quality serial cable to avoid bit-errors on the flashing process.
-The full source code of the software and the hex-binary is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/uc_impodo_testbed.git} as on 15/01/2011}.
+It is important to use a high quality serial cable to avoid bit-errors during the flashing process.
+The full source code of the software and the hex-binary is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/uc_impodo_testbed.git} (last accessed 15.01.2011)}.
 
 The  software on the microcontroller should fulfil the following functions:
 Catch the firmware in stage~1
 and in stage~2 flash the ADNS-6010 with the new firmware, 
 read out images and motion data.\\
 The microcontroller is connected to the PC via RS-232.
-For communication via a terminal emulator from the PC, an interactive console has been implemented based on the motion controller code~\cite{krammer07}.
+For communication via a terminal emulator from the PC an interactive console has been implemented based on the motion controller code~\cite{krammer07}.
 
 
-For the firmware catch, the syncronous serial interface~(SSC0) in slave mode is used together with an analogue input, where it waits for the reset signal from the original microcontroller.
+For the firmware catch the syncronous serial interface~(SSC0) in slave mode is used together with an analogue input, where it waits for the reset signal from the original microcontroller.
 The firmware is stored in the internal RAM of the microcontroller and can be output after the catch in human readable form on the terminal.
-Due to the available RAM in the XC164-CM being smaller than the firmware size, the catch has to be split up.
-It must be repeated with an offset given for four times, until the complete 1936\,Byte of the firmware are available.
-After the firmware is known, it is integrated into the microcontroller program as static array, and can be flashed to the ADNS-6010 any time at stage~2.
-The listening on the communication between the original mouse microcontroller and the ADNS-6010 revealed other interesting data:
-After the firmware is flashed, the self test on the ADNS-6010 is triggered and the CRC of the firmware is checked.
+Due to the available RAM in the XC164-CM, being smaller than the firmware size, the catch has to be split up.
+It must be repeated with an offset given for four times until the complete 1936\,Byte of the firmware are available.
+After the firmware is known it is integrated into the microcontroller program as static array and can be flashed to the ADNS-6010 any time at stage~2.
+The listening of the communication between the original mouse microcontroller and the ADNS-6010 revealed other interesting data:
+After the firmware is flashed the self test on the ADNS-6010 is triggered and the CRC of the firmware is checked.
 Then some configuration parameters are set for the ADNS-6010:
-The strength of the laser diode is set to 80\,\%, and the laser shutter mode is disabled. 
+The strength of the laser diode is set to 80\,\% and the laser shutter mode is disabled. 
 At last the resolution is set to 800\,dpi before starting motion read.
 
-For the image read of the sensor, the image can either be output as PGM image on the terminal, or as binary data for use by the GUI.
+For the read image of the sensor the image can either be output as PGM image on the terminal or as binary data for use by the GUI.
 It is interesting that the firmware must not be loaded on the ADNS-6010 before an image can be read out.
 This largely increases the possible frame-rate of the video.
 The bottleneck in video streaming is the serial line from the microcontroller to the host computer.
 Therefore the speed of the RS-232 interface is increased to 115.6\,kbit/s, more is not possible with Windows~XP.
 With an image size of 900\,Byte, a maximum frame-rate of 5~frames per second can be achieved, which makes the optical calibration processes very comfortable.\\
-In motion read mode, the motion values read from the ADNS-6010 are output continuously on the serial port.
-Before motion read, the firmware must be loaded to the ADNS-6010.
-Data from the reference speed sensor (see~\autoref{lb}) is acquired in an interrupt-driven background thread, and the current reference speed is output in addition to mouse sensor speed for comparison.
+In motion read mode the read motion values from the ADNS-6010 are continuously output on the serial port.
+Before motion read the firmware must be loaded to the ADNS-6010.
+Data from the reference speed sensor (see~\autoref{lb}) is acquired in an interrupt-driven background thread and the current reference speed is output in addition to mouse sensor speed for comparison.
 
 \subsubsection{PyQt GUI}
 \label{sec:pyqtgui}
 
 The microcontroller can be controlled completely via a command-line interface from a terminal emulator on the serial line.
-But for displaying live images from the sensor, a graphical user interface (GUI) is needed.
-Therefore a small GUI is developed, that can display images from the sensor and save motion data in a more convenient way.
-The GUI is written in the Python\footnote{\url{http://www.python.org/} as on 17/01/2011} scripting language, with a Qt\footnote{\url{http://qt.nokia.com/} as on 17/01/2011} graphical user interface (PyQt\footnote{\url{http://www.riverbankcomputing.co.uk/software/pyqt/intro} as on 17/01/2011}).
+For displaying live images from the sensor a graphical user interface (GUI) is needed.
+Therefore a small GUI is developed, which can display images from the sensor and save motion data in a more convenient way.
+The GUI is written in the Python\footnote{\url{http://www.python.org/} (last accessed 17.01.2011)} scripting language with a Qt\footnote{\url{http://qt.nokia.com/}  (last accessed 17.01.2011)} graphical user interface (PyQt\footnote{\url{http://www.riverbankcomputing.co.uk/software/pyqt/intro} (last accessed 17.01.2011)}).
 The PyQt environment is chosen because of its cross-platform ability and the simple ways of creating a GUI.
-The complete program with installation instructions is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} as on 17/01/2011}.
-On Python modules, \emph{PyQt4} and \emph{serial} are needed.
+The complete program with installation instructions is available in a git repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} (last accessed 17.01.2011)}.
+On Python modules \emph{PyQt4} and \emph{serial} are needed.
 The program uses the first serial interface (ttyS0 on Unix or COM1 on Windows), this can be changed in the constructor of the \emph{OdoFrame}-class.
-The program is written completely threaded, and has two operation modes: Frame Capture and Motion Read.\\
+The program is written completely threaded and has two operation modes: Frame Capture and Motion Read.\\
 The common controls and indicators for both modes are explained in~\autoref{fig:gui-common}.
 It is possible to set the laser strength, load the firmware or reset the ADNS-6010 independent from operating mode.
-After reset, the firmware must be loaded again if needed.
+After reset the firmware must be loaded again if needed.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -1476,16 +1479,17 @@ The ``Close''-Button terminates the program~(6).
 \end{center}
 \end{figure}
 
-In frame capture mode, live images from the ADNS-6010 are displayed as a video with 5~frames per second.
-After pressing the ``Start''-Button, a frame is captured, and after the ADNS-6010 is reset, the next frame is read.
+In frame capture mode live images from the ADNS-6010 are displayed as a video with 5~frames per second.
+After pressing the ``Start''-Button a frame is captured and after the ADNS-6010 is reset the next frame is read.
 This continues in a loop until the ``Stop''-Button is triggered.
 It is not necessary to load the firmware before the frame capture, but it will be loaded before every frame if it was loaded from the beginning.
 The display of the current shutter, frame-rate and surface quality is updated with each image.\\
-In motion read mode, the display changes to a tabular view, where the current and accumulated motion data are displayed.
+In motion read mode the display changes to a tabular view, where the current and accumulated motion data are displayed.
 This view and the description of the entries is shown in~\autoref{fig:gui-motion}.
 The firmware must be loaded before motion read can be started.
-After pressing the ``Start''-Button, the motion read from the ADNS-6010 is started, and additionally to being displayed, all received data is written to a log-file.
-Data is written in comma-separated value format, which is intended to be used as input for the octave analysis scripts described subsequently.
+After pressing the ``Start''-Button the motion read from the ADNS-6010 is started.
+Additionally to being displayed all received data are written to a log-file.
+Data are written in comma-separated value format, which is intended to be used as input for the octave analysis scripts described subsequently.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -1504,16 +1508,16 @@ Section~4 shows the speed and accumulated distance from the reference sensor con
 \subsubsection{Octave Analysis Scripts}
 \label{octave}
 
-Mathematical data analysis is done in the GNU~Octave\footnote{\url{http://www.gnu.org/software/octave/} as on 20/01/2011} language, similar to Matlab.
+Mathematical data analysis is done in the GNU~Octave\footnote{\url{http://www.gnu.org/software/octave/} (last accessed 20.01.2011)} language, similar to Matlab.
 The scripts process the csv-files produced with the GUI in motion-read mode.
-They are available in the same git-repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} as on 17/01/2011} as the GUI.
+They are available in the same git-repository\footnote{\url{git://marvin.robocup.tugraz.at/git/impodo_gui.git} (last accessed 24.05.2011)} as the GUI.
 The scripts are used for two purposes: 
 Plotting motion data compared with the reference speed sensor, 
 and providing a statistical analysis of the error-rate resulting from the comparison with the reference sensor.
 All results found in~\autoref{exp} are produced with these scripts.\\
-For plotting, motion data is split into 100\,ms-blocks.
-Motion data and data from the reference speed sensor is then plotted over time via gnuplot\footnote{\url{http://www.gnuplot.info} as on 20/01/2011}.
-Motion data delivered from the ADNS-6010 are not related to any dimensional system, they are simply counts of pixels the sensor is traversed.
+For plotting motion data is split into 100\,ms-blocks.
+Motion data and data from the reference speed sensor is then plotted over time via gnuplot\footnote{\url{http://www.gnuplot.info} (last accessed 20.01.2011)}.
+Motion data delivered from the ADNS-6010 are not related to any dimensional system, they are simply counts of pixels of how far the sensor has traversed.
 The scripts calculate a conversion factor to the metrical system by comparing the values with the reference sensor.
 The error rate calculated with the scripts equates to the deviance from the mean conversion factor for each test series with different speed.
 
@@ -1524,8 +1528,8 @@ The error rate calculated with the scripts equates to the deviance from the mean
 
 The goal of the experiments is to test the sensor on the required surfaces with speeds up to $5\,$m/s at varying distances.
 Therefore a testbed has to be build which allows the sensor to be tested on moving surfaces.
-To simulate a moving surface, it is chosen to use a rotating disk on which different carpets can be mounted.
-The sensor with its complete optical system and illumination should point to the moving surface, and measure their velocity at varying distances to the surface.
+To simulate a moving surface it was chosen to use a rotating disk on which different carpets can be mounted.
+The sensor with its complete optical system and illumination should point to the moving surface and measure their velocity at varying distances to the surface.
 Additionally, the rotational speed of the disk should be measured with a reference sensor.
 The block diagram of the whole testbed is shown in~\autoref{fig:block-testbed}.
 
@@ -1567,22 +1571,22 @@ Photo of the experimental set-up in the laboratory:
 \subsection{Motor and Disk}
 
 A motor from a hand drill is used to drive the disk.
-It runs on direct current and needs a stronger power supply able to supply $5\,$A at $12\,$V.
+It runs on direct current and needs a stronger power supply which is able to supply $5\,$A at $12\,$V.
 We used a \emph{EA-PS 2016-100} laboratory power supply for the motor.
 The motor has a very uneven angular velocity, this can be seen in the plots over time in~\autoref{exp}.
 
 The disk is made of plastics material with a thickness of $5\,$mm.
-It has a diameter of 295\,mm, and therefore a circumference of $927\,$mm.
-It is mounted on an axle with a bearing on the back side, and is clamped into the drill chuck on the front side.
-It was manufactured at the Institute of Production Engineering\footnote{\url{http://www.ift.tugraz.at} (11/02/2011). Thanks to Mr.\ Ingo Riemenschneider.}.
+It has a diameter of 295\,mm and therefore a circumference of $927\,$mm.
+It is mounted on an axle with a bearing on the back side and is clamped into the drill chuck on the front side.
+It was manufactured at the Institute of Production Engineering\footnote{\url{http://www.ift.tugraz.at} (last accessed 11.02.2011). Thanks to Mr.\ Ingo Riemenschneider.}.
 The three different carpets (see~\autoref{requirements}) are mounted with twin-sided adhesive tape.
 
 \subsection{Reference Speed Sensor}
 \label{lb}
 
-As reference speed sensor, a light barrier is used to measure the rotation speed of the disk.
+As reference speed sensor a light barrier is used to measure the rotation speed of the disk.
 A \emph{HOA1404 Reflective Sensor}~\cite{hoa} from \emph{Honeywell} is used.
-On the disk edge, eight reflective elements made of alumina foil with a length of 28\,mm are glued in even intervals.
+On the disk edge eight reflective elements made of alumina foil with a length of 28\,mm are glued in even intervals.
 The light barrier is mounted \mm{5} away from the disk edge (see~\autoref{fig:lb}).
 
 \begin{figure}[htbp]
@@ -1595,19 +1599,19 @@ A reflective sensor~(2) points to the edge of the rotating disk, where the refle
 \end{center}
 \end{figure}
 
-The reflective sensor consists in an infra-red LED and a photo transistor.
+The reflective sensor consists of an infra-red LED and a photo transistor.
 Whenever a reflective part on the rotating disk passes below the sensor, the output voltage of the photo transistor changes.\\
-The sensor came with a link box, where its circuit is contained.
+The sensor came with a link box where its circuit is contained.
 The link box has connectors for power supply and sensor output.
 The IR-diode is specified with a current of~$30\,$mA~\cite{hoa}.
-When taking the circuit in the box into account, $\approx 22$\,V must be applied to the power supply connector.
+When taking the circuit in the box into account $\approx 22$\,V must be applied to the power supply connector.
 The output on the box is connected to an ADC on the microcontroller.
-On the microcontroller board, a voltage divider is set up to convert the $22\,$V sensor output to the $5\,$V input range of the ADC.
+On the microcontroller board a voltage divider is set up to convert the $22\,$V sensor output to the $5\,$V input range of the ADC.
 The complete circuit is shown in~\autoref{fig:lb_mb}.
-On the microcontroller, the ADC of port~5.6 is used. 
+On the microcontroller the ADC of port~5.6 is used. 
 The ADC is set to run with a frequency of $\approx 20.8$\,KHz.
 The detection of changes of the reflective state is outfitted with a small hysteresis function to prevent single errors.
-The speed is calculated from the tme between to passes of reflective elements in front of the sensor.
+The speed is calculated from the time between two passes of reflective elements in front of the sensor.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -1618,7 +1622,7 @@ On top is the HOA1404-sensor with the illuminating IR-LED and the photo transist
 It is connected via a 4-wire cable with the link box~(middle).
 The link box is to be supplied with $22\,$V~DC.
 The output on the link box is implemented as BNC~plug.
-It is connected to the XC~devel-board, where a voltage divider is soldered before the ADC on port~5.6.
+It is connected to the XC~devel-board where a voltage divider is soldered before the ADC on port~5.6.
 }
 \end{center}
 \end{figure}
@@ -1626,25 +1630,25 @@ It is connected to the XC~devel-board, where a voltage divider is soldered befor
 
 \subsection{Microcontroller and Host PC}      
 
-For the microcontroller development board, 12\,V~DC power supply with a coaxial power connector is needed.
+For the microcontroller development board 12\,V~DC power supply with a coaxial power connector is needed.
 An old wall power supply is used therefore.
-The microcontroller is connected to the sensor via a 10-pin cable to the sensor, and via a serial cable to the host~PC.\\
+The microcontroller is connected to the sensor via a 10-pin cable to the sensor and via a serial cable to the host~PC.\\
 The host~PC must be equipped with a serial port (RS-232) able to run the following software:
 \begin{itemize}
  \item Infineon MemTool for flashing the software to the microcontroller
- \item A terminal emulator (e.g.\ Tera~Term\footnote{Tera Term v4.62 used. \url{http://ttssh2.sourceforge.jp/index.html.en}}) connected to the serial port at 115.6\,kbit/s
+ \item A terminal emulator (e.g.\ Tera~Term\footnote{Tera Term v4.62 used. \url{http://ttssh2.sourceforge.jp/index.html.en} (last accessed 25.05.2011}) connected to the serial port at 115.6\,kbit/s
  \item Python and QT for the GUI described in~\autoref{sec:pyqtgui}
  \item Octave and gnuplot for the analysis scripts described in~\autoref{octave}
 \end{itemize}
 
-For the experiments, a laptop running Windows~XP is used.
+For the experiments a laptop, running Windows~XP, is used.
 
 
 \clearpage
 \section{Experimental Results}
 \label{exp}
 
-In all of the experiments, the correlation of our sensor with the reference sensor is evaluated.
+In all of the experiments the correlation of our sensor with the reference sensor is evaluated.
 The sensor is tested under the following conditions:
 
 \begin{itemize}
@@ -1654,13 +1658,13 @@ The sensor is tested under the following conditions:
  \item Different orientations of the sensor
 \end{itemize}
 
-Every type of experiment is done in different speeds, ranging from $1-5$\,m/s in steps of one.
-In the experiments, sensor data is output with the PyQT~GUI and recorded as csv-file.
+Every type of experiment was done in different speeds ranging from $1-5$\,m/s in steps of one.
+In the experiments sensor data were output with the PyQT~GUI and recorded as csv-file.
 The typical procedure of an experiment: 
 \begin{itemize}
  \item Visual control of the sharpness and frame-rate with the frame-capture mode of the GUI.
  \item Spinning up the motor to the desired speed. Speed display via the \emph{testADC}-function on the CLI of the microcontroller with the terminal emulator.
- \item In the GUI: load the firmware, and in motion read mode, \emph{Start}, wait at least five seconds to accumulate enough data, and \emph{Stop}.
+ \item In the GUI: load the firmware and in motion read mode, \emph{Start}, wait at least five seconds to accumulate enough data and \emph{Stop}.
  \item Load the written .csv-file into octave and control the plot.
 \end{itemize}
 
@@ -1668,17 +1672,17 @@ A typical experiment plot series is shown in~\autoref{fig:series}.
 
 
 
-The .csv-files for all experiments are available FIXME.
+The .csv-files for all experiments are available in the AFS\footnote{/afs/robocup.tugraz.at/projects/2010\_improved-odometry/versuche/logs.tbz (last accessed 26.05.2011)}.
 
 
 
 
 \subsection{Non-telecentric Tests}
 
-At the beginning, tests without the telecentric lens were made.
+At the beginning tests without the telecentric lens were made.
 The experiments showed a nearly linear dependence of the measured speed from the surface distance.
 This can be seen in~\autoref{fig:ntele-scale}. 
-When comparing results at a distance between 50\,mm and 65\,mm, there was a difference of up to 30\,\% in the measured speed due to the varying magnification. 
+When comparing results at a distance between 50\,mm and 65\,mm, there was a difference of up to 30\,\% in the measured speed, due to the varying magnification. 
 Therefore a non-telecentric system is not  eligible for our application.\\
 The according standard deviations and bias for each series can be seen in~\autoref{fig:ntele-bias}.
 
@@ -1686,7 +1690,7 @@ The according standard deviations and bias for each series can be seen in~\autor
 \begin{center}
 \includegraphics[width=0.7\textwidth]{figures/ntele-scale.pdf}
 \caption{\label{fig:ntele-scale}
-Speed deviation for non-telecentric system for varying clearance heights. The non-telecentric system induces a linear error dependant on the surface distance. 
+Speed deviation for non-telecentric system for varying clearance heights. The non-telecentric system induces a linear error dependent on the surface distance. 
 With deviations of 30\,\% on our needed working range, the non-telecentric system is clearly not eligible for our application.
 }
 \end{center}
@@ -1698,17 +1702,17 @@ With deviations of 30\,\% on our needed working range, the non-telecentric syste
 \includegraphics[width=0.7\textwidth]{figures/ntele-bias.pdf}
 \caption{\label{fig:ntele-bias}
 Bias and standard deviation for non-telecentric tests. 
-With deviations below 5\,\% within each fixed distance, the results would be acceptable for constant surface distance.
+With deviations below 5\,\% within each fixed distance the results would be acceptable for constant surface distance.
 }
 \end{center}
 \end{figure}
 
 \subsection{Telecentric Tests}
 
-For every carpet, a number of tests with varying distance were done.
+For every carpet a number of tests with varying distance was done.
 The distances tested depend on the hair length and unevenness of each sample.
 A typical series of tests is shown in~\autoref{fig:series}. 
-Notable is the wave form of the measured speed, which corresponds with the uneven angular velocity of the motor.
+Notable is the wave form of the measured speed which corresponds with the uneven angular velocity of the motor.
 The amplitude decreases on higher speeds, because the moment of inertia has a greater effect on higher rotation speeds.
 
 \begin{figure}[htbp]
@@ -1726,9 +1730,9 @@ The amplitude decreases on higher speeds, because the moment of inertia has a gr
       }
     \caption{
       A typical test series with five different speeds.
-      For example, the series with carpet~3 at a distance of 3-6\,mm is shown. 
+      For example the series with carpet~3 at a distance of 3-6\,mm is shown. 
       Notable is the much less accuracy of the reference sensor compared to our sensor.
-      This is of minor importance, because the sensor is calibrated to the median of the reference sensor over a few seconds.
+      This is of minor importance because the sensor is calibrated to the median of the reference sensor over a few seconds.
     }
     \label{fig:series}
   \end{center}
@@ -1738,9 +1742,9 @@ The amplitude decreases on higher speeds, because the moment of inertia has a gr
 
 \subsubsection{Carpet 1}
 
-Carpet~1 has a very even surface, with allowed for the greatest height variations. 
+Carpet~1 has a very even surface, which allowed the greatest height variations. 
 Test series were made with the following distances: 3-5\,mm, 5-8\,mm, 10-13\,mm, 13-16\,mm and 16-19\,mm.
-The plastic disk itself was warped due to manufacturing, and the resulting level difference is about~3\,mm, which is reflected on the given clearance height ranges.\\
+The plastic disk itself was warped due to manufacturing and the resulting level difference is about~3\,mm, which is reflected on the given clearance height ranges.\\
 Shown in~\autoref{fig:t1_dist} are the results from the test series of carpet~1 for the five distance ranges.
 
 \begin{figure}[htbp]
@@ -1756,7 +1760,7 @@ The outlier on 16-19\,mm at top speed is likely related to insufficient illumina
 \end{figure}
 
 A second series of tests was done with different orientations of the sensor. 
-On a fixed distance, the sensor was rotated in four 90$^{\circ}$-steps.
+On a fixed distance the sensor was rotated in four 90$^{\circ}$-steps.
 The results for each series for each rotation step are shown in~\autoref{fig:angles}.
 The sensor shows a tendency to favour some directions. 
 With steady deviations around 3\,\% for each direction it is advised to implement a software correction system depending on the current direction of movement.
@@ -1804,7 +1808,7 @@ The results are shown in~\autoref{fig:t3_dist}.
 \caption{\label{fig:t3_dist}
 Results for carpet~3 and two distance ranges.
 Shown are the calibration factors of every single experiment compared to the mean value of 1\,m/s.
-The results are well within 2\,\%, and are considered satisfactory.
+The results are good within 2\,\% and are considered satisfactory.
 }
 \end{center}
 \end{figure}
@@ -1812,12 +1816,12 @@ The results are well within 2\,\%, and are considered satisfactory.
 
 \subsubsection{Game Field Lines}
 
-The game field lines of a RoboCup game field consist normally of white gaffer tape on top of the carpet.
+The game field lines of a RoboCup game field consist normally in white gaffer tape on top of the carpet.
 It has the downside of being highly reflective and featuring very little contrast.
-With the illumination of white or IR LEDs, this leads to a surface feature count not high enough for tracking.
-But with the different surface feature count, we are able to distinguish white lines from the green carpet.
+With the illumination of white or IR LEDs, it leads to a surface feature count which is not high enough for tracking.
+With the different surface feature count we are able to distinguish white lines from the green carpet.
 This information is vital for our sensor fusion system to ignore our sensor data while moving over white lines and meanwhile extrapolate the motion.
-The features used for distinguishing between lines and 'better' surfaces are shown in~\autoref{tab:lines}.
+The features used for distinguishing between lines and ``better'' surfaces are shown in~\autoref{tab:lines}.
 
 \begin{table}[htbp]
     \centering
@@ -1833,7 +1837,7 @@ The features used for distinguishing between lines and 'better' surfaces are sho
     \end{tabular}
   \caption{\label{tab:lines}Properties of game field lines vs. the carpet itself.
   Shown are the mean~(E) and the standard deviation~($\sigma$) of the surface feature count (\emph{squal}) and the \emph{shutter} (in $\muup$s).
-  The surface feature count can be used as a line indicator, where sensor readings should be ignored.}
+  The surface feature count can be used as a line indicator where sensor readings should be ignored.}
 \end{table}
 
 \newpage
@@ -1920,8 +1924,8 @@ The surface quality information proved to be a reliable data quality indicator, 
 One negative aspect discovered, the sensor does not work on the game field lines with the current illumination.
 But when using three sensors, as intended on the Krikkit3G platform, the six available degrees of freedom should be enough to cover the temporary blackout of one sensor.
 
-The telecentric set-up fulfilled its expectations, and the small telecentric errors can be reduced with a more precise optical set-up.
-The alignment of the telecentric set-up is a rather simple mechanic task, and improves the accuracy in a linear way.
+The telecentric set-up fulfilled its expectations and the small telecentric errors can be reduced with a more precise optical set-up.
+The alignment of the telecentric set-up is a rather simple mechanic task and improves the accuracy in a linear way.
 
 \clearpage
 \section{Outlook}
