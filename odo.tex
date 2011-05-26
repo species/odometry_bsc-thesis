@@ -1844,8 +1844,8 @@ The features used for distinguishing between lines and ``better'' surfaces are s
 
 \subsubsection{Second Series of Experiments}
 
-For the publication of the I$^2$MTC-paper a second series of experiments was run, to get better results without the influence of the motor.
-The experiments were repeated on a milling machine, where the carpet disc was clamped into the milling head chuck (see~\autoref{fig:pict0018}).
+For the publication of the I$^2$MTC-paper a second series of experiments was run to get better results without the influence of the motor.
+The experiments were repeated on a milling machine where the carpet disc was clamped into the milling head chuck (see~\autoref{fig:pict0018}).
 The milling head has a very even angular velocity compared to the hand drill motor, so the waveform of the first plots could be eliminated.\\
 In the low speed operating range, due to the fixed gear ratio, only 80, 160 and 245\,rpm are available. 
 This corresponds roughly to 1.5, 3 and 4.5\,m/s.
@@ -1862,13 +1862,13 @@ The distance to the carpet can be adjusted with the vertical feed of the milling
 \end{center}
 \end{figure}
 
-For every carpet, one experiment with these three speeds was done. 
-Using a target distance of $5\,$mm we obtain a sensor bias as shown in Figure~\ref{fig:bias}a. 
-In order to simplify the comparison of different boundary conditions, the bias is related to its true value resulting in the measured {\sl relative bias}. 
+For every carpet one experiment with these three speeds was done. 
+Using a target distance of $5\,$mm we obtained a sensor bias as shown in Figure~\ref{fig:bias}a. 
+In order to simplify the comparison of different boundary conditions the bias is related to its true value resulting in the measured {\sl relative bias}. 
 In this experiment the sensor signal is sampled with $f_s=500\,$Hz and consequently median filtered ($N=3$) to remove outliers.
-It can be seen that while each carpet leads to a different bias behaviour, the overall relative bias of the odometry sensor is less than $0.6\,\%$ over the whole target range of velocities. 
-The associated standard deviations of the odometry readings estimated using $M=500$ samples -- again related to the true velocity -- are shown in Figure~\ref{fig:bias}b. 
-Note that while the standard deviation of carpet 2 steadily increases with increasing velocities, the standard deviation
+It can be seen that, while each carpet leads to a different bias behaviour, the overall relative bias of the odometry sensor is less than $0.6\,\%$ over the whole target range of velocities. 
+The associated standard deviations of the odometry readings estimated using $M=500$ samples, again related to the true velocity, are shown in Figure~\ref{fig:bias}b. 
+Note that while the standard deviation of carpet 2 steadily rises with increasing velocities, the standard deviation
 of carpet 3 decreases with increasing velocity. These results are caused by the optical properties of the different carpets~\cite{i2mtc}.
 
 \begin{figure*}[t]
@@ -1885,7 +1885,7 @@ optical properties of the carpet used.}
 \end{center}
 \end{figure*}
 
-For the influence of the surface quality on the bias, a series of experiments was run with carpet~1 on a speed of 1.5\,m/s.
+For the influence of the surface quality on the bias a series of experiments was run with carpet~1 on a speed of 1.5\,m/s.
 The decreased surface count was inducted by decreasing the illumination strength.
 The results can be seen in~\autoref{fig:mm-squal}.
 
@@ -1895,7 +1895,7 @@ The relative bias of the odometry sensor is investigated for varying surface dis
 \autoref{fig:telec_error} shows the obtained results augmented by their respective relative standard deviations for a surface distance ranging from $5\,$mm to $15\,$mm. 
 A bias of less than $1\,\%$ can be observed for a surface distance in the range $5-12\,$mm and the maximum bias is less than $6\,\%$ over the whole range of surface distances.
 The increased bias in this set-up is caused by two effects: First, the optical set-up of the prototype is not perfectly aligned giving raise to telecentricity errors. 
-Second, the surface illumination fails to properly cover the whole range surface distances~\cite{i2mtc}.
+Second, the surface illumination fails to properly cover the whole range of surface distances~\cite{i2mtc}.
 
 \begin{figure}[htbp]
   \begin{minipage}{0.47\textwidth}
@@ -1918,11 +1918,11 @@ Second, the surface illumination fails to properly cover the whole range surface
 
 This work shows that our sensor prototype works sufficiently well on carpet.\\
 The added optics make a computer mouse sensor suitable for the RoboCup environment.
-The bias for every test made was below 5\,\%, which suits the requirements.
-The surface quality information proved to be a reliable data quality indicator, which can be used in our sensor fusion system.
+The bias for every test was below 5\,\%, which suits the requirements.
+The surface quality information proved to be a reliable data quality indicator which can be used in our sensor fusion system.
 
-One negative aspect discovered, the sensor does not work on the game field lines with the current illumination.
-But when using three sensors, as intended on the Krikkit3G platform, the six available degrees of freedom should be enough to cover the temporary blackout of one sensor.
+One discovered negative aspect is that the sensor does not work on the game field lines with the current illumination.
+When using three sensors as intended on the Krikkit3G platform, the six available degrees of freedom should be enough to cover the temporary blackout of one sensor.
 
 The telecentric set-up fulfilled its expectations and the small telecentric errors can be reduced with a more precise optical set-up.
 The alignment of the telecentric set-up is a rather simple mechanic task and improves the accuracy in a linear way.
@@ -1930,29 +1930,29 @@ The alignment of the telecentric set-up is a rather simple mechanic task and imp
 \clearpage
 \section{Outlook}
 
-In this section, thoughts on continuing this project will be given.
+In this section thoughts on continuing this project will be given.
 The next step will be to design a sensor that can be used in the Krikkit3G.
 It should go into production in small series from 6~--~20 pieces.
 
 It has to fit into the Krikkit3G space restrictions ($50\times50\times80$\,cm$^3$).
-Also, for the rather dusty environment on the artificial carpet, some sort of dust-cleaning mechanism has to be provided.
-Experience shows that after a game, the bottom of the robot is covered with an oily film (from the gearboxes and bearings), where green dust from outworn carpet hairs sticks onto.
-The lens at the bottom has to be protected from these dust.
+In addition, some sort of dust-cleaning mechanism has to be provided for the rather dusty environment on the artificial carpet.
+Experience shows that after a game the bottom of the robot is covered with an oily film (from the gearboxes and bearings), where green dust from outworn carpet hairs sticks onto.
+The lens at the bottom has to be protected from this dust.
 
-On the illumination, an approach with laser illumination should be tried, to get better results on the game field lines through the laser speckle effect.
+On the illumination an approach with laser illumination should be tried to get better results on the game field lines through the laser speckle effect.
 Therefore a strong laser has to be found for this task.
 The red laser used in the laboratory was not usable on the green carpet because of the poor reflection coefficient of the used wavelength on  the green surface.
-Maybe both LEDs and a laser in parallel or alternating, depending on the current surface can be used.\\
-When using LEDs, more care has to be taken about the cooling, especially in the tighter space constraints of the robot drive.
+Maybe both LEDs and a laser in parallel or alternating, depending on the current surface, can be used.\\
+When using LEDs more care has to be taken about the cooling, especially in the tighter space constraints of the robot drive.
 
 The successor of our used mouse sensor is available in the meanwhile, the ADNS-90xx.
 It offers a maximum speed of 5\,m/s out of the box.
-With the new sensor, perhaps the magnification lens can be saved, which would cut down the space requirements and costs of the optical path.
+Perhaps the new sensor can save the magnification lens, which would cut down the space requirements and costs of the optical path.
 
-On the microcontroller side, the new standard for the \MH is the ARM architecture, which has to be used on a new sensor.
-The STM32F103CBT6 chip used in other electronics project of the \MH offers SPI, CAN and all other features needed.
+On the microcontroller side the new standard for the \MH is the ARM architecture, which has to be used on a new sensor.
+The STM32F103CBT6 chip used in other electronics project of the \MH offers SPI, CAN and all other needed features.
 
-On the software side, an algorithm~\cite{two_mice} has to be implemented, to compute the 3 needed dimension out of 2/4/6 available, depending on the number of sensors, which offer reliable data at the moment.
+On the software side an algorithm~\cite{two_mice} has to be implemented to compute the three needed dimensions out of 2/4/6 available, depending on the number of sensors which offer reliable data at the moment.
 
 
 %--------------------------------------------------------%
