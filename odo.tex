@@ -27,7 +27,7 @@
 \usepackage{threeparttable} %for footnotes in tables
 
 \usepackage{txfonts} % upright \mu => \muup $math env only$
-\usepackage{eurosans} % EUR sign
+% \usepackage{eurosans} % EUR sign
 
 
 \usepackage{subfigure}
@@ -67,7 +67,9 @@ For the experiments, the set-up of the testbed and the workflow of the tests is 
 The experimental results are presented and summarized in a conclusion.
 The work closes with an outlook to the steps needed for the final implementation on the robots.
 
-Based on this work, a paper named ``Low-Cost Optical Odometry for Wheeled Mobile Robots''~\cite{i2mtc} was accepted on the International Instrumentation and Measurement Conference (I$^2$MTC)~2011, located in Hangzhou, China.
+Based on this work, a paper named
+
+Parts of these work have been published at the International Instrumentation and Measurement Conference (I$^2$MTC)~2011, located in Hangzhou, China~\cite{i2mtc}.
 
 \end{abstract}
 
@@ -94,7 +96,7 @@ Every division is split into several leagues targeted at different challenges.
 In RoboCup Soccer the \MSL is most challenging.
 The robots have to be fully autonomous.
 All sensors, actuators and computation are on board and no external input is allowed.
-A team consists of maximal 6~robots with a size of max.\ $50\times50\times80$\,cm$^3$.\\
+A team consists of at most 6~robots with a size of max.\ $50\times50\times80$\,cm$^3$.\\
 The game is played on a field of $12\times18$\,m$^2$ and lasts $2\times15$~minutes.
 The game field surface is generally carpet.
 The \MSL is the only league where an official FIFA ball is used.
@@ -111,7 +113,7 @@ More than 20 teams from all over the world participate in the \MSL, almost all w
 The \MH participates in the \MSL. 
 %Its name is a reference to the ``Hitchhiker's Guide to the Galaxy'' by Douglas Adams~\cite{h2g2}. -> move to "Krikkit" name?
 It was founded at Graz University of Technology at the Institute for Software Technology in 2003. 
-This RoboCup team consists solely of students and acts as a platform for master's, bachelor's theses and seminar projects.
+This RoboCup team provides opportunities for master's, bachelor's theses and seminar projects.
 Currently more than 30~students are working on the robots in their free time.\\
 The team regularly participates in European championships as well as World championships.
 At the RoboCup~2009, which took place in Graz, the team advanced a round in the World Championship for the first time.
@@ -135,13 +137,29 @@ The third place in the technical challenge was won too.
 Odometry is the art of position estimation during wheeled vehicle navigation~\cite{webster}.
 The simplest odometry application is the tachometer in a motorcar, where the distance driven is estimated by the rotation count of the wheels.
 In an omnidirectional wheeled robot the odometry system is more complex as three degrees of freedom~(DoF) have to be taken into account.
-The movement in two directions and the rotational component are represented by the three variables d$r$, d$s$ and d$\phi$.\\
+The movement in two directions and the rotational component are represented by the three variables d$r$, d$s$ and d$\theta$, which are shown in~\autoref{fig:coordinate}.
+
+\begin{figure}[htbp]
+\begin{center}  
+\includegraphics[width=0.5\columnwidth]{figures/coordinate_system}
+\label{fig:coordinate}
+\caption{
+A robot's coordinate Systems~\cite{deutsch}.\\
+x and y: global robot coordinates\\
+r: forward velocity of the robot in its viewing direction\\
+s: velocity of the robot perpendicular to its front\\
+$\theta$: rotational speed of the robot
+}
+\end{center}
+\end{figure}
+
 %dr,ds dphi erklaert.dr [mm/sec], ds [mm/sec], dphi*1000 [rad/sec]
+
 In the robot software of the \MH odometry plays an important role.
-Together with the vision system and the compass, odometry is a part in the sensor fusion for parametrization of the world model.
+Together with the vision system and the compass, odometry is a part in the sensor fusion for the parametrization of the world model.
 Odometry fulfils the following purposes:
-In the image processing in our software, odometry data is used as an initialisation vector when comparing two camera frames for calculating the offset between them on updating the robot's position.
-Currently, the camera provides only a frame-rate of 15\,Hz and odometry data are available with a higher frequency (50\,Hz).
+In the image processing algorithm, odometry data is used as an initialisation vector when comparing two camera frames for calculating the offset between them on updating the robot's position.
+Currently, the camera provides only a frame-rate of 15\,Hz and odometry data are available at a higher frequency (50\,Hz).
 Therefore its values are added to the last known position in the world model for the time between two camera frames.
 At last it acts as a backup system for the mainly vision based localisation system in case of camera blackouts (e.g.\ blurred images due to the vibrations from a kick or a collision).\\
 There are more possible use cases for odometry not implemented yet e.g.\ anti-slip regulation for every single wheel.
@@ -149,12 +167,13 @@ There are more possible use cases for odometry not implemented yet e.g.\ anti-sl
 \subsection{Goals of this Work}
 \label{motivation}
   
-Current odometry systems of the robots are based on the rotational speed of the wheels.
+Current odometry systems of the robots measure the rotational speed of the wheels.
 This has the major disadvantage of the accuracy being limited by the slip of the wheels. 
 The problem is the non-uniform structure of the game field carpet, which has different slip factors in each direction.
 Due to the special arrangement of the Mecanum wheels (see~\autoref{sec:krikkit}), each wheel has a different speed and angle when driving a straight line.
 This leads to continuous angular deviations when trying to follow a straight line.
-The errors accumulate over time, resulting in $90^\circ$~deviation on 10\,m straight distance driven.
+The errors accumulate in such a way over time that after 10\,m straight distance driven the robot thinks he has turned 90~degrees.
+
 
 \Needspace*{4\baselineskip}
 Therefore an wheel-independent odometry system has to be developed.
@@ -172,8 +191,9 @@ The goals of this work were:
 \section{State of the Art in Odometry Measurement}
 % 1/2
 
-When determining the position or movement of a vehicle there are the following options: 
-Relying on absolute or relative position measurement.
+When determining the position of a vehicle there are the following options: Relying on absolute, or the relative position measurement from the last known absolute position.
+The movement of a vehicle can be determined by the difference between absolute position measurements or directly via relative position measurement.
+Both options rely either on relative or absolute position measurement.
 
 The best known absolute position measurement system is the Global Positioning System GPS.
 With GPS the position is estimated with triangulation from known reference points, the GPS satellites. %ref needed?
@@ -196,7 +216,7 @@ This approach delivers only one of the three needed degrees of freedom, but it c
 For relative position measurement there is the choice to measure distance, velocity or acceleration.
 Every approach has its advantages depending on the use case.
 When aiming for the travelled distance it is not wise to measure acceleration, hence the measurement errors would sum up quickly due to the double integration.\\
-The most used odometry systems today are based on the rotational speed of the wheels.
+The most frequently used odometry systems today are based on the rotational speed of the wheels.
 The rotary encoders mounted on the axles measure distance.
 In this work other approaches should be evaluated. 
 These approaches include techniques measuring also velocity or acceleration.
@@ -217,7 +237,7 @@ The reasons for selecting a particular sensor type for evaluation in this work a
 \subsubsection{Accelerometers}
 
 Accelerometers consist mainly of flexible mounted masses, which are under the influence of a force.
-If the mounting consists of springs, the displacement is linear to an applied force.
+If the mounting consists of springs, the displacement is linear with the applied force.
 This displacement is then measured.
 %Under normal circumstances on earth every object is under the influence of the gravitational force.
 %Therefore~1\,g must be subtracted from the result.\\
@@ -231,8 +251,8 @@ The IC-sensors for consumer products are on the other hand still widely inaccura
 
 \subsubsection{Gyroscopes}
 
-Gyroscopes detect the rotational change of position.
-Historically they consisted in a flywheel mounted in a Cardan suspension.
+Gyroscopes detect the angular velocity.
+Historically they consisted of a flywheel mounted in a Cardan suspension.
 Once spinned up they remain at their orientation, based on the principles of conservation of angular momentum.\\
 Due to their nature they are only applicable to one (rotational) dimension, so they must be accomplished with other sensors.
 Today they are implemented as MEMS similar to  the before mentioned accelerometers~\cite{pmt}.
@@ -250,7 +270,7 @@ This leads to significantly more accuracy as e.g.\ Microwave Doppler sensors~\ci
 When working with ultrasonic sensors on mobile systems, one thing has to be taken into consideration: 
 As with every wave-based system, the relative speed of the medium~(air) has to be considerably smaller than the wave speed ($v \ll c$).
 Through the relatively low velocity of sound, only speeds up to~30\,km/h are feasible because of the head wind and turbulences~\cite{ultrasonic}.\\
-Additionally, ultrasonic Doppler velocimeters are subtle to vibrations due to low frequencies~\cite{agri}.
+Additionally, ultrasonic Doppler velocimeters are susceptible to vibrations due to low frequencies~\cite{agri}.
 
 The main use today is in liquid flow measurements.
 
@@ -271,13 +291,21 @@ Another disadvantage is that radar is disturbed by nearby moving objects.
 
 Speed measurement with laser interferometry is divided into two approaches.
 One called Laser Doppler velocimetry and the other is referred as Laser Doppler vibrometry.\\
-In Laser Doppler velocimetry two coherent laser beams are intersected on the moving target surface at different angles.
-The interference of the two beams creates a set of straight fringes. 
-Particles of the surface moving through the fringes reflect light on the constructive interferences.
-The resulting frequency is then captured by a photo diode~\cite{laser_vel}.\\
+
+In Laser Doppler velocimetry, the beam is split into two, one of them directed into the measured volume of flowing liquid.
+Particles passing through this volume scatter the light with a Doppler shift. 
+The scattered light is received by an optics and interfered with the reference beam on the photodetector.
+The electrical signal is proportional to the Doppler shift, from which the velocity of the liquid can be determined.
+
+%In Laser Doppler velocimetry two coherent laser beams are intersected on the moving target surface at different angles.
+%The interference of the two beams creates a set of straight fringes. 
+%Particles of the surface moving through the fringes reflect light on the constructive interferences.
+%The resulting frequency is then captured by a photo diode~\cite{laser_vel}.\\
+
+
 In a Laser Doppler vibrometer the beam is split into two coherent beams.
 One beam is reflected at an angle at the target and then interfered with the second beam and afterwards collected in a photo diode. 
-The frequency shift between the two beams results in an overtone at the detector~\cite{vibro}.
+The frequency shift between the two beams results in harmonics at the detector~\cite{vibro}.
 
 
 
@@ -329,12 +357,12 @@ The sensor itself remains the same but due to the higher contrast achieved throu
 
 The current odometry system of the robots is based on rotary encoders attached to each of the axles. 
 The rotary encoders are needed for motion control and odometry data falls off as a by-product.
-Data from the rotary encoders are collected by the motion controller, converted into d$r$,~d$s$,~d$\phi$ - coordinate values and send out on the CAN-bus.
+Data from the rotary encoders are collected by the motion controller, converted into d$r$,~d$s$,~d$\theta$ - coordinate values and send out on the CAN-bus.
 
 Relying on the mechanical contact between the ground and the wheels brings various problems, as already mentioned in~\autoref{motivation}.
 An effect known from all wheels is the slip occurring by accelerating and braking.
 The use of Mecanum wheels in a special arrangement (see~\autoref{sec:krikkit}) complicates the relationship between robot and the floor. %forward reference OK?
-Due to different speeds of every wheel even when driving a straight line, resulting from the $120^\circ$\mbox{-}steps the wheels are mounted, every wheel has a different amount of slip.
+Due to different speeds and angle of every wheel even when driving a straight line (because the wheels are mounted at around the centre at $120^\circ$\mbox{-}steps), every wheel has a different amount of slip.
 Another factor not to be underestimated is the distinctive direction of the fibre of the carpets~\cite{mecanum2007}.
 The direction of the fibre results in globally different friction factors in every direction.\\
 A construction error of the power train used in the %Krikkit 
@@ -342,11 +370,11 @@ robots was a loose connection between the gearing box and the motor.
 The rotary encoders are mounted on the motors and not on the wheels.
 When the connection between motor and the wheel got loose the rotary encoders delivered only the rotation of the motor and not the distance covered by the wheels. 
 This resulted in complete disorientation of the localisation software during an overrunning motor.\\
-Faulty mechanics are not always responsible for this type of error, it is sufficient when a wheel looses contact with the ground for a moment.
+Faulty mechanics are not always responsible for an overrunning motor, it is sufficient when a wheel looses contact with the ground for a moment.
 This can happen when running aground on a lost screw or other parts lying around the game field or when two robots become wedged together.\\
 For global positioning, in addition to the vision system, a compass is used.
 Most of the time it worked well, but once in a while we had problems with massive steel girders in the floor below the game field.
-Due to the over-weighting of compass data the localisation software went amok.
+Due to the over-weighting of unreliable compass data the localisation software got lost completely.
 Therefore data quality information would be highly appreciated from every sensor used.
 
 \subsubsection{Other Teams}
@@ -445,7 +473,7 @@ Krikkit robot. Omni-vision with camera and mirror~(1); Industrial PC~(2); Pneuma
 It has a $360^\circ$ omnidirectional vision system via a firewire-camera pointing upwards to a hyperbolic mirror.\\
 Its brain is a standard mini-ITX industrial PC.\\
 A powerful pneumatic kicker with a~200\,bar pressurised air bottle as supply, enables the robot to kick the ball approx.\ 10\,m forward.
-The kicks are so powerful that the vibrations destroyed the former used hard disks now replaced by SSD~storage.
+The kicks are so powerful that the vibrations destroyed the formerly used hard disks which are now replaced by SSD~storage.
 Additionally, every kick caused a camera blackout of nearly 2~seconds due to the vibrations.\\
 Its drive system is also omnidirectional and is based on self-designed Mecanum wheels~\cite{mecanum2007}. 
 The $45^\circ$\mbox{-}arrangement of the wheels (see~\autoref{fig:mec-wheel}) promised smooth and vibration-free operation.
@@ -472,10 +500,10 @@ All electronic components are connected via CAN-bus.
 The Krikkit robots served well for four years and much was learned.
 Before RoboCup~2009 in Graz a major mechanics overhaul was done.
 In the meantime all major electronic components also reached the end of their life cycle.
-With the knowledge gained, lost and acquired again the successor of the Krikkit generation is in development now.
+With the knowledge gained, the successor of the Krikkit generation is in development now.
     
 
-\subsubsection{In Development: Krikkit3G}
+\subsubsection{Krikkit3G}
 
 The next generation of robots is in development since mid-2010.
 It will be a direct successor of the Krikkit generation, therefore the name \emph{Krikkit3G}.
@@ -490,7 +518,7 @@ The successful concepts are adopted nearly unchanged:\nopagebreak[4] %% FIXXME o
   \item modularity of all components
 \end{itemize}
 
-The new robot design focuses on the strict modularity of all components.
+The new robot design focusses on the strict modularity of all components.
 It has been shown that fast disassembling and replacing of critical components is crucial in the fast-paced tournament environment.
 The power train has especially been modularised.
 The wheel, gearing, motor and motor electronics can be swapped as a whole group.
@@ -579,8 +607,8 @@ The results are summarized in ~\autoref{tab:comp}.
      Size   & 2   & 1     & 3   &  4 & 2 & \color{red}{5} & 1\\
      Power   & 2   & 1     & 2   &  4 & 2 & 4 & 1 \\
      Speed   & 1   & 2     & \color{red}{5}\tnote{1}   &  4 & 1 & 1 & 4\\
-     Surf.\ Distance   & -   & -     & 4   &  4 & 1 & 2 & 3\\
-     Surf.\ Type   & -   & -     & 4   &  \color{red}{5}\tnote{3} & 1 & 1 & 1\\
+     Surface\ Distance   & -   & -     & 4   &  4 & 1 & 2 & 3\\
+     Surface\ Type   & -   & -     & 4   &  \color{red}{5}\tnote{3} & 1 & 1 & 1\\
      Accuracy  & 2   & \color{red}{5}     & 2   &  4 & 1 & 1 & 1\\
      Environmental Influence  & 2   & 4     & \color{red}{5}\tnote{2}   &  \color{red}{5} & 1 & 1 & 1\\
      \hline
@@ -608,7 +636,7 @@ The disadvantages of missing range and maximum speed can be negated by replacing
 By adding more magnification and setting the focus plane farther away from the sensor, maximum speed and range could be extended.\\
 With the use of two sensors the needed three degrees of freedom can be reached with extra redundancy.\\
 The \MH requires odometry data delivered on the CAN-bus, not the mice's native USB.
-To convert four dimensions of data from two sensors into the needed d$r$,~d$s$,~d$\phi$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.
+To convert four dimensions of data from two sensors into the needed d$r$,~d$s$,~d$\theta$ - values on the CAN-bus, a microcontroller controlling the two mice sensors is mandatory.
 %The needed microcontroller-programming and skills in electrical measurement fit the telematics area ideally, so the approach with consumer mice with replaced optics was chosen.
 %And last, but not least we got a sample mouse sensor sponsored from a friendly German RoboCup team, where an exhaustive data sheet was available~\cite{adns}.
 
@@ -628,7 +656,7 @@ At the beginning of this project we got a prototype sensor sponsored from the Ge
 
 It consisted of a mechanically modified Razor~Copperhead laser~mouse.
 In this mouse type a sensor from Avago~Technologies is used, the ADNS-6010.
-The sensor and illumination were dismounted from its printed circuit board~(PCB) and relocated in a new casing because of mechanical size constraints (see~\autoref{fig:m-casing}.
+The sensor and illumination were dismounted from its printed circuit board~(PCB) and relocated in a new casing because of mechanical size constraints (see~\autoref{fig:m-casing}).
 It was reconnected to its PCB via thin enamelled copper wires.
 It still worked although the recommended distance to some circuit elements was exceeded considerably due to the 'extension' of the IC~pins.
 
@@ -889,7 +917,7 @@ Sketch not to scale.
 The optical properties of the mouse have to be improved by an appropriate optical system.
 The most important drawback of the ADNS-6010 is its maximum capable speed of 1.1\,m/s, it must be improved to 5\,m/s. 
 The maximum speed is linear dependent on the field of view of the sensor.
-Magnifying the field of view of the sensor by five times will also increase the maximum speed over 5\,m/s.\\
+Magnifying the field of view of the sensor by five times will also increase the maximum speed to over 5\,m/s.\\
 Another wished feature is a distance to the surface from at least 20\,mm.
 The ADNS-6010 with its original lens has only 2\,mm clearance height, this has to be improved.\\
 Due to varying clearance height resulting from the new independent wheel suspension as well as different carpets, the dependency of the magnification from the clearance height should be eliminated.
@@ -1182,9 +1210,9 @@ Its angle can be adjusted with the variable PCB-holding screws on top.
 \end{center}
 \end{figure}
 
-For calibrating the sensor to the optical axis of the Micro-Bench, it is mounted on the micro-bench with an IR-laser that defined the optical axis.
+For calibrating the sensor to the optical axis of the Micro-Bench, it is mounted on the micro-bench with an 750\,nm IR-laser that defined the optical axis.
 The set-up for calibration is shown in~\autoref{fig:cal_setup}.
-The 5\,mW-laser\footnote{750\,nm, Model FIXME} has to be dampened by a filter-array for the safety of the sensor.
+The 5\,mW-laser has to be dampened by a filter-array for the safety of the sensor.
 In front of the sensor is the magnification lens L$_2$, which allows for a more accurate calibration with its $5\times$-magnification factor.
 The sensor is connected to the microcontroller and the image of the sensor is read out and visualized on a computer screen (For details of this process see~\autoref{software}).
 The sensor is calibrated to the optical axis by trying to move the laser speckle in the field of view to the centre by changing sensor position with the adjusting screws.
@@ -1954,6 +1982,16 @@ The STM32F103CBT6 chip used in other electronics project of the \MH offers SPI, 
 
 On the software side an algorithm~\cite{two_mice} has to be implemented to compute the three needed dimensions out of 2/4/6 available, depending on the number of sensors which offer reliable data at the moment.
 
+\clearpage
+\addcontentsline{notoc}{section}{Licence}
+
+\includegraphics[height=1cm]{figures/by-sa}\\
+This work, all images and acquired data are published under Creative Commons Attributions Share-Alike 3.0 Austria\footnote{\url{http://creativecommons.org/licenses/by-sa/3.0/at/}}
+
+\vspace*{2.0cm}
+
+\includegraphics[height=1cm]{figures/gpl-v3-logo}\\
+All source code, if not mentioned otherwise, is licensed under the General Public Licence (GPL) v3\footnote{\url{http://www.gnu.org/licenses/gpl.html}}.
 
 %--------------------------------------------------------%
 % Bibliography
